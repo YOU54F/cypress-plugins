@@ -1,0 +1,114 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-01-11T23:52:57.452Z",
+    "end": "2019-01-11T23:53:05.222Z",
+    "duration": 7770,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "1979ef9c-e77f-44b8-b67a-c6fa670c8fcd",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "f976e4bc-d929-4cc4-9d83-2d3159d583a3",
+        "title": "Logging In - HTML Web Form - The Internet",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [],
+        "suites": [
+          {
+            "uuid": "4e0d1ba5-581c-45b1-93c4-758d5a01b676",
+            "title": "Unauthorized",
+            "fullFile": "",
+            "file": "",
+            "beforeHooks": [],
+            "afterHooks": [],
+            "tests": [
+              {
+                "title": "User denied access with invalid details",
+                "fullTitle": "Logging In - HTML Web Form - The Internet Unauthorized User denied access with invalid details",
+                "duration": 4732,
+                "state": "passed",
+                "speed": "slow",
+                "pass": true,
+                "fail": false,
+                "pending": false,
+                "code": "login_page_1.login.visit();\nlogin_page_1.login.username.type('invalidUser');\nlogin_page_1.login.password.type('invalidPassword{enter}');\nlogin_page_1.login.errorMsg.contains('Your username is invalid!');\nlogin_page_1.login.logOutButton.should('not.exist');",
+                "err": {},
+                "isRoot": false,
+                "uuid": "667e71fe-2947-4f7e-8e02-9328676720a8",
+                "isHook": false,
+                "skipped": false
+              },
+              {
+                "title": "User granted access with valid details",
+                "fullTitle": "Logging In - HTML Web Form - The Internet Unauthorized User granted access with valid details",
+                "duration": 2882,
+                "state": "passed",
+                "speed": "slow",
+                "pass": true,
+                "fail": false,
+                "pending": false,
+                "code": "login_page_1.login.visit();\nlogin_page_1.login.username.type('tomsmith');\nlogin_page_1.login.password.type('SuperSecretPassword!{enter}');\nlogin_page_1.login.successMsg.contains('You logged into a secure area!');\nlogin_page_1.login.logOutButton.should('exist');",
+                "err": {},
+                "isRoot": false,
+                "uuid": "ab73d384-5970-4ea0-ab91-deb0e9aa8d70",
+                "isHook": false,
+                "skipped": false
+              }
+            ],
+            "suites": [],
+            "passes": [
+              "667e71fe-2947-4f7e-8e02-9328676720a8",
+              "ab73d384-5970-4ea0-ab91-deb0e9aa8d70"
+            ],
+            "failures": [],
+            "pending": [],
+            "skipped": [],
+            "duration": 7614,
+            "root": false,
+            "rootEmpty": false,
+            "_timeout": 2000
+          }
+        ],
+        "passes": [],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 0,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}

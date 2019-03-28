@@ -1,0 +1,78 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2018-12-27T13:30:06.775Z",
+    "end": "2018-12-27T13:30:06.946Z",
+    "duration": 171,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "0b54324f-f04d-43f4-a8b7-812d247d6b97",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "448ec59c-e27a-476d-aab9-a9b2e541a137",
+        "title": "Using And, and also - steps names not matching it's definitions ( https://github.com/TheBrainFamily/cypress-cucumber-preprocessor/issues/28 )",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "With an And, and also - the steps name won't match",
+            "fullTitle": "Using And, and also - steps names not matching it's definitions ( https://github.com/TheBrainFamily/cypress-cucumber-preprocessor/issues/28 ) With an And, and also - the steps name won't match",
+            "duration": 133,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "e0cdc1db-0d7a-4f8d-8683-f1c411f1b6bc",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "e0cdc1db-0d7a-4f8d-8683-f1c411f1b6bc"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 133,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2018
+}

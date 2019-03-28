@@ -1,0 +1,112 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-01-11T23:58:15.322Z",
+    "end": "2019-01-11T23:58:15.564Z",
+    "duration": 242,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "5d8115c2-e031-45e0-8b9a-594371dc4a3d",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "de6598ec-39c0-4d0e-9931-c1302b9ab210",
+        "title": "Tags Implementation with environmental variables set",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "This scenario should not run if @ignore-tag is present in env",
+            "fullTitle": "Tags Implementation with environmental variables set This scenario should not run if @ignore-tag is present in env",
+            "duration": 97,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "b694979c-95a1-498e-944c-3f2e7b5e7e8b",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "This scenario should run",
+            "fullTitle": "Tags Implementation with environmental variables set This scenario should run",
+            "duration": 25,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "0db29bdf-e5e9-46d8-8d7c-7bfb1f9f2fe7",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "This scenario should also run",
+            "fullTitle": "Tags Implementation with environmental variables set This scenario should also run",
+            "duration": 31,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "47ddade4-bd50-4629-9dc2-2fc47e807b9c",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "b694979c-95a1-498e-944c-3f2e7b5e7e8b",
+          "0db29bdf-e5e9-46d8-8d7c-7bfb1f9f2fe7",
+          "47ddade4-bd50-4629-9dc2-2fc47e807b9c"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 153,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}

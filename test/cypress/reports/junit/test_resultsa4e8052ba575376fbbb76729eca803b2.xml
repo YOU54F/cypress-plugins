@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="8.358" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-03-27T22:30:38" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Logging In - HTML Web Form - The Internet" timestamp="2019-03-27T22:30:38" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Unauthorized" timestamp="2019-03-27T22:30:38" tests="2" failures="0" time="8.358">
+    <testcase name="Logging In - HTML Web Form - The Internet Unauthorized User denied access with invalid details" time="4.548" classname="User denied access with invalid details">
+    </testcase>
+    <testcase name="Logging In - HTML Web Form - The Internet Unauthorized User granted access with valid details" time="3.81" classname="User granted access with valid details">
+    </testcase>
+  </testsuite>
+</testsuites>

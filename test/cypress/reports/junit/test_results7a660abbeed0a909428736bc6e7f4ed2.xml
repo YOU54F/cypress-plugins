@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.075" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-01-11T23:57:44" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Being a plugin handling DataTable scenario" timestamp="2019-01-11T23:57:44" tests="1" failures="0" time="0.075">
+    <testcase name="Being a plugin handling DataTable scenario DataTable" time="0.075" classname="DataTable">
+    </testcase>
+  </testsuite>
+</testsuites>

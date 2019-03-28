@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.113" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2018-12-27T13:30:02" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Tags Implementation with environmental variables set only at scenario level" timestamp="2018-12-27T13:30:02" tests="2" failures="0" time="0.113">
+    <testcase name="Tags Implementation with environmental variables set only at scenario level This scenario should not run if @test-tag is present in env" time="0.096" classname="This scenario should not run if @test-tag is present in env">
+    </testcase>
+    <testcase name="Tags Implementation with environmental variables set only at scenario level This scenario should run" time="0.017" classname="This scenario should run">
+    </testcase>
+  </testsuite>
+</testsuites>

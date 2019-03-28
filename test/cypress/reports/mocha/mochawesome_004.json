@@ -1,0 +1,95 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2018-12-27T13:28:55.980Z",
+    "end": "2018-12-27T13:29:03.299Z",
+    "duration": 7319,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "7fd0cd4f-ccf0-4261-ac63-6ad91e6b5a81",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "7f18908b-cc55-45e9-a186-116cd8c5f82d",
+        "title": "Logging In - HTML Web Form - The Internet",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "Unauthorized",
+            "fullTitle": "Logging In - HTML Web Form - The Internet Unauthorized",
+            "duration": 4073,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "186e2098-a33a-44c6-a74c-9d04fd3ef14f",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Authorized",
+            "fullTitle": "Logging In - HTML Web Form - The Internet Authorized",
+            "duration": 3141,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "71099b32-5898-49f3-ab3c-67c8a0f91721",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "186e2098-a33a-44c6-a74c-9d04fd3ef14f",
+          "71099b32-5898-49f3-ab3c-67c8a0f91721"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 7214,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2018
+}

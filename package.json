@@ -1,0 +1,22 @@
+{
+  "name": "cypressio-slack-reporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Yousaf Nabi",
+  "license": "ISC",
+  "scripts": {
+    "report:combine":"node scripts/generate-reports.js",
+    "report:slack":"node scripts/slack/slack-alert.js",
+    "report:upload":"node scripts/upload-artefacts-s3.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.430.0",
+    "@slack/client": "^4.12.0",
+    "mocha": "^6.0.2",
+    "shelljs": "^0.8.3",
+    "uuid": "^3.3.2",
+    "mochawesome": "^3.1.1"
+    }
+}

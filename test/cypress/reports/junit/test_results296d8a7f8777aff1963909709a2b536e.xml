@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.081" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2018-12-27T13:29:27" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Custom Parameter Types" timestamp="2018-12-27T13:29:27" tests="2" failures="0" time="0.081">
+    <testcase name="Custom Parameter Types Play an A on my piano" time="0.066" classname="Play an A on my piano">
+    </testcase>
+    <testcase name="Custom Parameter Types Play an E on my piano" time="0.015" classname="Play an E on my piano">
+    </testcase>
+  </testsuite>
+</testsuites>

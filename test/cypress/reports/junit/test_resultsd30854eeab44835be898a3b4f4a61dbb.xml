@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="1.503" tests="12" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-03-28T01:27:36" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Testing Global Namespace Commands.ts" timestamp="2019-03-28T01:27:36" tests="12" failures="0" time="1.503">
+    <testcase name="Testing Global Namespace Commands.ts works" time="0.054" classname="works">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts uses custom command cy.foo()" time="0.014" classname="uses custom command cy.foo()">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts uses custom command cy.foo2() which returns the result of cy.foo()" time="0.014" classname="uses custom command cy.foo2() which returns the result of cy.foo()">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts can import helper functions - add 2 numbers" time="0.012" classname="can import helper functions - add 2 numbers">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts adds numbers - Yields sum of 2 numbers" time="0.014" classname="adds numbers - Yields sum of 2 numbers">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts can print a default message to console.log" time="0.015" classname="can print a default message to console.log">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts can accept user args to print to console.log" time="0.011" classname="can accept user args to print to console.log">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts checks shape of an object" time="0.018" classname="checks shape of an object">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts uses cy commands" time="0.013" classname="uses cy commands">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts tests cypress.ios example site" time="1.176" classname="tests cypress.ios example site">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts has Cypress object type definition" time="0.095" classname="has Cypress object type definition">
+    </testcase>
+    <testcase name="Testing Global Namespace Commands.ts adds numbers - from support/helpers functions" time="0.067" classname="adds numbers - from support/helpers functions">
+    </testcase>
+  </testsuite>
+</testsuites>

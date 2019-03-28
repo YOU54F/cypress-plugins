@@ -1,0 +1,95 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-03-28T01:28:30.276Z",
+    "end": "2019-03-28T01:28:30.422Z",
+    "duration": 146,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "a663e074-4806-4156-bfba-e5b198c2511a",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "4dca9f75-8de4-4fbf-93f3-c8282a961b67",
+        "title": "Tags Implementation with environmental variables set only at scenario level",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "This scenario should not run if @test-tag is present in env",
+            "fullTitle": "Tags Implementation with environmental variables set only at scenario level This scenario should not run if @test-tag is present in env",
+            "duration": 79,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "209c7055-bf14-443e-931a-3bd22798d695",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "This scenario should run",
+            "fullTitle": "Tags Implementation with environmental variables set only at scenario level This scenario should run",
+            "duration": 27,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "40e0cba9-7abe-4591-ac69-0ed3ade1e87e",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "209c7055-bf14-443e-931a-3bd22798d695",
+          "40e0cba9-7abe-4591-ac69-0ed3ade1e87e"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 106,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}

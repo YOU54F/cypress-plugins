@@ -1,0 +1,95 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-03-28T01:27:51.375Z",
+    "end": "2019-03-28T01:27:51.490Z",
+    "duration": 115,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "ac92fbf8-7f7a-4324-a9de-46de455274ef",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "96ed72ac-a171-4342-a875-d62d38345368",
+        "title": "Custom Parameter Types",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "Play an A on my piano",
+            "fullTitle": "Custom Parameter Types Play an A on my piano",
+            "duration": 65,
+            "state": "passed",
+            "speed": "medium",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "efb0abc7-0c07-4bd1-8b81-966bcc3d8a9b",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Play an E on my piano",
+            "fullTitle": "Custom Parameter Types Play an E on my piano",
+            "duration": 16,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "7ea85dff-9120-4c30-b32f-813c64e15bcc",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "efb0abc7-0c07-4bd1-8b81-966bcc3d8a9b",
+          "7ea85dff-9120-4c30-b32f-813c64e15bcc"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 81,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}

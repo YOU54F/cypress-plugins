@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.121" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-03-27T23:00:47" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Regular Expressions" timestamp="2019-03-27T23:00:47" tests="1" failures="0" time="0.121">
+    <testcase name="Regular Expressions Regular Expression Example" time="0.121" classname="Regular Expression Example">
+    </testcase>
+  </testsuite>
+</testsuites>

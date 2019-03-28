@@ -1,0 +1,97 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2019-01-11T23:47:37.453Z",
+    "end": "2019-01-11T23:48:32.528Z",
+    "duration": 55075,
+    "testsRegistered": 2,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 2,
+    "hasOther": true,
+    "skipped": 1,
+    "hasSkipped": true,
+    "passPercentClass": "danger",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "3a1ca434-7823-432a-9a06-2bf10b794ad4",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "16f1d574-5b1b-4d33-bd58-cac84b3f0ed2",
+        "title": "Logging In - HTML Web Form - The Internet",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "Unauthorized",
+            "fullTitle": "Logging In - HTML Web Form - The Internet Unauthorized",
+            "duration": 5185,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {
+              "message": "Error: Cypress command timeout of '4000ms' exceeded.\n\nBecause this error occurred during a 'after all' hook we are skipping all of the remaining tests.",
+              "estack": "Error: Cypress command timeout of '4000ms' exceeded.\n\nBecause this error occurred during a 'after all' hook we are skipping all of the remaining tests.\n    at https://the-internet.herokuapp.com/__cypress/runner/cypress_runner.js:61145:25"
+            },
+            "isRoot": false,
+            "uuid": "84efc8a7-f358-4953-8e04-4e727fbe9512",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Authorized",
+            "fullTitle": "Logging In - HTML Web Form - The Internet Authorized",
+            "duration": 0,
+            "state": "skipped",
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "7a595aa3-e962-46fe-8534-8d06b7c4352c",
+            "isHook": false,
+            "skipped": true
+          }
+        ],
+        "suites": [],
+        "passes": [],
+        "failures": [
+          "84efc8a7-f358-4953-8e04-4e727fbe9512"
+        ],
+        "pending": [],
+        "skipped": [
+          "7a595aa3-e962-46fe-8534-8d06b7c4352c"
+        ],
+        "duration": null,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}

@@ -1,0 +1,7 @@
+{
+  "baseUrl": "https://the-internet.herokuapp.com",
+  "reporter": "mocha-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporterOpts.json"
+  }
+}

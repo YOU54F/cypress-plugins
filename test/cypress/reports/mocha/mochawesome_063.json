@@ -1,0 +1,95 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-03-27T23:00:19.934Z",
+    "end": "2019-03-27T23:00:20.062Z",
+    "duration": 128,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "db0093d5-7647-423c-ad33-c087df47008e",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "d674ea1a-2b8d-425d-ba2c-05a0512eb67c",
+        "title": "Background Section",
+        "fullFile": "",
+        "file": "",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "Basic example #1",
+            "fullTitle": "Background Section Basic example #1",
+            "duration": 65,
+            "state": "passed",
+            "speed": "medium",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "c9dcdbe7-389c-4c44-af4e-2d56cfa5cb93",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Basic example #2",
+            "fullTitle": "Background Section Basic example #2",
+            "duration": 36,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+            "err": {},
+            "isRoot": false,
+            "uuid": "fb8d9380-0e15-47ff-a5e9-2b811d08fcfe",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "c9dcdbe7-389c-4c44-af4e-2d56cfa5cb93",
+          "fb8d9380-0e15-47ff-a5e9-2b811d08fcfe"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 101,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}

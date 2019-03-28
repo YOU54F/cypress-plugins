@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.09899999999999999" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-03-27T23:01:03" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Tags Implementation with environmental variables set" timestamp="2019-03-27T23:01:03" tests="3" failures="0" time="0.09899999999999999">
+    <testcase name="Tags Implementation with environmental variables set This scenario should not run if @ignore-tag is present in env" time="0.062" classname="This scenario should not run if @ignore-tag is present in env">
+    </testcase>
+    <testcase name="Tags Implementation with environmental variables set This scenario should run" time="0.025" classname="This scenario should run">
+    </testcase>
+    <testcase name="Tags Implementation with environmental variables set This scenario should also run" time="0.012" classname="This scenario should also run">
+    </testcase>
+  </testsuite>
+</testsuites>

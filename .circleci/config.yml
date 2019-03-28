@@ -1,0 +1,56 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v4-deps-{{ .Branch }}-
+            - v4-deps-
+      - run: yarn install
+      - save_cache:
+          key: v4-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.yarn
+            - ~/.cache
+      - run:
+          name: Install jq
+          command: apt-get install jq xsel       
+      # - run:
+      #     name: Running E2E tests
+      #     when: on_success
+      #     command: yarn run test:cypress 
+      - run:
+          name: Combine MochaAwesome Reports
+          when: always
+          command: yarn run report:combine     
+      - store_test_results:
+          path: cypress/reports
+      - store_artifacts:
+          path: mochareports
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+    #   - run:
+    #       name: Publish test artefacts s3 bucket
+    #       when: always
+    #       command: yarn run report:upload
+      - run:
+          name: Slack Custom Reporting
+          when: always
+          command: yarn run report:slack     
+
+workflows:
+  build-test:
+    jobs:
+      - test

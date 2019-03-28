@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.072" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-01-11T23:58:24" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Using And, and also - steps names not matching it&apos;s definitions ( https://github.com/TheBrainFamily/cypress-cucumber-preprocessor/issues/28 )" timestamp="2019-01-11T23:58:24" tests="1" failures="0" time="0.072">
+    <testcase name="Using And, and also - steps names not matching it&apos;s definitions ( https://github.com/TheBrainFamily/cypress-cucumber-preprocessor/issues/28 ) With an And, and also - the steps name won&apos;t match" time="0.072" classname="With an And, and also - the steps name won&apos;t match">
+    </testcase>
+  </testsuite>
+</testsuites>

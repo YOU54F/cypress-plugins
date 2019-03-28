@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="50.808" tests="2" failures="3">
+  <testsuite name="Root Suite" timestamp="2019-01-11T23:47:37" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Logging In - HTML Web Form - The Internet" timestamp="2019-01-11T23:47:37" tests="2" failures="3" time="50.808">
+    <testcase name="Logging In - HTML Web Form - The Internet Unauthorized" time="0" classname="Unauthorized">
+      <failure message="Unexpected identifier
+
+This error originated from your application code, not from Cypress.
+
+When Cypress detects uncaught errors originating from your application it will automatically fail the current test.
+
+This behavior is configurable, and you can choose to turn this off by listening to the &apos;uncaught:exception&apos; event.
+
+https://on.cypress.io/uncaught-exception-from-application" type="Uncaught SyntaxError"><![CDATA[Uncaught SyntaxError: Unexpected identifier
+
+This error originated from your application code, not from Cypress.
+
+When Cypress detects uncaught errors originating from your application it will automatically fail the current test.
+
+This behavior is configurable, and you can choose to turn this off by listening to the 'uncaught:exception' event.
+
+https://on.cypress.io/uncaught-exception-from-application]]></failure>
+    </testcase>
+    <testcase name="Logging In - HTML Web Form - The Internet &quot;after each&quot; hook for &quot;Unauthorized&quot;" time="45.623" classname="&quot;after each&quot; hook for &quot;Unauthorized&quot;">
+      <failure message="Cypress command timeout of &apos;4000ms&apos; exceeded.
+
+Because this error occurred during a &apos;after each&apos; hook we are skipping all of the remaining tests." type="Error"><![CDATA[Error: Cypress command timeout of '4000ms' exceeded.
+
+Because this error occurred during a 'after each' hook we are skipping all of the remaining tests.
+    at https://the-internet.herokuapp.com/__cypress/runner/cypress_runner.js:61145:25]]></failure>
+    </testcase>
+    <testcase name="Logging In - HTML Web Form - The Internet &quot;after all&quot; hook for &quot;Unauthorized&quot;" time="5.185" classname="&quot;after all&quot; hook for &quot;Unauthorized&quot;">
+      <failure message="Cypress command timeout of &apos;4000ms&apos; exceeded.
+
+Because this error occurred during a &apos;after all&apos; hook we are skipping all of the remaining tests." type="Error"><![CDATA[Error: Cypress command timeout of '4000ms' exceeded.
+
+Because this error occurred during a 'after all' hook we are skipping all of the remaining tests.
+    at https://the-internet.herokuapp.com/__cypress/runner/cypress_runner.js:61145:25]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

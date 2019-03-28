@@ -1,0 +1,122 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2019-03-27T22:30:26.652Z",
+    "end": "2019-03-27T22:30:35.586Z",
+    "duration": 8934,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5ab025d4-830a-41cc-a497-38e983897cba",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "01547395-771e-40a4-99b2-df50327bc2d1",
+          "title": "Logging In - HTML Web Form - The Internet",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Unauthorized",
+              "fullTitle": "Logging In - HTML Web Form - The Internet Unauthorized",
+              "timedOut": null,
+              "duration": 5025,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+              "err": {},
+              "uuid": "e449e17a-74c0-4c5b-afbe-004d50236021",
+              "parentUUID": "01547395-771e-40a4-99b2-df50327bc2d1",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Authorized",
+              "fullTitle": "Logging In - HTML Web Form - The Internet Authorized",
+              "timedOut": null,
+              "duration": 3766,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
+              "err": {},
+              "uuid": "bf653b7d-1cf2-40a4-8fa4-e27740c88fa9",
+              "parentUUID": "01547395-771e-40a4-99b2-df50327bc2d1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "e449e17a-74c0-4c5b-afbe-004d50236021",
+            "bf653b7d-1cf2-40a4-8fa4-e27740c88fa9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 8791,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "6.0.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": true,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "useInlineDiffs": false
+      },
+      "version": "4.0.0-alpha.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quiet": true,
+        "overwrite": false
+      },
+      "version": "4.0.0-alpha.1"
+    }
+  }
+}
