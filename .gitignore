@@ -1,0 +1,12 @@
+node_modules
+.env
+logs
+.DS_STORE
+.scannerwork
+cypress/reports/
+videos
+screenshots
+coverage
+testReports
+dist
+yarn-error.log

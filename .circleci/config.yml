@@ -1,0 +1,62 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
+      - run: yarn install
+      - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.npm
+            - ~/.cache  
+      - run:
+          name: Lint project
+          command: yarn run lint
+      - run:
+          name: Compile TypeScript
+          command: yarn run compile
+      - run:
+          name: Run Jest Tests with Coverage
+          command: yarn run test
+      - store_test_results:
+          path: testReports
+      - store_artifacts:
+          path: coverage
+      - run:
+          name: Running cypress tests
+          command: yarn run cypress:run
+      - run:
+          name: Generate MochaAwesome Reports
+          command: make combine-reports && make generate-report   
+      - store_test_results:
+          path: cypress/reports
+      - store_artifacts:
+          path: mochareports
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - run:
+          name: Slack Custom Reporting via typeScript source File
+          command: make slack-alert 
+      - run:
+          name: Slack Custom Reporting via JavaScript Compiled File
+          command: make slack-alert-js 
+
+workflows:
+  build-test:
+    jobs:
+      - test
