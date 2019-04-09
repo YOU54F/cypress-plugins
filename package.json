@@ -1,5 +1,5 @@
 {
-  "name": "cypressio-slack-reporter",
+  "name": "cypressio-docker-typescript",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,16 +7,76 @@
   "author": "Yousaf Nabi",
   "license": "ISC",
   "scripts": {
-    "report:combine":"node scripts/generate-reports.js",
-    "report:slack":"node scripts/slack/slack-alert.js",
-    "report:upload":"node scripts/upload-artefacts-s3.js"
+    "lint": "tslint --project .",
+    "lint-fix": "tslint --project . --fix",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:record": "cypress run --record",
+    "test:cypress:serve": "serve --listen 13370 ./cypress/fixtures/test-app",
+    "test:cypress:run": "wait-port --timeout 10000 localhost:13370 && cypress run",
+    "test:cypress:open": "wait-port --timeout 10000 localhost:13370 && cypress open",
+    "test:cypress:dev": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:open",
+    "test:cypress": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:run"
   },
   "dependencies": {
-    "aws-sdk": "^2.430.0",
-    "@slack/client": "^4.12.0",
-    "mocha": "^6.0.2",
+    "@cypress/webpack-preprocessor": "^4.0.3",
+    "@slack/types": "^1.0.0",
+    "@slack/webhook": "^5.0.0",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^10.12.11",
+    "commander": "^2.20.0",
+    "cypress": "^3.2.0",
+    "cypress-cucumber-preprocessor": "1.11.0",
+    "cypress-failed-log": "^2.5.0",
+    "cypress-testing-library": "2.4.0",
+    "husky": "^1.3.1",
+    "jest": "^24.7.1",
+    "jest-junit": "^6.3.0",
+    "jest-stare": "^1.13.2",
+    "lint-staged": "^8.1.5",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.21.0",
+    "mocha-multi-reporters": "^1.1.7",
+    "mochawesome": "^3.1.1",
+    "mochawesome-merge": "^1.0.7",
+    "mochawesome-report-generator": "^3.1.5",
+    "npm-run-all": "4.1.5",
+    "prettier": "^1.16.4",
+    "serve": "11.0.0",
     "shelljs": "^0.8.3",
+    "sonarqube-scanner": "^2.4.0",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.15.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-no-focused-test": "^0.5.0",
+    "typescript": "^3.4.1",
     "uuid": "^3.3.2",
-    "mochawesome": "^3.1.1"
+    "wait-port": "0.2.2",
+    "webpack": "^4.29.6"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
+  },
+  "jest-stare": {
+    "coverageLink": "../lcov-report/index.html",
+    "resultDir": "coverage/html"
+  },
+  "jest-junit": {
+    "outputDirectory": "./testReports/",
+    "reportDir": "testReports/unit"
+  }
 }

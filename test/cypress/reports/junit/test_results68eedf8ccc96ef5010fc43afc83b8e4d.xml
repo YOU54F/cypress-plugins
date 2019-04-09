@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.119" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2018-12-27T13:30:10" tests="0" failures="0" time="0">
-  </testsuite>
-  <testsuite name="Test for using &apos;this&apos; keyword in step definitions" timestamp="2018-12-27T13:30:10" tests="1" failures="0" time="0.119">
-    <testcase name="Test for using &apos;this&apos; keyword in step definitions Keyword &apos;this&apos; test with a classic function" time="0.119" classname="Keyword &apos;this&apos; test with a classic function">
-    </testcase>
-  </testsuite>
-</testsuites>

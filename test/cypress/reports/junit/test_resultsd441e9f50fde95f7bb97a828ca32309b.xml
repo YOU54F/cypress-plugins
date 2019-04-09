@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.131" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2019-01-11T23:58:32" tests="0" failures="0" time="0">
-  </testsuite>
-  <testsuite name="Working with Webpack" timestamp="2019-01-11T23:58:32" tests="1" failures="0" time="0.131">
-    <testcase name="Working with Webpack it&apos;s alive!" time="0.131" classname="it&apos;s alive!">
-    </testcase>
-  </testsuite>
-</testsuites>

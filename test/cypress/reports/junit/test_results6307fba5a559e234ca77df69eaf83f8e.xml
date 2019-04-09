@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.113" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2018-12-27T13:29:24" tests="0" failures="0" time="0">
-  </testsuite>
-  <testsuite name="Bail on a step failure" timestamp="2018-12-27T13:29:24" tests="1" failures="0" time="0.113">
-    <testcase name="Bail on a step failure Running with a failing step" time="0.113" classname="Running with a failing step">
-    </testcase>
-  </testsuite>
-</testsuites>

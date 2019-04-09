@@ -13,26 +13,26 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v4-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v4-deps-{{ .Branch }}-
-            - v4-deps-
+            - v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run: yarn install
       - save_cache:
-          key: v4-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.yarn
+            - ~/.npm
             - ~/.cache
       - run:
           name: Install jq
           command: apt-get install jq xsel       
-      # - run:
-      #     name: Running E2E tests
-      #     when: on_success
-      #     command: yarn run test:cypress 
       - run:
-          name: Combine MochaAwesome Reports
+          name: Running E2E tests
+          when: on_success
+          command: yarn run test:cypress 
+      - run:
+          name: Generate MochaAwesome Reports
           when: always
-          command: yarn run report:combine     
+          command: make combine-reports && make generate-report   
       - store_test_results:
           path: cypress/reports
       - store_artifacts:
@@ -44,11 +44,11 @@ jobs:
     #   - run:
     #       name: Publish test artefacts s3 bucket
     #       when: always
-    #       command: yarn run report:upload
+    #       command: make publish-reports-s3
       - run:
           name: Slack Custom Reporting
           when: always
-          command: yarn run report:slack     
+          command: make slack-alert 
 
 workflows:
   build-test:

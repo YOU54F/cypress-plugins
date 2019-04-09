@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.072" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2018-12-27T13:29:34" tests="0" failures="0" time="0">
-  </testsuite>
-  <testsuite name="Being a plugin handling DocString scenario" timestamp="2018-12-27T13:29:34" tests="1" failures="0" time="0.072">
-    <testcase name="Being a plugin handling DocString scenario DocString" time="0.072" classname="DocString">
-    </testcase>
-  </testsuite>
-</testsuites>

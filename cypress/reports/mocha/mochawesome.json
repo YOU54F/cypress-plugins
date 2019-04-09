@@ -5,9 +5,9 @@
     "passes": 2,
     "pending": 0,
     "failures": 0,
-    "start": "2018-12-27T13:25:28.563Z",
-    "end": "2018-12-27T13:25:35.935Z",
-    "duration": 7372,
+    "start": "2019-04-03T21:37:45.923Z",
+    "end": "2019-04-03T21:38:28.755Z",
+    "duration": 42832,
     "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -19,7 +19,7 @@
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "0788a340-d21f-4c70-a817-516952eb6dfe",
+    "uuid": "1c4945ff-a422-44f5-99c6-79a0749791fb",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "b675a53e-0703-48d4-9922-219fc0b2eed6",
+        "uuid": "828a7cae-f39a-49ed-97ce-bad25ee31d3d",
         "title": "Logging In - HTML Web Form - The Internet",
         "fullFile": "",
         "file": "",
@@ -38,7 +38,7 @@
           {
             "title": "Unauthorized",
             "fullTitle": "Logging In - HTML Web Form - The Internet Unauthorized",
-            "duration": 4099,
+            "duration": 26064,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -47,14 +47,14 @@
             "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
             "err": {},
             "isRoot": false,
-            "uuid": "c529d511-d429-4e8c-b6d6-6ac30fccdbf6",
+            "uuid": "70f684d8-335a-43f0-bcdf-7f2bd4a68007",
             "isHook": false,
             "skipped": false
           },
           {
             "title": "Authorized",
             "fullTitle": "Logging In - HTML Web Form - The Internet Authorized",
-            "duration": 3134,
+            "duration": 16646,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -63,20 +63,20 @@
             "code": "if (backgroundSection) {\n  backgroundSection.steps.forEach(step => stepTest.call(this, step));\n}\nscenario.steps.forEach(step => stepTest.call(this, step));",
             "err": {},
             "isRoot": false,
-            "uuid": "b3d321e7-9d68-4263-8525-b19bca984751",
+            "uuid": "d3ee8b3b-3318-45e0-b241-70a28c5fe180",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "c529d511-d429-4e8c-b6d6-6ac30fccdbf6",
-          "b3d321e7-9d68-4263-8525-b19bca984751"
+          "70f684d8-335a-43f0-bcdf-7f2bd4a68007",
+          "d3ee8b3b-3318-45e0-b241-70a28c5fe180"
         ],
         "failures": [],
         "pending": [],
         "skipped": [],
-        "duration": 7233,
+        "duration": 42710,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000
@@ -91,5 +91,5 @@
     "rootEmpty": true,
     "_timeout": 2000
   },
-  "copyrightYear": 2018
+  "copyrightYear": 2019
 }
