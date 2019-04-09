@@ -331,7 +331,7 @@ export function getFiles(dir: string, ext: string, fileList: string[]) {
 export function getHTMLReportFilename(reportDir: string) {
   const reportHTMLFullPath = getFiles(reportDir, ".html", []);
   if (reportHTMLFullPath.length === 0) {
-    throw new Error("Cannot find test report");
+    throw new Error(`Cannot find test report @ ${reportDir}`);
   } else if (reportHTMLFullPath.length >= 2) {
     throw new Error(
       "Multiple reports found, please provide only a single report"
@@ -349,7 +349,7 @@ export function getHTMLReportFilename(reportDir: string) {
 export function getTestReportStatus(reportDir: string) {
   const reportFile = getFiles(reportDir, ".json", []);
   if (reportFile.length === 0) {
-    throw new Error("Cannot find test report");
+    throw new Error(`Cannot find json test report @ ${reportDir}`);
   } else if (reportFile.length >= 2) {
     throw new Error(
       "Multiple json reports found, please run mochawesome-merge to provide a single report"

@@ -7,6 +7,8 @@
   "author": "Yousaf Nabi",
   "license": "MIT",
   "scripts": {
+    "slack-ts": "ts-node scripts/slack/index.ts --report-dir test/reportSingle --video-dir test/videosDirPopulated --screenshot-dir test/screenshotsDirPopulated --logger",
+    "slack-js": "node dist/index.js --logger",
     "lint": "tslint --project .",
     "lint-fix": "tslint --project . --fix",
     "test": "jest --coverage",

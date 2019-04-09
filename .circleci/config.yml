@@ -51,10 +51,10 @@ jobs:
           path: cypress/screenshots
       - run:
           name: Slack Custom Reporting via typeScript source File
-          command: make slack-alert 
+          command: yarn run slack-ts
       - run:
           name: Slack Custom Reporting via JavaScript Compiled File
-          command: make slack-alert-js 
+          command: yarn run slack-js
 
 workflows:
   build-test:
