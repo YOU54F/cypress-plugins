@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
 import * as program from "commander";
+import * as fs from "fs";
 import * as slacker from "./slack-alert";
-
+const json = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const version = json.version;
 const base = process.env.PWD || ".";
 
 program
   .version(
-    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.7",
+    `git@github.com:YOU54F/cypress-slack-reporter.git@${version}`,
     "-v, --version"
   )
   .option("--vcs-provider [type]", "VCS Provider [github|bitbucket]", "github")
