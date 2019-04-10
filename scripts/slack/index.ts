@@ -3,8 +3,19 @@
 import * as program from "commander";
 import * as fs from "fs";
 import * as slacker from "./slack-alert";
-const json = JSON.parse(fs.readFileSync("package.json", "utf8"));
-const version = json.version;
+let version;
+try {
+  const json = JSON.parse(
+    fs.readFileSync(
+      "./node_modules/mochawesome-slack-reporter/package.json",
+      "utf8"
+    )
+  );
+  version = json.version;
+} catch (e) {
+  version = "Cannot determine version";
+}
+
 const base = process.env.PWD || ".";
 
 program
