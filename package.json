@@ -59,7 +59,7 @@
     "tslint": "5.15.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-no-focused-test": "0.5.0",
-    "typescript": "3.4.1",
+    "typescript": "3.4.3",
     "webpack": "4.29.6"
   },
   "cypress-cucumber-preprocessor": {
