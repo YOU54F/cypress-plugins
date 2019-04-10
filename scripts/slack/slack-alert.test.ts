@@ -129,7 +129,7 @@ describe("Test Report Parser", () => {
       const reportDir = path.join(__dirname, "test", "nonexistentdir");
       slacker.getTestReportStatus(reportDir);
     }
-    expect(reportParser).toThrowError(new Error("Cannot find test report"));
+    expect(reportParser).toThrow();
   });
   test("Returns an error when multiple json reports are found", async () => {
     function reportParser() {
@@ -155,7 +155,7 @@ describe("Test Report URL Generator", () => {
       const reportDir = path.join(__dirname, "test", "nonexistentdir");
       slacker.getHTMLReportFilename(reportDir);
     }
-    expect(reportParser).toThrowError(new Error("Cannot find test report"));
+    expect(reportParser).toThrow();
   });
   test("Returns an error when multiple html reports are found", async () => {
     function reportParser() {
