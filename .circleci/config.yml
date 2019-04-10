@@ -70,6 +70,18 @@ jobs:
           when: always
           name: Slack Custom Reporting via JavaScript Compiled File with opts
           command: yarn run slack-js-opts
+      - run:
+          when: always
+          name: Generate Test Passing Slack Alert
+          command: yarn run slack-js-opts-test-passed
+      - run:
+          when: always
+          name: Generate Test Failing Slack Alert
+          command: yarn run slack-js-opts-test-failed
+      - run:
+          when: always
+          name: Generate Build Failure Slack Alert
+          command: yarn run slack-js-opts-build-failed
 
 workflows:
   build-test:
