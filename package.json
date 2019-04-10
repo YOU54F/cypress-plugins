@@ -7,16 +7,15 @@
   "author": "Yousaf Nabi",
   "license": "MIT",
   "scripts": {
-    "slack-ts": "ts-node scripts/slack/index.ts --report-dir test/reportSingle --video-dir test/videosDirPopulated --screenshot-dir test/screenshotsDirPopulated --logger",
-    "slack-js": "node dist/index.js --logger",
     "lint": "tslint --project .",
     "lint-fix": "tslint --project . --fix",
     "test": "jest --coverage",
     "compile": "tsc --outDir ./dist --skipLibCheck true",
-    "publish": "npm run compile && sudo npm publish",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "cypress:record": "cypress run --record"
+    "slack-js": "node dist/index.js --logger",
+    "slack-js-opts": "node dist/index.js --report-dir scripts/slack/test/reportSingle --video-dir scripts/slack/test/videosDirPopulated --screenshot-dir scripts/slack/test/screenshotsDirPopulated --logger",
+    "slack-ts": "ts-node scripts/slack/index.ts --logger",
+    "slack-ts-opts": "ts-node scripts/slack/index.ts --report-dir scripts/slack/test/reportSingle --video-dir scripts/slack/test/videosDirPopulated --screenshot-dir scripts/slack/test/screenshotsDirPopulated --logger",
+    "publish": "npm run compile && sudo npm publish"
   },
   "dependencies": {
     "commander": "^2.20.0",

@@ -23,12 +23,15 @@ jobs:
             - ~/.npm
             - ~/.cache  
       - run:
+          when: always
           name: Lint project
           command: yarn run lint
       - run:
+          when: always
           name: Compile TypeScript
           command: yarn run compile
       - run:
+          when: always
           name: Run Jest Tests with Coverage
           command: yarn run test
       - store_test_results:
@@ -36,9 +39,11 @@ jobs:
       - store_artifacts:
           path: coverage
       - run:
+          when: always
           name: Running cypress tests
-          command: yarn run cypress:run
+          command: make test
       - run:
+          when: always
           name: Generate MochaAwesome Reports
           command: make combine-reports && make generate-report   
       - store_test_results:
@@ -50,11 +55,21 @@ jobs:
       - store_artifacts:
           path: cypress/screenshots
       - run:
+          when: always
           name: Slack Custom Reporting via typeScript source File
           command: yarn run slack-ts
       - run:
+          when: always
           name: Slack Custom Reporting via JavaScript Compiled File
           command: yarn run slack-js
+      - run:
+          when: always
+          name: Slack Custom Reporting via typeScript source File with opts
+          command: yarn run slack-ts-opts
+      - run:
+          when: always
+          name: Slack Custom Reporting via JavaScript Compiled File with opts
+          command: yarn run slack-js-opts
 
 workflows:
   build-test:
