@@ -1,5 +1,4 @@
-/// &amp;amp;amp;lt;reference path="node_modules/@slack/dist/types/index.d.ts"&amp;amp;amp;gt;
-/// &amp;amp;amp;lt;reference path="node_modules/@slack/webhook/dist/IncomingWebhook.d.ts"&amp;amp;amp;gt;
+#!/usr/bin/env node
 
 import * as program from "commander";
 import * as slacker from "./slack-alert";
@@ -8,7 +7,7 @@ const base = process.env.PWD || ".";
 
 program
   .version(
-    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.2",
+    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.7",
     "-v, --version"
   )
   .option("--vcs-provider [type]", "VCS Provider [github|bitbucket]", "github")

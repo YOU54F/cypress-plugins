@@ -88,7 +88,6 @@ let totalPasses: number;
 let totalFailures: number;
 let totalDuration: number;
 let status: string;
-const artefactPath = "root/app";
 
 export function sendMessage(logger: boolean) {
   const sendArgs: IncomingWebhookSendArguments = {};
@@ -396,7 +395,6 @@ export function getScreenshotLinks(artefactUrl: string, screenshotDir: string) {
 
 // tslint:disable-next-line: no-shadowed-variable
 export function buildHTMLReportURL(reportDir: string, logger: boolean) {
-  const reportPath = "mochareports";
   artefactUrl = `${CI_URL}/${VCS_ROOT}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
   reportHTMLFilename = getHTMLReportFilename(reportDir);
   if (logger) {
@@ -407,14 +405,7 @@ export function buildHTMLReportURL(reportDir: string, logger: boolean) {
     // tslint:disable-next-line: no-console
     console.log("artefactUrl", artefactUrl);
   }
-  reportHTMLUrl =
-    artefactUrl +
-    "/" +
-    artefactPath +
-    "/" +
-    reportPath +
-    "/" +
-    reportHTMLFilename;
+  reportHTMLUrl = artefactUrl + reportDir + "/" + reportHTMLFilename;
   return reportHTMLUrl + artefactUrl;
 }
 

@@ -8,5 +8,5 @@ videos
 screenshots
 coverage
 testReports
-dist
+bin
 yarn-error.log
