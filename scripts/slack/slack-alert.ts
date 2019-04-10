@@ -90,9 +90,6 @@ let totalDuration: number;
 let status: string;
 const artefactPath = "root/app";
 
-// runner("circleci", "github",["reportDirectory"]);
-// sendMessage();
-
 export function sendMessage(logger: boolean) {
   const sendArgs: IncomingWebhookSendArguments = {};
   COMMIT_URL = getCommitUrl(VCS_ROOT);
