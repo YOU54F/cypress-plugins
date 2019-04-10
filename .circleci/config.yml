@@ -82,6 +82,8 @@ jobs:
           when: always
           name: Generate Build Failure Slack Alert
           command: yarn run slack-js-opts-build-failed
+      - store_artifacts:
+          path: scripts/slack/test
 
 workflows:
   build-test:
