@@ -20,7 +20,6 @@ let {
   CI_PROJECT_USERNAME,
   CI_URL
 } = process.env;
-
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let reportDir: string;
 let videoDir: string;
@@ -32,7 +31,8 @@ export function slackRunner(
   reportDirectory: string,
   videoDirectory: string,
   screenshotDirectory: string,
-  logger: boolean
+  logger: boolean,
+  base: string
 ) {
   if (ciProvider === "circleci" || ciProvider === undefined) {
     const {
@@ -62,39 +62,9 @@ export function slackRunner(
     }
     VCS_ROOT = vcsRoot;
   }
-  if (reportDirectory || reportDirectory === undefined) {
-    if (reportDirectory === undefined) {
-      reportDir = path.join(__dirname, "mochareports");
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log("Resolved default report directory:- ", reportDir);
-      }
-    } else {
-      reportDir = path.join(__dirname, reportDirectory);
-    }
-  }
-  if (videoDirectory || videoDirectory === undefined) {
-    if (videoDirectory === undefined) {
-      videoDir = path.join(__dirname, "cypress", "videos");
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log("Resolved video directory:- ", videoDir);
-      }
-    } else {
-      videoDir = path.join(__dirname, videoDirectory);
-    }
-  }
-  if (screenshotDirectory || screenshotDirectory === undefined) {
-    if (screenshotDirectory === undefined) {
-      screenshotDir = path.join(__dirname, "cypress", "screenshots");
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log("Resolved screenshotDir directory:- ", screenshotDir);
-      }
-    } else {
-      screenshotDir = path.join(__dirname, screenshotDirectory);
-    }
-  }
+  reportDir = reportDirectory;
+  screenshotDir = screenshotDirectory;
+  videoDir = videoDirectory;
   try {
     sendMessage(logger);
   } catch (e) {
