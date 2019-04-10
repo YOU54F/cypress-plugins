@@ -8,7 +8,7 @@ const base = process.env.PWD || ".";
 
 program
   .version(
-    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.1",
+    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.2",
     "-v, --version"
   )
   .option("--vcs-provider [type]", "VCS Provider [github|bitbucket]", "github")

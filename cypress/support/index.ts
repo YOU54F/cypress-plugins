@@ -13,12 +13,6 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.ts
-import './commands'
-// import 'cypress-failed-log'
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
 
 beforeEach(() => {
   cy.log('Test Started')
