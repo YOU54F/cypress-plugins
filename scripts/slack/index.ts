@@ -27,7 +27,7 @@ program
   .option("--ci-provider [type]", "CI Provider [circleci|none]", "circleci")
   .option(
     "--report-dir [type]",
-    "mochawesome html test report directory, relative to your package.json",
+    "mochawesome json & html test report directory, relative to your package.json",
     "mochareports"
   )
   .option(
