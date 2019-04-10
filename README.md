@@ -38,17 +38,9 @@ And the following build/test artefacts
 - Videos of test runs (one link per test)
 - Screenshots of failed tests (one link per failing test)
 
-### Build Failure Report
+### Screenshots showing Slack Alert Format
 
-![Failing Build](./samples/failingBuild.png)
-
-### Tests Passing Report
-
-![Failing Build](./samples/passingTests.png)
-
-### Tests Failing Report
-
-![Failing Tests](./samples/failingTests.png)
+![Alert Samples](./samples/alerts.png)
 
 ## Installation
 
