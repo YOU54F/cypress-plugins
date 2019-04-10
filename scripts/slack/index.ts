@@ -1,12 +1,13 @@
-/// &amp;amp;amp;lt;reference path="node_modules/@slack/dist/types/index.d.ts"&amp;amp;amp;gt;
-/// &amp;amp;amp;lt;reference path="node_modules/@slack/webhook/dist/IncomingWebhook.d.ts"&amp;amp;amp;gt;
+#!/usr/bin/env node
 
 import * as program from "commander";
 import * as slacker from "./slack-alert";
 
+const base = process.env.PWD || ".";
+
 program
   .version(
-    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.1",
+    "git@github.com:YOU54F/cypress-slack-reporter.git@1.0.7",
     "-v, --version"
   )
   .option("--vcs-provider [type]", "VCS Provider [github|bitbucket]", "github")
@@ -31,9 +32,9 @@ program
 
 const ciProvider: string = program.ciProvider;
 const vcsProvider: string = program.vcsProvider;
-const reportDirectory: string = program.reportDir;
-const videoDirectory: string = program.videoDir;
-const screenshotDirectory: string = program.screenshotDir;
+const reportDirectory: string = base + "/" + program.reportDir;
+const videoDirectory: string = base + "/" + program.videoDir;
+const screenshotDirectory: string = base + "/" + program.screenshotDir;
 const logger: boolean = program.logger;
 
 if (program.logger) {
@@ -53,5 +54,6 @@ slacker.slackRunner(
   reportDirectory,
   videoDirectory,
   screenshotDirectory,
-  logger
+  logger,
+  base
 );

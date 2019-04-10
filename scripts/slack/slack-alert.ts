@@ -20,7 +20,6 @@ let {
   CI_PROJECT_USERNAME,
   CI_URL
 } = process.env;
-
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let reportDir: string;
 let videoDir: string;
@@ -32,7 +31,8 @@ export function slackRunner(
   reportDirectory: string,
   videoDirectory: string,
   screenshotDirectory: string,
-  logger: boolean
+  logger: boolean,
+  base: string
 ) {
   if (ciProvider === "circleci" || ciProvider === undefined) {
     const {
@@ -62,39 +62,9 @@ export function slackRunner(
     }
     VCS_ROOT = vcsRoot;
   }
-  if (reportDirectory || reportDirectory === undefined) {
-    if (reportDirectory === undefined) {
-      reportDir = path.join(__dirname, "mochareports");
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log("Resolved default report directory:- ", reportDir);
-      }
-    } else {
-      reportDir = path.join(__dirname, reportDirectory);
-    }
-  }
-  if (videoDirectory || videoDirectory === undefined) {
-    if (videoDirectory === undefined) {
-      videoDir = path.join(__dirname, "cypress", "videos");
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log("Resolved video directory:- ", videoDir);
-      }
-    } else {
-      videoDir = path.join(__dirname, videoDirectory);
-    }
-  }
-  if (screenshotDirectory || screenshotDirectory === undefined) {
-    if (screenshotDirectory === undefined) {
-      screenshotDir = path.join(__dirname, "cypress", "screenshots");
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log("Resolved screenshotDir directory:- ", screenshotDir);
-      }
-    } else {
-      screenshotDir = path.join(__dirname, screenshotDirectory);
-    }
-  }
+  reportDir = reportDirectory;
+  screenshotDir = screenshotDirectory;
+  videoDir = videoDirectory;
   try {
     sendMessage(logger);
   } catch (e) {
@@ -118,10 +88,6 @@ let totalPasses: number;
 let totalFailures: number;
 let totalDuration: number;
 let status: string;
-const artefactPath = "root/app";
-
-// runner("circleci", "github",["reportDirectory"]);
-// sendMessage();
 
 export function sendMessage(logger: boolean) {
   const sendArgs: IncomingWebhookSendArguments = {};
@@ -331,7 +297,7 @@ export function getFiles(dir: string, ext: string, fileList: string[]) {
 export function getHTMLReportFilename(reportDir: string) {
   const reportHTMLFullPath = getFiles(reportDir, ".html", []);
   if (reportHTMLFullPath.length === 0) {
-    throw new Error("Cannot find test report");
+    throw new Error(`Cannot find test report @ ${reportDir}`);
   } else if (reportHTMLFullPath.length >= 2) {
     throw new Error(
       "Multiple reports found, please provide only a single report"
@@ -349,7 +315,7 @@ export function getHTMLReportFilename(reportDir: string) {
 export function getTestReportStatus(reportDir: string) {
   const reportFile = getFiles(reportDir, ".json", []);
   if (reportFile.length === 0) {
-    throw new Error("Cannot find test report");
+    throw new Error(`Cannot find json test report @ ${reportDir}`);
   } else if (reportFile.length >= 2) {
     throw new Error(
       "Multiple json reports found, please run mochawesome-merge to provide a single report"
@@ -429,7 +395,6 @@ export function getScreenshotLinks(artefactUrl: string, screenshotDir: string) {
 
 // tslint:disable-next-line: no-shadowed-variable
 export function buildHTMLReportURL(reportDir: string, logger: boolean) {
-  const reportPath = "mochareports";
   artefactUrl = `${CI_URL}/${VCS_ROOT}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
   reportHTMLFilename = getHTMLReportFilename(reportDir);
   if (logger) {
@@ -440,14 +405,7 @@ export function buildHTMLReportURL(reportDir: string, logger: boolean) {
     // tslint:disable-next-line: no-console
     console.log("artefactUrl", artefactUrl);
   }
-  reportHTMLUrl =
-    artefactUrl +
-    "/" +
-    artefactPath +
-    "/" +
-    reportPath +
-    "/" +
-    reportHTMLFilename;
+  reportHTMLUrl = artefactUrl + reportDir + "/" + reportHTMLFilename;
   return reportHTMLUrl + artefactUrl;
 }
 
