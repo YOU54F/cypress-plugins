@@ -22,7 +22,7 @@
     "slack-js-opts": "node bin/index.js --report-dir scripts/slack/test/reportSingle --video-dir scripts/slack/test/videosDirPopulated --screenshot-dir scripts/slack/test/screenshotsDirPopulated --logger",
     "slack-ts": "ts-node scripts/slack/index.ts --logger",
     "slack-ts-opts": "ts-node scripts/slack/index.ts --report-dir scripts/slack/test/reportSingle --video-dir scripts/slack/test/videosDirPopulated --screenshot-dir scripts/slack/test/screenshotsDirPopulated --logger",
-    "publish": "npm run compile && sudo npm publish"
+    "publish": "rimraf ./bin && npm run compile && sudo npm publish"
   },
   "dependencies": {
     "commander": "^2.20.0",
@@ -52,6 +52,7 @@
     "mochawesome-merge": "1.0.7",
     "mochawesome-report-generator": "3.1.5",
     "prettier": "1.16.4",
+    "rimraf": "2.6.3",
     "ts-jest": "24.0.2",
     "ts-loader": "5.3.3",
     "ts-node": "8.0.3",
