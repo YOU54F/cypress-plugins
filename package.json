@@ -6,7 +6,16 @@
   "bin": {
     "cypress-slack-reporter": "./bin/index.js"
   },
-  "keywords": ["cypress","slack","circleci","reporter","mocha","mochawesome","mochawesome-merge","marge"],
+  "keywords": [
+    "cypress",
+    "slack",
+    "circleci",
+    "reporter",
+    "mocha",
+    "mochawesome",
+    "mochawesome-merge",
+    "marge"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/you54f/cypress-slack-reporter.git"
@@ -28,10 +37,11 @@
     "publish": "rimraf ./bin && npm run compile && sudo npm publish"
   },
   "dependencies": {
-    "commander": "^2.20.0",
     "@slack/types": "^1.0.0",
-    "@slack/webhook": "^5.0.0"
-
+    "@slack/webhook": "^5.0.0",
+    "@types/slack-mock": "^1.1.0",
+    "commander": "^2.20.0",
+    "slack-mock": "^1.1.1"
   },
   "peerDependencies": {
     "mochawesome": "^3.1.1"
@@ -49,9 +59,9 @@
     "jest-stare": "1.13.2",
     "lint-staged": "8.1.5",
     "mocha": "5.2.0",
-    "mochawesome": "3.1.1",
     "mocha-junit-reporter": "1.21.0",
     "mocha-multi-reporters": "1.1.7",
+    "mochawesome": "3.1.1",
     "mochawesome-merge": "1.0.7",
     "mochawesome-report-generator": "3.1.5",
     "prettier": "1.16.4",

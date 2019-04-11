@@ -24,9 +24,28 @@ const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let reportDir: string;
 let videoDir: string;
 let screenshotDir: string;
+// tslint:disable-next-line: prefer-const
+let vcsRoot: string;
+let COMMIT_URL: string | undefined;
+let VCS_BASEURL: string;
+let prLink: string = "";
+let videoAttachmentsSlack: string = "";
+let screenshotAttachmentsSlack: string = "";
+let reportHTMLFilename: string | undefined;
+let reportHTMLUrl: string;
+let artefactUrl: string;
+let attachments: MessageAttachment;
+let totalSuites: number;
+let totalTests: number;
+let totalPasses: number;
+let totalFailures: number;
+let totalDuration: number;
+let status: string;
+const sendArgs: IncomingWebhookSendArguments = {};
 
-export function slackRunner(
+export default function slackRunner(
   ciProvider: string,
+  // tslint:disable-next-line: no-shadowed-variable
   vcsRoot: string,
   reportDirectory: string,
   videoDirectory: string,
@@ -56,42 +75,20 @@ export function slackRunner(
       (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME);
     CI_URL = "https://circleci.com/api/v1.1/project";
   }
-  if (vcsRoot || vcsRoot === undefined) {
-    if (vcsRoot === undefined) {
-      vcsRoot = "github";
-    }
-    VCS_ROOT = vcsRoot;
-  }
+  vcsRoot = vcsRoot;
   reportDir = reportDirectory;
   screenshotDir = screenshotDirectory;
   videoDir = videoDirectory;
   try {
-    sendMessage(logger);
+    const messageResult = sendMessage(logger);
+    return messageResult;
   } catch (e) {
     throw new Error(e);
   }
 }
 
-let VCS_ROOT: string;
-let COMMIT_URL: string | undefined;
-let VCS_BASEURL: string;
-let prLink: string = "";
-let videoAttachmentsSlack: string = "";
-let screenshotAttachmentsSlack: string = "";
-let reportHTMLFilename: string | undefined;
-let reportHTMLUrl: string;
-let artefactUrl: string;
-let attachments: MessageAttachment;
-let totalSuites: number;
-let totalTests: number;
-let totalPasses: number;
-let totalFailures: number;
-let totalDuration: number;
-let status: string;
-
 export function sendMessage(logger: boolean) {
-  const sendArgs: IncomingWebhookSendArguments = {};
-  COMMIT_URL = getCommitUrl(VCS_ROOT);
+  COMMIT_URL = getCommitUrl(vcsRoot);
   buildHTMLReportURL(reportDir, logger);
   getVideoLinks(artefactUrl, videoDir); //
   getScreenshotLinks(artefactUrl, screenshotDir);
@@ -107,6 +104,11 @@ export function sendMessage(logger: boolean) {
       );
       const reports = attachmentReports(attachments, status);
       const sendArguments = webhookSendArgs(sendArgs, [reports]);
+      // tslint:disable-next-line: no-console
+      if (logger) {
+        // tslint:disable-next-line: no-console
+        console.log(reports);
+      }
       return webhook.send(sendArguments);
     }
     case "failed": {
@@ -118,6 +120,11 @@ export function sendMessage(logger: boolean) {
       const reports = attachmentReports(attachments, status);
       const artefacts = attachementsVideoAndScreenshots(attachments, status);
       const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
+      // tslint:disable-next-line: no-console
+      if (logger) {
+        // tslint:disable-next-line: no-console
+        console.log(reports, artefacts);
+      }
       return webhook.send(sendArguments);
     }
     case "passed": {
@@ -129,6 +136,8 @@ export function sendMessage(logger: boolean) {
       const reports = attachmentReports(attachments, status);
       const artefacts = attachementsVideoAndScreenshots(attachments, status);
       const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
+      // tslint:disable-next-line: no-console
+      console.log(JSON.stringify(reports), JSON.stringify(artefacts));
       return webhook.send(sendArguments);
     }
     default: {
@@ -395,7 +404,7 @@ export function getScreenshotLinks(artefactUrl: string, screenshotDir: string) {
 
 // tslint:disable-next-line: no-shadowed-variable
 export function buildHTMLReportURL(reportDir: string, logger: boolean) {
-  artefactUrl = `${CI_URL}/${VCS_ROOT}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
+  artefactUrl = `${CI_URL}/${vcsRoot}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
   reportHTMLFilename = getHTMLReportFilename(reportDir);
   if (logger) {
     // tslint:disable-next-line: no-console
@@ -410,11 +419,11 @@ export function buildHTMLReportURL(reportDir: string, logger: boolean) {
 }
 
 // tslint:disable-next-line: no-shadowed-variable
-function getCommitUrl(VCS_ROOT: string) {
-  if (VCS_ROOT === "github") {
+export function getCommitUrl(vcsRoot: string) {
+  if (vcsRoot === "github") {
     VCS_BASEURL = "https://github.com";
     return (COMMIT_URL = `${VCS_BASEURL}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/commit/${CI_SHA1}`);
-  } else if (VCS_ROOT === "bitbucket") {
+  } else if (vcsRoot === "bitbucket") {
     VCS_BASEURL = "https://bitbucket.org";
     return (COMMIT_URL = `${VCS_BASEURL}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/commits/${CI_SHA1}`);
   }
