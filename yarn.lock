@@ -5748,10 +5748,10 @@ mochawesome-report-generator@3.1.5, mochawesome-report-generator@^3.0.1:
     validator "^9.1.2"
     yargs "^10.0.3"
 
-mochawesome@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-3.1.1.tgz#106db6cb75dc6f626bcc559c8752c99ef135ec53"
-  integrity sha512-UzRr6kRIw9UCsJIMuDZh92VKF+3Iu6KQpKHF0lahzmJMUDUjKA4i/7avEURl4a9vPOZWYQCiPRioAAeIpynPpg==
+mochawesome@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-3.1.2.tgz#7a3443891d7f3212098c193d8f87b77ef2df4959"
+  integrity sha512-w+9QRJNdcOoS4GGj2rJkNl/8KQ34cYyjQfwbFr8tBwjIi2X/jVioAIHUU0gPII5/XpFZd5X24k+IG2DKtdViiQ==
   dependencies:
     babel-runtime "^6.20.0"
     chalk "^2.3.0"
@@ -6995,7 +6995,7 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
-rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
+rimraf@2.6.3, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
