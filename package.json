@@ -39,7 +39,7 @@
     "@types/node": "10.14.6",
     "cypress": "3.2.0",
     "cypress-cucumber-preprocessor": "1.11.0",
-    "cypress-testing-library": "2.4.0",
+    "cypress-testing-library": "3.0.1",
     "husky": "2.1.0",
     "jest": "24.7.1",
     "jest-junit": "6.3.0",

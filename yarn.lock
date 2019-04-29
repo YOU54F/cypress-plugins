@@ -754,7 +754,7 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@^7.3.4", "@babel/runtime@^7.4.3":
+"@babel/runtime@^7.4.3":
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.3.tgz#79888e452034223ad9609187a0ad1fe0d2ad4bdc"
   integrity sha512-9lsJwJLxDh/T3Q3SZszfWOTkk3pHbkmH+3KY+zwIDmsNlxsumuhS2TH3NIpktU4kNvfzy+k3eLT7aTJSPTo0OA==
@@ -2729,13 +2729,13 @@ cypress-cucumber-preprocessor@1.11.0:
     glob "^7.1.2"
     through "^2.3.8"
 
-cypress-testing-library@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/cypress-testing-library/-/cypress-testing-library-2.4.0.tgz#30e3351dde4d7aebb8ba524141203a2d44f70d3c"
-  integrity sha512-RHTuMZIjTShjTD3UB0vbnRhM5SNwh0yzbH1X/BwH9JtnrsswH+dtroIm2G0NHPTYBS6pkpbTlgM6XDt/caGXiA==
+cypress-testing-library@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/cypress-testing-library/-/cypress-testing-library-3.0.1.tgz#cd5f4ce4423cbb20cafdb869b435b35d01d11b66"
+  integrity sha512-vpGRbcYS229KP/FOASKQuT717GxpO9mG7rnFz2dOe7sz7JPnIHIP5M3KoPvoLfAN1TictFFv05jndyJi2OLa3A==
   dependencies:
     "@babel/runtime" "^7.4.3"
-    dom-testing-library "^3.12.4"
+    dom-testing-library "^4.0.0"
 
 cypress@3.2.0:
   version "3.2.0"
@@ -3012,15 +3012,15 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dom-testing-library@^3.12.4:
-  version "3.18.2"
-  resolved "https://registry.yarnpkg.com/dom-testing-library/-/dom-testing-library-3.18.2.tgz#07d65166743ad3299b7bee5b488e9622c31241bc"
-  integrity sha512-+nYUgGhHarrCY8kLVmyHlgM+IGwBXXrYsWIJB6vpAx2ne9WFgKfwMGcOkkTKQhuAro0sP6RIuRGfm5NF3+ccmQ==
+dom-testing-library@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/dom-testing-library/-/dom-testing-library-4.0.0.tgz#14471ff484cda6041c016c0a2a42d53bf1f4ad03"
+  integrity sha512-ycBnCZrhijGQMIg6HnMKy+K3KqWtieYVMoHVaK1kcei5WmoO2Cj3imUtQRs/N0ZvZVETuVqo1UqEAJ6v14zd+w==
   dependencies:
-    "@babel/runtime" "^7.3.4"
+    "@babel/runtime" "^7.4.3"
     "@sheerun/mutationobserver-shim" "^0.3.2"
-    pretty-format "^24.5.0"
-    wait-for-expect "^1.1.0"
+    pretty-format "^24.7.0"
+    wait-for-expect "^1.1.1"
 
 domain-browser@^1.1.1, domain-browser@^1.2.0:
   version "1.2.0"
@@ -6513,7 +6513,7 @@ prettier@1.17.0:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.17.0.tgz#53b303676eed22cc14a9f0cec09b477b3026c008"
   integrity sha512-sXe5lSt2WQlCbydGETgfm1YBShgOX4HxQkFPvbxkcwgDvGDeqVau8h+12+lmSVlP3rHPz0oavfddSZg/q+Szjw==
 
-pretty-format@^24.5.0, pretty-format@^24.7.0:
+pretty-format@^24.7.0:
   version "24.7.0"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-24.7.0.tgz#d23106bc2edcd776079c2daa5da02bcb12ed0c10"
   integrity sha512-apen5cjf/U4dj7tHetpC7UEFCvtAgnNZnBDkfPv3fokzIqyOJckAG9OlAPC1BlFALnqT/lGB2tl9EJjlK6eCsA==
@@ -8157,7 +8157,7 @@ w3c-hr-time@^1.0.1:
   dependencies:
     browser-process-hrtime "^0.1.2"
 
-wait-for-expect@^1.1.0:
+wait-for-expect@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/wait-for-expect/-/wait-for-expect-1.1.1.tgz#9cd10e07d52810af9e0aaf509872e38f3c3d81ae"
   integrity sha512-vd9JOqqEcBbCDhARWhW85ecjaEcfBLuXgVBqatfS3iw6oU4kzAcs+sCNjF+TC9YHPImCW7ypsuQc+htscIAQCw==
