@@ -1106,7 +1106,7 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/slack-mock@^1.1.0":
+"@types/slack-mock@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/slack-mock/-/slack-mock-1.1.0.tgz#de8d1e15ffd7e633d2c875890a5e7eee2b3a4223"
   integrity sha512-xeGTSl5OGsV3NWvzLrFSyZi8P3eIukC9RObEoMuIF+Ie1Vi0aP+LXznqsYuSPO/D2yJyOQmHfyk2FSoL0FWBHA==
@@ -8082,7 +8082,7 @@ sisteransi@^1.0.0:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
   integrity sha512-N+z4pHB4AmUv0SjveWRd6q1Nj5w62m5jodv+GD8lvmbY/83T/rpbJGZOnK5T149OldDj4Db07BSv9xY4K6NTPQ==
 
-slack-mocker@^1.2.6:
+slack-mocker@1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/slack-mocker/-/slack-mocker-1.2.6.tgz#c6bb1a997332b9bd67592e3598ef5017316da776"
   integrity sha512-rdDDxl8qvck3UlYCQ2aQkE/5SGWsMctXkyoli1WhMgZX2lW/b/bzX6IVNNMvUevvRDJOIhdswjsMy2ulR8UOZg==
