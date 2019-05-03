@@ -43,7 +43,7 @@
     "@slack/webhook": "^5.0.0",
     "@types/slack-mock": "^1.1.0",
     "commander": "^2.20.0",
-    "slack-mocker": "^1.2.5"
+    "slack-mocker": "^1.2.6"
   },
   "peerDependencies": {
     "mochawesome": "^3.1.1"

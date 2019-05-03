@@ -80,16 +80,30 @@ export default function slackRunner(
   screenshotDir = screenshotDirectory;
   videoDir = videoDirectory;
   try {
-    const messageResult = sendMessage(logger);
+    const messageResult = sendMessage(
+      logger,
+      vcsRoot,
+      reportDir,
+      screenshotDir,
+      videoDir
+    );
     return messageResult;
   } catch (e) {
     throw new Error(e);
   }
 }
 
-export function sendMessage(logger: boolean) {
+export function sendMessage(
+  // tslint:disable: no-shadowed-variable
+  logger: boolean,
+  vcsRoot: string,
+  reportDir: string,
+  screenshotDir: string,
+  videoDir: string
+  // tslint:enable: no-shadowed-variable
+) {
   COMMIT_URL = getCommitUrl(vcsRoot);
-  buildHTMLReportURL(reportDir, logger);
+  buildHTMLReportURL(reportDir, logger, vcsRoot);
   getVideoLinks(artefactUrl, videoDir); //
   getScreenshotLinks(artefactUrl, screenshotDir);
   prChecker(CI_PULL_REQUEST as string);
@@ -405,7 +419,13 @@ export function getScreenshotLinks(artefactUrl: string, screenshotDir: string) {
 }
 
 // tslint:disable-next-line: no-shadowed-variable
-export function buildHTMLReportURL(reportDir: string, logger: boolean) {
+export function buildHTMLReportURL(
+  // tslint:disable: no-shadowed-variable
+  reportDir: string,
+  logger: boolean,
+  vcsRoot: string
+  // tslint:enable: no-shadowed-variable
+) {
   artefactUrl = `${CI_URL}/${vcsRoot}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
   reportHTMLFilename = getHTMLReportFilename(reportDir);
   if (logger) {
@@ -428,5 +448,7 @@ export function getCommitUrl(vcsRoot: string) {
   } else if (vcsRoot === "bitbucket") {
     VCS_BASEURL = "https://bitbucket.org";
     return (COMMIT_URL = `${VCS_BASEURL}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/commits/${CI_SHA1}`);
+  } else if (vcsRoot === undefined) {
+    return (COMMIT_URL = "");
   }
 }

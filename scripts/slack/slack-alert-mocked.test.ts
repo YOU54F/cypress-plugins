@@ -6,7 +6,7 @@ import slackRunner from "./slack-alert";
 import * as slackRunnerFunc from "./slack-alert";
 
 const SLACK_WEBHOOK_URL: string = process.env.SLACK_WEBHOOK_URL || "";
-const vcsProvider: string = "github";
+const vcsRoot: string = "github";
 const ciProvider: string = "circleci";
 const reportDirectory: string = "scripts/slack/test/jsonTestPass";
 const videoDirectory: string = "scripts/slack/test/screenshotDirPopulated";
@@ -26,7 +26,7 @@ describe("Slack Reporter", () => {
   it("can call a mock slack instance", async () => {
     const slacker = await slackRunner(
       ciProvider,
-      vcsProvider,
+      vcsRoot,
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
@@ -43,6 +43,7 @@ describe("Slack Reporter", () => {
     expect(firstCall.url).toEqual(SLACK_WEBHOOK_URL);
     const body = firstCall.params;
     expect(body).toContain("test run passed");
+    expect(body).not.toContain("undefined");
   });
   it("throws error when test report directory isnt found", async () => {
     function mockRunner() {
@@ -50,7 +51,7 @@ describe("Slack Reporter", () => {
       const _reportDirectory = "non/existent/dir";
       slackRunner(
         ciProvider,
-        vcsProvider,
+        vcsRoot,
         _reportDirectory,
         videoDirectory,
         screenshotDirectory,
