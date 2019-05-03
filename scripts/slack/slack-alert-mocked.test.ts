@@ -1,9 +1,6 @@
 import "jest";
-import * as path from "path";
-import * as qs from "qs";
 import * as SlackMock from "slack-mocker";
 import slackRunner from "./slack-alert";
-import * as slackRunnerFunc from "./slack-alert";
 
 const SLACK_WEBHOOK_URL: string = process.env.SLACK_WEBHOOK_URL || "";
 const vcsRoot: string = "github";
