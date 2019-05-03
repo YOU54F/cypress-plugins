@@ -41,7 +41,7 @@
     "@slack/webhook": "^5.0.0",
     "@types/slack-mock": "^1.1.0",
     "commander": "^2.20.0",
-    "slack-mock": "^1.1.1"
+    "slack-mocker": "^1.2.5"
   },
   "peerDependencies": {
     "mochawesome": "^3.1.1"
@@ -50,6 +50,7 @@
     "@cypress/webpack-preprocessor": "4.0.3",
     "@types/jest": "24.0.11",
     "@types/node": "10.14.4",
+    "@types/qs": "^6.5.3",
     "cypress": "3.2.0",
     "cypress-cucumber-preprocessor": "1.11.0",
     "cypress-testing-library": "2.4.0",
@@ -65,6 +66,7 @@
     "mochawesome-merge": "1.0.7",
     "mochawesome-report-generator": "3.1.5",
     "prettier": "1.16.4",
+    "qs": "^6.7.0",
     "rimraf": "2.6.3",
     "ts-jest": "24.0.2",
     "ts-loader": "5.3.3",

@@ -1,14 +1,5 @@
 import "jest";
-
 import * as path from "path";
-// import {
-//   getFiles,
-//   getHTMLReportFilename,
-//   getScreenshotLinks,
-//   getTestReportStatus
-//   getVideoLinks,
-//   prChecker,
-// } from "./slack-alert";
 import * as slacker from "./slack-alert";
 
 jest.setTimeout(10000);

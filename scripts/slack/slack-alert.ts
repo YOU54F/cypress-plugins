@@ -136,8 +136,10 @@ export function sendMessage(logger: boolean) {
       const reports = attachmentReports(attachments, status);
       const artefacts = attachementsVideoAndScreenshots(attachments, status);
       const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
-      // tslint:disable-next-line: no-console
-      console.log(JSON.stringify(reports), JSON.stringify(artefacts));
+      if (logger) {
+        // tslint:disable-next-line: no-console
+        console.log(JSON.stringify(reports), JSON.stringify(artefacts));
+      }
       return webhook.send(sendArguments);
     }
     default: {
