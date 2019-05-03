@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "build",
-    "rootDir": "src",
-    "target": "es2015",
-    "moduleResolution": "node",
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
+    "strict": true,
+    "target": "es5",
     "module": "commonjs",
-    "noImplicitAny": true,
-    "noUnusedLocals": false
-  }
+    "skipLibCheck": true,
+    "types": ["node","@slack/types","@types/jest","jest","commander/typings"],
+  },
+  "files": [
+    "scripts/slack/index.ts",
+    "scripts/slack/slack-alert.ts",
+]
 }
