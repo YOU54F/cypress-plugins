@@ -10,7 +10,7 @@ module.exports = {
     "\\.ts": "ts-jest"
   },
   testEnvironment: "node",
-  reporters: ["default","jest-junit","jest-stare"],
+  reporters: ["default","jest-junit", "jest-stare"],
   coverageDirectory: "./coverage",
   collectCoverage: true
 };

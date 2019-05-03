@@ -41,6 +41,10 @@ And the following build/test artefacts
 - Videos of test runs (one link per test)
 - Screenshots of failed tests (one link per failing test)
 
+### Screenshots showing Slack Alert Format
+
+![Alert Samples](./samples/alerts.png)
+
 ## Installation
 
 Note _Please see the pre-requisites folder to current neccessary pre-requisites_
