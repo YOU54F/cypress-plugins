@@ -28,17 +28,17 @@ program
   .option(
     "--report-dir [type]",
     "mochawesome json & html test report directory, relative to your package.json",
-    "mochareports"
+    "/mochareports"
   )
   .option(
     "--screenshot-dir [type]",
     "cypress screenshot directory, relative to your package.json",
-    "cypress/screenshots"
+    "/cypress/screenshots"
   )
   .option(
     "--video-dir [type]",
     "cypress video directory, relative to your package.json",
-    "cypress/videos"
+    "/cypress/videos"
   )
   .option("--logger", "show log output")
   .parse(process.argv);
