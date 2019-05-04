@@ -67,6 +67,5 @@ slackRunner(
   reportDirectory,
   videoDirectory,
   screenshotDirectory,
-  logger,
-  base
+  logger
 );

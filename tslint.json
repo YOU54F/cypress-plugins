@@ -4,7 +4,8 @@
     "exclude": [
       "node_modules/**/*.ts",
       "coverage/lcov-report/*.js"
-    ]  },
+    ]
+  },
   "rulesDirectory": [
     "tslint-no-focused-test"
   ],
@@ -15,6 +16,7 @@
     "object-literal-sort-keys": false,
     "no-switch-case-fall-through": true,
     "switch-default": true,
-    "no-focused-test": true
+    "no-focused-test": true,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
   }
 }

@@ -25,7 +25,6 @@ let reportDir: string;
 let videoDir: string;
 let screenshotDir: string;
 // tslint:disable-next-line: prefer-const
-let vcsRoot: string;
 let COMMIT_URL: string | undefined;
 let VCS_BASEURL: string;
 let prLink: string = "";
@@ -33,7 +32,7 @@ let videoAttachmentsSlack: string = "";
 let screenshotAttachmentsSlack: string = "";
 let reportHTMLFilename: string | undefined;
 let reportHTMLUrl: string;
-let artefactUrl: string;
+let artefactUrl: string = "";
 let attachments: MessageAttachment;
 let totalSuites: number;
 let totalTests: number;
@@ -45,13 +44,11 @@ const sendArgs: IncomingWebhookSendArguments = {};
 
 export default function slackRunner(
   ciProvider: string,
-  // tslint:disable-next-line: no-shadowed-variable
   vcsRoot: string,
   reportDirectory: string,
   videoDirectory: string,
   screenshotDirectory: string,
-  logger: boolean,
-  base: string
+  logger: boolean
 ) {
   if (ciProvider === "circleci" || ciProvider === undefined) {
     const {
@@ -75,17 +72,16 @@ export default function slackRunner(
       (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME);
     CI_URL = "https://circleci.com/api/v1.1/project";
   }
-  vcsRoot = vcsRoot;
   reportDir = reportDirectory;
   screenshotDir = screenshotDirectory;
   videoDir = videoDirectory;
   try {
     const messageResult = sendMessage(
-      logger,
       vcsRoot,
       reportDir,
       screenshotDir,
-      videoDir
+      videoDir,
+      artefactUrl
     );
     return messageResult;
   } catch (e) {
@@ -94,66 +90,38 @@ export default function slackRunner(
 }
 
 export function sendMessage(
-  // tslint:disable: no-shadowed-variable
-  logger: boolean,
-  vcsRoot: string,
-  reportDir: string,
-  screenshotDir: string,
-  videoDir: string
-  // tslint:enable: no-shadowed-variable
+  _vcsRoot: string,
+  _reportDir: string,
+  _screenshotDir: string,
+  _videoDir: string,
+  _artefactUrl: string
 ) {
-  COMMIT_URL = getCommitUrl(vcsRoot);
-  buildHTMLReportURL(reportDir, logger, vcsRoot);
-  getVideoLinks(artefactUrl, videoDir); //
-  getScreenshotLinks(artefactUrl, screenshotDir);
+  COMMIT_URL = getCommitUrl(_vcsRoot);
+  artefactUrl = getArtefactUrl(_vcsRoot, _artefactUrl);
+  reportHTMLUrl = buildHTMLReportURL(reportDir, artefactUrl);
+  getVideoLinks(artefactUrl, _videoDir); //
+  getScreenshotLinks(artefactUrl, _screenshotDir);
   prChecker(CI_PULL_REQUEST as string);
-  const reportStatistics = getTestReportStatus(reportDir); // process the test report
-  status = reportStatistics.status;
-  switch (status) {
+  const reportStatistics = getTestReportStatus(_reportDir); // process the test report
+  constructMessage(reportStatistics.status);
+}
+
+function constructMessage(_status: string) {
+  const webhookInitialArguments = webhookInitialArgs({}, _status);
+  const webhook = new IncomingWebhook(
+    SLACK_WEBHOOK_URL,
+    webhookInitialArguments
+  );
+  const reports = attachmentReports(attachments, _status);
+  switch (_status) {
     case "error": {
-      const webhookInitialArguments = webhookInitialArgs({}, status);
-      const webhook = new IncomingWebhook(
-        SLACK_WEBHOOK_URL,
-        webhookInitialArguments
-      );
-      const reports = attachmentReports(attachments, status);
       const sendArguments = webhookSendArgs(sendArgs, [reports]);
-      // tslint:disable-next-line: no-console
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log(reports);
-      }
       return webhook.send(sendArguments);
     }
-    case "failed": {
-      const webhookInitialArguments = webhookInitialArgs({}, status);
-      const webhook = new IncomingWebhook(
-        SLACK_WEBHOOK_URL,
-        webhookInitialArguments
-      );
-      const reports = attachmentReports(attachments, status);
-      const artefacts = attachementsVideoAndScreenshots(attachments, status);
-      const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
-      // tslint:disable-next-line: no-console
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log(reports, artefacts);
-      }
-      return webhook.send(sendArguments);
-    }
+    case "failed":
     case "passed": {
-      const webhookInitialArguments = webhookInitialArgs({}, status);
-      const webhook = new IncomingWebhook(
-        SLACK_WEBHOOK_URL,
-        webhookInitialArguments
-      );
-      const reports = attachmentReports(attachments, status);
-      const artefacts = attachementsVideoAndScreenshots(attachments, status);
+      const artefacts = attachementsVideoAndScreenshots(attachments, _status);
       const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
-      if (logger) {
-        // tslint:disable-next-line: no-console
-        console.log(JSON.stringify(reports), JSON.stringify(artefacts));
-      }
       return webhook.send(sendArguments);
     }
     default: {
@@ -178,11 +146,11 @@ export function webhookInitialArgs(
       break;
     }
     case "error": {
-      statusText = "test run failed";
+      statusText = "test build failed";
       break;
     }
     default: {
-      statusText = "test ran";
+      statusText = "test status unknown";
       break;
     }
   }
@@ -396,7 +364,7 @@ export function prChecker(CI_PULL_REQUEST: string) {
 // tslint:disable-next-line: no-shadowed-variable
 export function getVideoLinks(artefactUrl: string, videosDir: string) {
   if (!artefactUrl) {
-    throw new Error("artefactUrl env var does not exist");
+    throw new Error("fff env var does not exist");
   } else {
     const videosURL = `${artefactUrl}`;
     const videos = getFiles(videosDir, ".mp4", []);
@@ -435,22 +403,29 @@ export function getScreenshotLinks(artefactUrl: string, screenshotDir: string) {
 export function buildHTMLReportURL(
   // tslint:disable: no-shadowed-variable
   reportDir: string,
-  logger: boolean,
-  vcsRoot: string
+  artefactUrl: string
   // tslint:enable: no-shadowed-variable
 ) {
-  artefactUrl = `${CI_URL}/${vcsRoot}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
   reportHTMLFilename = getHTMLReportFilename(reportDir);
-  if (logger) {
-    // tslint:disable-next-line: no-console
-    console.log("reportDir", reportDir);
-    // tslint:disable-next-line: no-console
-    console.log("reportHTMLFilename", reportHTMLFilename);
-    // tslint:disable-next-line: no-console
-    console.log("artefactUrl", artefactUrl);
-  }
   reportHTMLUrl = artefactUrl + reportDir + "/" + reportHTMLFilename;
   return reportHTMLUrl + artefactUrl;
+}
+
+// tslint:disable-next-line: no-shadowed-variable
+export function getArtefactUrl(vcsRoot: string, artefactUrl: string) {
+  switch (vcsRoot) {
+    case "github":
+    case "bitbucket":
+      artefactUrl = `${CI_URL}/${vcsRoot}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
+      break;
+    default: {
+      throw new Error(
+        "We dont have an artefact url - expose this as a cli opt"
+      );
+      break;
+    }
+  }
+  return artefactUrl;
 }
 
 // tslint:disable-next-line: no-shadowed-variable

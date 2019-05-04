@@ -31,15 +31,18 @@ describe("Slack Reporter", () => {
     // check our webhook url called in ENV var SLACK_WEBHOOK_URL
     expect(firstCall.url).toEqual(SLACK_WEBHOOK_URL);
     const body = firstCall.params;
+    // tslint:disable-next-line: no-console
+    console.log(body);
     return body;
   }
-
-  function messageBuilderTester(body: string) {
+  function messageBuildURL(body: string) {
     // build a URL to check the message renders
     const mbTestUrlBase = "https://api.slack.com/docs/messages/builder?msg=";
     // encode our json message request into a URL encoded string
     const encodedBody = encodeURIComponent(body);
     const mbTestUrl = `${mbTestUrlBase}${encodedBody}`;
+    // tslint:disable-next-line: no-console
+    console.log(mbTestUrl);
     return mbTestUrl;
   }
 
@@ -71,15 +74,10 @@ describe("Slack Reporter", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
-      logger,
-      base
+      logger
     );
     const body = returnSlackWebhookCall();
-    const messageBuilderUrl = messageBuilderTester(body);
-    // tslint:disable: no-console
-    console.log(body);
-    console.log(messageBuilderUrl);
-    // tslint:enable: no-console
+    const messageBuiltUrl = messageBuildURL(body);
     checkStatus(body, "passed");
     expect(body).toContain("github");
   });
@@ -92,18 +90,13 @@ describe("Slack Reporter", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
-      logger,
-      base
+      logger
     );
     const body = returnSlackWebhookCall();
-    const messageBuilderUrl = messageBuilderTester(body);
-    // tslint:disable: no-console
-    console.log(body);
-    console.log(messageBuilderUrl);
-    // tslint:enable: no-console    checkStatus(body, "passed");
+    const messageBuiltUrl = messageBuildURL(body);
     expect(body).toContain("bitbucket");
   });
-  it("can call a mock slack instance with no vcsroot foo", async () => {
+  it.skip("can call a mock slack instance with no vcsroot foo", async () => {
     // tslint:disable-next-line: variable-name
     const _vcsRoot = "foo";
     await slackRunner(
@@ -112,16 +105,11 @@ describe("Slack Reporter", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
-      logger,
-      base
+      logger
     );
     const body = returnSlackWebhookCall();
-    const messageBuilderUrl = messageBuilderTester(body);
-    // tslint:disable: no-console
-    console.log(body);
-    console.log(messageBuilderUrl);
-    // tslint:enable: no-console
+    const messageBuiltUrl = messageBuildURL(body);
     checkStatus(body, "passed");
-    expect(body).toContain("bitbucket");
+    expect(body).not.toContain("bitbucket");
   });
 });
