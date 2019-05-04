@@ -42,14 +42,7 @@ let totalDuration: number;
 let status: string;
 const sendArgs: IncomingWebhookSendArguments = {};
 
-export default function slackRunner(
-  ciProvider: string,
-  vcsRoot: string,
-  reportDirectory: string,
-  videoDirectory: string,
-  screenshotDirectory: string,
-  logger: boolean
-) {
+export function resolveCIProvider(ciProvider: string) {
   if (ciProvider === "circleci" || ciProvider === undefined) {
     const {
       CIRCLE_SHA1,
@@ -72,6 +65,17 @@ export default function slackRunner(
       (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME);
     CI_URL = "https://circleci.com/api/v1.1/project";
   }
+}
+export default function slackRunner(
+  ciProvider: string,
+  vcsRoot: string,
+  reportDirectory: string,
+  videoDirectory: string,
+  screenshotDirectory: string,
+  logger: boolean
+) {
+  resolveCIProvider(ciProvider);
+
   reportDir = reportDirectory;
   screenshotDir = screenshotDirectory;
   videoDir = videoDirectory;
