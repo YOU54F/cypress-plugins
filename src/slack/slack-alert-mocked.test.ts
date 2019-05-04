@@ -1,5 +1,4 @@
 import "jest";
-import * as qs from "qs";
 import * as SlackMock from "slack-mocker";
 import slackRunner from "./slack-alert";
 
