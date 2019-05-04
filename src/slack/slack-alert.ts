@@ -167,27 +167,40 @@ export function webhookInitialArgs(
   // tslint:disable-next-line: no-shadowed-variable
   status: string
 ) {
+  let statusText: string;
   switch (status) {
     case "passed": {
-      return (initialArgs = {
-        text: `${CI_PROJECT_REPONAME} test run passed.\nThis run was triggered by <${COMMIT_URL}|${CI_USERNAME}>${prLink}`
-      });
+      statusText = "test run passed";
+      break;
     }
     case "failed": {
-      return (initialArgs = {
-        text: `${CI_PROJECT_REPONAME} test run failed.\nThis run was triggered by <${COMMIT_URL}|${CI_USERNAME}>${prLink}`
-      });
+      statusText = "test run failed";
+      break;
     }
     case "error": {
-      return (initialArgs = {
-        text: `${CI_PROJECT_REPONAME} test build failed.\nThis run was triggered by <${COMMIT_URL}|${CI_USERNAME}>${prLink}`
-      });
+      statusText = "test run failed";
+      break;
     }
     default: {
+      statusText = "test ran";
       break;
     }
   }
-  return initialArgs;
+  let triggerText: string;
+  if (!COMMIT_URL || !CI_USERNAME) {
+    triggerText = "";
+  } else {
+    triggerText = `This run was triggered by <${COMMIT_URL}|${CI_USERNAME}>`;
+  }
+  let prText: string;
+  if (!prLink) {
+    prText = "";
+  } else {
+    prText = `${prLink}`;
+  }
+  return (initialArgs = {
+    text: `${CI_PROJECT_REPONAME} ${statusText}\n${triggerText}${prText}`
+  });
 }
 
 export function webhookSendArgs(

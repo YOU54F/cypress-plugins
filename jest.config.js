@@ -4,7 +4,7 @@ module.exports = {
       tsConfig: "tsconfig.json"
     }
   },
-  testRegex: "scripts/slack/.*.test.ts",
+  testRegex: "src/slack/.*.test.ts",
   moduleFileExtensions: ["ts", "js"],
   transform: {
     "\\.ts": "ts-jest"

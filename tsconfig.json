@@ -7,12 +7,10 @@
     ],
     "strict": true,
     "target": "es5",
+    "rootDirs": ["src","cypress"],
+    "outDir": "bin",
     "module": "commonjs",
     "skipLibCheck": true,
-    "types": ["node","@slack/types","@types/jest","jest","commander/typings"],
-  },
-  "files": [
-    "scripts/slack/index.ts",
-    "scripts/slack/slack-alert.ts",
-]
+    "types": ["node","@slack/types","@types/jest","jest","commander/typings","cypress"],
+  }
 }

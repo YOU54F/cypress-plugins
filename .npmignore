@@ -18,5 +18,5 @@ webpack.config.js
 yarn.lock
 .DS_STORE
 .scannerwork
-scripts
+src
 samples

@@ -175,5 +175,5 @@ If you wish to use another CI provider, you can pass any name other than `circle
 
 - Publish to NPM
 - Publish to NPM
-- typescript s3 scripts and add to CLI
+- typescript s3 src and add to CLI
 - publish to s3 bucket needs error handling, should exit each function gracefully if the directories are empty

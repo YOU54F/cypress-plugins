@@ -7,7 +7,7 @@ let version;
 try {
   const json = JSON.parse(
     fs.readFileSync(
-      "./node_modules/mochawesome-slack-reporter/package.json",
+      "./node_modules/cypress-slack-reporter/package.json",
       "utf8"
     )
   );
