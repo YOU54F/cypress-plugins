@@ -1,6 +1,8 @@
 import "jest";
+import * as qs from "qs";
 import * as SlackMock from "slack-mocker";
 import slackRunner from "./slack-alert";
+
 const SLACK_WEBHOOK_URL: string = process.env.SLACK_WEBHOOK_URL || "";
 const base = process.env.PWD || ".";
 const vcsRoot: string = "github";
@@ -25,13 +27,21 @@ describe("Slack Reporter", () => {
   function returnSlackWebhookCall() {
     // This checks the slack mock call counter
     expect(mock.incomingWebhooks.calls).toHaveLength(1);
-    // Load the response (parsed with qs from content-type application/x-www-form-urlencoded)
+    // Load the response as json
     const firstCall = mock.incomingWebhooks.calls[0];
     // check our webhook url called in ENV var SLACK_WEBHOOK_URL
     expect(firstCall.url).toEqual(SLACK_WEBHOOK_URL);
     const body = firstCall.params;
-    // console.log(body);
     return body;
+  }
+
+  function messageBuilderTester(body: string) {
+    // build a URL to check the message renders
+    const mbTestUrlBase = "https://api.slack.com/docs/messages/builder?msg=";
+    // encode our json message request into a URL encoded string
+    const encodedBody = encodeURIComponent(body);
+    const mbTestUrl = `${mbTestUrlBase}${encodedBody}`;
+    return mbTestUrl;
   }
 
   function checkStatus(body: string, status: string) {
@@ -66,6 +76,11 @@ describe("Slack Reporter", () => {
       base
     );
     const body = returnSlackWebhookCall();
+    const messageBuilderUrl = messageBuilderTester(body);
+    // tslint:disable: no-console
+    console.log(body);
+    console.log(messageBuilderUrl);
+    // tslint:enable: no-console
     checkStatus(body, "passed");
     expect(body).toContain("github");
   });
@@ -82,11 +97,14 @@ describe("Slack Reporter", () => {
       base
     );
     const body = returnSlackWebhookCall();
-    checkStatus(body, "passed");
+    const messageBuilderUrl = messageBuilderTester(body);
+    // tslint:disable: no-console
+    console.log(body);
+    console.log(messageBuilderUrl);
+    // tslint:enable: no-console    checkStatus(body, "passed");
     expect(body).toContain("bitbucket");
   });
   it("can call a mock slack instance with no vcsroot foo", async () => {
-    // https://circleci.com/api/v1.1/project/foo/YOU54F/cypressio-docker-typescript/140/artifacts/0/Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/screenshotDirPopulated/pnggrad16rgb.png
     // tslint:disable-next-line: variable-name
     const _vcsRoot = "foo";
     await slackRunner(
@@ -99,9 +117,11 @@ describe("Slack Reporter", () => {
       base
     );
     const body = returnSlackWebhookCall();
-    // tslint:disable-next-line: no-console
+    const messageBuilderUrl = messageBuilderTester(body);
+    // tslint:disable: no-console
     console.log(body);
-
+    console.log(messageBuilderUrl);
+    // tslint:enable: no-console
     checkStatus(body, "passed");
     expect(body).toContain("bitbucket");
   });
