@@ -83,8 +83,9 @@ describe("tester", () => {
     );
     const body = await returnSlackWebhookCall();
     const messageBuiltUrl = await messageBuildURL(body);
+    const buildNum = process.env.CIRCLE_BUILD_NUM;
     expect(body).toContain(
-      '"text":"CircleCI Logs","url":"https://circleci.com/gh/YOU54F/cypress-slack-reporter/126"'
+      `"text":"CircleCI Logs","url":"https://circleci.com/gh/YOU54F/cypress-slack-reporter/${buildNum}"`
     );
   });
 });
