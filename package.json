@@ -54,7 +54,7 @@
     "cypress-cucumber-preprocessor": "1.11.0",
     "cypress-testing-library": "3.0.1",
     "husky": "2.2.0",
-    "jest": "24.7.1",
+    "jest": "24.8.0",
     "jest-junit": "6.4.0",
     "jest-stare": "1.13.2",
     "lint-staged": "8.1.6",
