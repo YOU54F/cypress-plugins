@@ -9,7 +9,7 @@
     "outDir": "bin",
     "module": "commonjs",
     "skipLibCheck": true,
-    "types": ["node", "@slack/types", "@types/jest", "jest", "commander/typings", "cypress"],
+    "types": ["node", "@slack/types", "@types/jest", "jest", "commander/typings", "cypress", "@types/dotenv"],
   },
   "files": [
     "src/slack/index.ts",

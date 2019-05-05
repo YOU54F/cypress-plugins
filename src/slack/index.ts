@@ -2,7 +2,7 @@
 
 import * as program from "commander";
 import * as fs from "fs";
-import slackRunner from "./slack-alert";
+import * as slacker from "./slack-alert";
 let version;
 try {
   const json = JSON.parse(
@@ -61,7 +61,7 @@ if (program.logger) {
   );
 }
 
-slackRunner(
+slacker.slackRunner(
   ciProvider,
   vcsProvider,
   reportDirectory,

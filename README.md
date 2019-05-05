@@ -8,15 +8,16 @@ A Slack Reporting tool built for Cypress but _should_ work with any mocha based 
 <!-- [![CircleCI](https://circleci.com/gh/YOU54F/cypressio-slack-reporter.svg?style=svg)](https://circleci.com/gh/YOU54F/cypressio-slack-reporter)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=YOU54F_cypressio-slack-reporter&metric=alert_status)](https://sonarcloud.io/dashboard?id=YOU54F_cypressio-slack-reporter) -->
 
-- Slack reporter for integration with CirleCI
+- Slack reporter with integration with CircleCI
   - Reports Github/BitBucket Triggering Commit Details
   - Reports CirleCI Build Logs / Status / Artefacts
   - Reports Test Status & Provides Report Links
 - Takes the output of Mochawesome JSON output to determine test result & corresponding slack message
 - Provides a URL link to the Test Artefacts (Mochawesome HTML Test Report / Cypress Video & Screenshots)
 
-_note_ this has been tested on GitHub/Bitbucket using CircleCI only, at this current time.
-I plan to provide a slimmed report for those not using CI, which can be triggered by a flag
+For users who are not using CircleCi, you can get a simple report
+
+- pass `--ci-provider none` provider flag to provide a simple slack message based on the mochawesome report status
 
 ## Reporting Features
 
@@ -173,7 +174,6 @@ If you wish to use another CI provider, you can pass any name other than `circle
 
 ## TODO
 
-- Publish to NPM
-- Publish to NPM
-- typescript s3 src and add to CLI
-- publish to s3 bucket needs error handling, should exit each function gracefully if the directories are empty
+- provide user ability to provide own CI artefact paths
+- typescript s3 uploader scripts and add to CLI
+- retrieve s3 links for test report/artefacts and inject into the slack report
