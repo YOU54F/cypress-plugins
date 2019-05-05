@@ -128,7 +128,7 @@ describe("Get Files Checker", () => {
     const s = await slacker.getFiles(dir, ext, fileList);
     expect(s).toEqual([]);
   });
-  test("Can create a mochareports folder if it doesnt exist", async () => {
+  test("returns an empty list if the mochareports doesnt exist", async () => {
     const dir: string = path.join("mochareports");
     const ext: string = ".html";
     const fileList: string[] = [];

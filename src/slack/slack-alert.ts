@@ -262,7 +262,6 @@ export function attachmentsVideoAndScreenshots(
 
 export function getFiles(dir: string, ext: string, fileList: string[]) {
   if (!fs.existsSync(dir) && path.basename(dir) === "mochareports") {
-    fs.mkdirSync(dir);
     return fileList;
   } else if (!fs.existsSync(dir)) {
     return fileList;
