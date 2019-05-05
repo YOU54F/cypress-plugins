@@ -1,6 +1,5 @@
 import { MessageAttachment } from "@slack/types";
 import { IncomingWebhookDefaultArguments } from "@slack/webhook";
-import { rmdirSync } from "fs";
 import "jest";
 import * as path from "path";
 import * as slacker from "../slack-alert";
@@ -130,7 +129,6 @@ describe("Get Files Checker", () => {
     expect(s).toEqual([]);
   });
   test("Can create a mochareports folder if it doesnt exist", async () => {
-    rmdirSync("mochareports");
     const dir: string = path.join("mochareports");
     const ext: string = ".html";
     const fileList: string[] = [];
