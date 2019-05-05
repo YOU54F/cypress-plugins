@@ -45,9 +45,6 @@ describe("tester", () => {
     const messageBuiltUrl = await messageBuildURL(body);
     expect(body).not.toContain("commits");
     expect(body).not.toContain("artefacts");
-    expect(body).toMatchInlineSnapshot(
-      `"{\\"text\\":\\"cypress-slack-reporter test run passed\\\\n<https://github.com/YOU54F/cypress-slack-reporter/pull/45| - PR >\\",\\"attachments\\":[{\\"color\\":\\"#36a64f\\",\\"fallback\\":\\"Report available at /Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/jsonTestPass/sampleReport.html\\",\\"text\\":\\"Branch: tests\\\\nTotal Passed:  18\\",\\"actions\\":[{\\"type\\":\\"button\\",\\"text\\":\\"Test Report\\",\\"url\\":\\"/Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/jsonTestPass/sampleReport.html\\",\\"style\\":\\"primary\\"},{\\"type\\":\\"button\\",\\"text\\":\\"CircleCI Logs\\",\\"url\\":\\"https://circleci.com/gh/YOU54F/cypress-slack-reporter/126\\",\\"style\\":\\"primary\\"}]},{\\"text\\":\\"\\",\\"color\\":\\"#36a64f\\"}],\\"unfurl_links\\":false,\\"unfurl_media\\":false}"`
-    );
   });
 });
 
@@ -92,9 +89,6 @@ describe("tester", () => {
     expect(body).toContain(
       '"text":"CircleCI Logs","url":"https://circleci.com/gh/YOU54F/cypress-slack-reporter/126"'
     );
-    expect(body).toMatchInlineSnapshot(
-      `"{\\"text\\":\\"cypress-slack-reporter test run passed\\\\nThis run was triggered by <https://github.com/YOU54F/cypress-slack-reporter/commit/e9c38c91f9844b853406b089687eea89fbeb4bc9|YOU54F><https://github.com/YOU54F/cypress-slack-reporter/pull/45| - PR >\\",\\"attachments\\":[{\\"color\\":\\"#36a64f\\",\\"fallback\\":\\"Report available at https://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0/Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/jsonTestPass/sampleReport.htmlhttps://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0\\",\\"text\\":\\"Branch: tests\\\\nTotal Passed:  18\\",\\"actions\\":[{\\"type\\":\\"button\\",\\"text\\":\\"Test Report\\",\\"url\\":\\"https://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0/Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/jsonTestPass/sampleReport.htmlhttps://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0\\",\\"style\\":\\"primary\\"},{\\"type\\":\\"button\\",\\"text\\":\\"CircleCI Logs\\",\\"url\\":\\"https://circleci.com/gh/YOU54F/cypress-slack-reporter/126\\",\\"style\\":\\"primary\\"}]},{\\"text\\":\\"\\",\\"color\\":\\"#36a64f\\"}],\\"unfurl_links\\":false,\\"unfurl_media\\":false}"`
-    );
   });
 });
 
@@ -114,9 +108,6 @@ describe("tester", () => {
     checkStatus(body, "passed");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
-    expect(body).toMatchInlineSnapshot(
-      `"{\\"text\\":\\"cypress-slack-reporter test run passed\\\\nThis run was triggered by <https://github.com/YOU54F/cypress-slack-reporter/commit/e9c38c91f9844b853406b089687eea89fbeb4bc9|YOU54F><https://github.com/YOU54F/cypress-slack-reporter/pull/45| - PR >\\",\\"attachments\\":[{\\"color\\":\\"#36a64f\\",\\"fallback\\":\\"Report available at https://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0/Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/jsonTestPass/sampleReport.htmlhttps://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0\\",\\"text\\":\\"Branch: tests\\\\nTotal Passed:  18\\",\\"actions\\":[{\\"type\\":\\"button\\",\\"text\\":\\"Test Report\\",\\"url\\":\\"https://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0/Users/you54f/dev/saftest/githubrepos/source_repos/cypress-slack-reporter/src/slack/test/jsonTestPass/sampleReport.htmlhttps://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/126/artifacts/0\\",\\"style\\":\\"primary\\"},{\\"type\\":\\"button\\",\\"text\\":\\"CircleCI Logs\\",\\"url\\":\\"https://circleci.com/gh/YOU54F/cypress-slack-reporter/126\\",\\"style\\":\\"primary\\"}]},{\\"text\\":\\"\\",\\"color\\":\\"#36a64f\\"}],\\"unfurl_links\\":false,\\"unfurl_media\\":false}"`
-    );
   });
 });
 
