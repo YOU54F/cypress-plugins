@@ -13,7 +13,17 @@ try {
   );
   version = json.version;
 } catch (e) {
-  version = "Cannot determine version";
+  try {
+    const json = JSON.parse(
+      fs.readFileSync(
+        "./node_modules/mochawesome-slack-reporter/package.json",
+        "utf8"
+      )
+    );
+    version = json.version;
+  } catch (e) {
+    version = "Cannot determine version";
+  }
 }
 
 const base = process.env.PWD || ".";
@@ -23,7 +33,11 @@ program
     `git@github.com:YOU54F/cypress-slack-reporter.git@${version}`,
     "-v, --version"
   )
-  .option("--vcs-provider [type]", "VCS Provider [github|bitbucket]", "github")
+  .option(
+    "--vcs-provider [type]",
+    "VCS Provider [github|bitbucket|none]",
+    "github"
+  )
   .option("--ci-provider [type]", "CI Provider [circleci|none]", "circleci")
   .option(
     "--report-dir [type]",

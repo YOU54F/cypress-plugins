@@ -6,7 +6,7 @@ const base = process.env.PWD || ".";
 const vcsRoot: string = "github";
 const ciProvider: string = "circleci";
 const reportDirectory: string = base + "/src/slack/test/jsonTestPass";
-const videoDirectory: string = base + "/src/slack/test/videoDirPopulated";
+const videoDirectory: string = base + "/src/slack/test/videosDirPopulated";
 const screenshotDirectory: string =
   base + "/src/slack/test/screenshotDirPopulated";
 const logger: boolean = false;

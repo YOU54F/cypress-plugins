@@ -24,8 +24,8 @@ const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let commitUrl: string = "";
 let VCS_BASEURL: string;
 let prLink: string = "";
-let videoAttachmentsSlack: string = "";
-let screenshotAttachmentsSlack: string = "";
+let videoAttachmentsSlack: string;
+let screenshotAttachmentsSlack: string;
 let reportHTMLFilename: string = "";
 let reportHTMLUrl: string;
 let artefactUrl: string = "";
@@ -64,15 +64,15 @@ export function slackRunner(
 export function sendMessage(
   _vcsRoot: string,
   _reportDir: string,
-  _screenshotDir: string,
   _videoDir: string,
+  _screenshotDir: string,
   _artefactUrl: string
 ) {
   commitUrl = getCommitUrl(_vcsRoot) as string;
   artefactUrl = getArtefactUrl(_vcsRoot, _artefactUrl);
   reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl);
-  getVideoLinks(artefactUrl, _videoDir); //
-  getScreenshotLinks(artefactUrl, _screenshotDir);
+  videoAttachmentsSlack = getVideoLinks(artefactUrl, _videoDir); //
+  screenshotAttachmentsSlack = getScreenshotLinks(artefactUrl, _screenshotDir);
   prChecker(CI_PULL_REQUEST as string);
   const reportStatistics = getTestReportStatus(_reportDir); // process the test report
   constructMessage(reportStatistics.status);
@@ -126,10 +126,14 @@ export function webhookInitialArgs(
     }
   }
   let triggerText: string;
-  if (!commitUrl || !CI_USERNAME) {
+  if (!commitUrl) {
     triggerText = "";
   } else {
-    triggerText = `This run was triggered by <${commitUrl}|${CI_USERNAME}>`;
+    if (!CI_USERNAME) {
+      triggerText = `This run was triggered by <${commitUrl}|commit>`;
+    } else {
+      triggerText = `This run was triggered by <${commitUrl}|${CI_USERNAME}>`;
+    }
   }
   let prText: string;
   if (!prLink) {
@@ -339,6 +343,7 @@ export function prChecker(_CI_PULL_REQUEST: string) {
 }
 
 export function getVideoLinks(_artefactUrl: string, _videosDir: string) {
+  videoAttachmentsSlack = "";
   if (!_artefactUrl) {
     return (videoAttachmentsSlack = "");
   } else {
@@ -360,6 +365,7 @@ export function getScreenshotLinks(
   _artefactUrl: string,
   _screenshotDir: string
 ) {
+  screenshotAttachmentsSlack = "";
   if (!_artefactUrl) {
     return (screenshotAttachmentsSlack = "");
   } else {
@@ -370,7 +376,7 @@ export function getScreenshotLinks(
     } else {
       screenshots.forEach(screenshotObject => {
         const trimmedScreenshotFilename = path.basename(screenshotObject);
-        screenshotAttachmentsSlack = `<${screenshotURL}${screenshotObject}|Screenshot:- ${trimmedScreenshotFilename}>\n${screenshotAttachmentsSlack}`;
+        return (screenshotAttachmentsSlack = `<${screenshotURL}${screenshotObject}|Screenshot:- ${trimmedScreenshotFilename}>\n${screenshotAttachmentsSlack}`);
       });
     }
   }
@@ -380,7 +386,7 @@ export function getScreenshotLinks(
 export function buildHTMLReportURL(_reportDir: string, _artefactUrl: string) {
   reportHTMLFilename = getHTMLReportFilename(_reportDir);
   reportHTMLUrl = _artefactUrl + _reportDir + "/" + reportHTMLFilename;
-  return reportHTMLUrl + _artefactUrl;
+  return reportHTMLUrl;
 }
 
 export function getArtefactUrl(_vcsRoot: string, _artefactUrl: string) {
