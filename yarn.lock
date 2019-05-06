@@ -1118,7 +1118,7 @@
   dependencies:
     "@types/jest-diff" "*"
 
-"@types/nock@^10.0.1":
+"@types/nock@10.0.1":
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/@types/nock/-/nock-10.0.1.tgz#ca545bdd0c2559fe76e3cda1ba011a74fb940d45"
   integrity sha512-3Dbkj/f0HxuvyYfInbQCHLASFyjnNUcidabwrbhJDMZOXXznNyQpzsBgZnY2K+c43OekqWvZ+tDjGsGTKm1d5g==
@@ -1145,7 +1145,7 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/qs@^6.5.3":
+"@types/qs@6.5.3":
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.3.tgz#1c3b71b091eaeaf5924538006b7f70603ce63d38"
   integrity sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
@@ -5916,7 +5916,7 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-nock@^10.0.6:
+nock@10.0.6:
   version "10.0.6"
   resolved "https://registry.yarnpkg.com/nock/-/nock-10.0.6.tgz#e6d90ee7a68b8cfc2ab7f6127e7d99aa7d13d111"
   integrity sha512-b47OWj1qf/LqSQYnmokNWM8D88KvUl2y7jT0567NB3ZBAZFz2bWp2PC81Xn7u8F2/vJxzkzNZybnemeFa7AZ2w==
@@ -6710,7 +6710,7 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-qs@^6.5.1, qs@^6.7.0:
+qs@6.7.0, qs@^6.5.1:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
@@ -8371,7 +8371,7 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
-winston@^2.3.0:
+winston@2.4.4:
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/winston/-/winston-2.4.4.tgz#a01e4d1d0a103cf4eada6fc1f886b3110d71c34b"
   integrity sha512-NBo2Pepn4hK4V01UfcWcDlmiVTs7VTB1h7bgnB0rgP146bYhMxX0ypCz3lBOfNxCO4Zuek7yeT+y/zM1OfMw4Q==
