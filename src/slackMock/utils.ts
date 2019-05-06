@@ -24,8 +24,12 @@ export default function parseParams(path: string, requestBody: string) {
     });
   } else if (typeof requestBody === "string") {
     // parses content-type application/x-www-form-urlencoded
-    logger.debug(`rendering body: ${requestBody}`);
+    logger.debug(`rendering recieved body: ${requestBody}`);
     body = requestBody;
+
+    const mbTestUrlBase = "https://api.slack.com/docs/messages/builder?msg=";
+    const encodedBody = encodeURIComponent(requestBody);
+    logger.debug(`Slack URL: ${mbTestUrlBase}${encodedBody}`);
   }
 
   function typedKeys<T>(o: T): Array<keyof T> {

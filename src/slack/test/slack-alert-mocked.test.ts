@@ -1,4 +1,4 @@
-import "jest";
+// import "jest";
 import * as SlackMock from "../../slackMock/slacker";
 import * as slacker from "../slack-alert";
 
@@ -20,12 +20,10 @@ function setup() {
 
   beforeEach(async () => {
     jest.resetModules();
-    // mock = await SlackMock({ disableRtm: true });
     await mock.reset();
     expect(mock.calls).toHaveLength(0);
   });
   afterEach(async () => {
-    await mock.reset();
     await mock.shutdown();
   });
 }
@@ -45,7 +43,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     expect(body).toContain("bitbucket");
     expect(body).not.toContain("undefined");
   });
@@ -64,7 +62,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     const buildNum = process.env.CIRCLE_BUILD_NUM;
     expect(body).toContain(
       `"text":"CircleCI Logs","url":"https://circleci.com/gh/YOU54F/cypress-slack-reporter/${buildNum}"`
@@ -84,7 +82,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     checkStatus(body, "passed");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
@@ -104,7 +102,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     checkStatus(body, "failed");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
@@ -123,7 +121,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     checkStatus(body, "build");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
@@ -160,7 +158,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     expect(body).not.toContain("commits");
     expect(body).not.toContain("artefacts");
   });
@@ -174,19 +172,7 @@ function returnSlackWebhookCall() {
   // check our webhook url called in ENV var SLACK_WEBHOOK_URL
   expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
   const body = firstCall.params;
-  // tslint:disable-next-line: no-console
-  console.log(body);
   return body;
-}
-function messageBuildURL(body: string) {
-  // build a URL to check the message renders
-  const mbTestUrlBase = "https://api.slack.com/docs/messages/builder?msg=";
-  // encode our json message request into a URL encoded string
-  const encodedBody = encodeURIComponent(body);
-  const mbTestUrl = `${mbTestUrlBase}${encodedBody}`;
-  // tslint:disable-next-line: no-console
-  console.log(mbTestUrl);
-  return mbTestUrl;
 }
 
 function checkStatus(body: string, status: string) {

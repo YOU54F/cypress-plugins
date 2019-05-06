@@ -10,9 +10,7 @@ const options: LoggerOptions = {
     new transports.Console({
       colorize: true,
       showLevel: true,
-      timestamp: true,
-      name: "slack-mock",
-      level: "info"
+      timestamp: true
     })
   ]
 };

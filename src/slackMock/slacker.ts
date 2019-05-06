@@ -27,6 +27,7 @@ incomingWebhooks.reset = () => {
 };
 
 incomingWebhooks.addResponse = opts => {
+  logger.debug(`adding incoming-webhook response` + opts);
   customResponses.set("incoming-webhooks", opts);
 };
 
