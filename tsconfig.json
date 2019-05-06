@@ -13,8 +13,8 @@
     "skipLibCheck": true,
     "types": ["node", "@slack/types", "@types/jest", "jest", "commander/typings", "cypress", "@types/dotenv", "@types/qs","winston"],
   },
-  // "files": [
-  //   "src/slack/index.ts",
-  //   "src/slack/slack-alert.ts",
-  // ]
+  "files": [
+    "src/slack/index.ts",
+    "src/slack/slack-alert.ts",
+  ]
 }
