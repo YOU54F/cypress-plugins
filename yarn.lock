@@ -7642,10 +7642,10 @@ sisteransi@^1.0.0:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
   integrity sha512-N+z4pHB4AmUv0SjveWRd6q1Nj5w62m5jodv+GD8lvmbY/83T/rpbJGZOnK5T149OldDj4Db07BSv9xY4K6NTPQ==
 
-slack-mocker@1.2.7:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/slack-mocker/-/slack-mocker-1.2.7.tgz#66781e75ec8df9e5ecc7384b9f6e816c92610d12"
-  integrity sha512-AQw9VEiYN5hUei/6+BxWU0GATnipLsH2T+joMcQEBQJkUzZrApwGrTu0WRb8Tu5dKmqT3XN58jU23wAkKnvg8g==
+slack-mocker@1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/slack-mocker/-/slack-mocker-1.2.9.tgz#9273ce57275c68bcffff1c840d13291198d68961"
+  integrity sha512-8YasOIcjk53fiZL4kj/M7q/JVDR9BNL1G7bBTSj/etG0+KhXQSsQnDzUQSbXZ5Afh50SPk/jVs2vjqQ6ElF/og==
   dependencies:
     express "^4.16.4"
     nock "^10.0.6"
