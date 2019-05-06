@@ -4,12 +4,14 @@
       "name": "typescript-tslint-plugin"
     }],
     "strict": true,
+    "downlevelIteration": true,
+    "declaration": true,
     "target": "es5",
     "rootDirs": ["src", "cypress"],
     "outDir": "bin",
     "module": "commonjs",
     "skipLibCheck": true,
-    "types": ["node", "@slack/types", "@types/jest", "jest", "commander/typings", "cypress", "@types/dotenv"],
+    "types": ["node", "@slack/types", "@types/jest", "jest", "commander/typings", "cypress", "@types/dotenv", "@types/qs","winston"],
   },
   "files": [
     "src/slack/index.ts",
