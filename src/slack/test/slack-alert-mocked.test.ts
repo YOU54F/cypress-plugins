@@ -1,5 +1,5 @@
 import "jest";
-import * as SlackMock from "slack-mocker";
+import * as SlackMock from "../../slackMock/slacker";
 import * as slacker from "../slack-alert";
 
 const base = process.env.PWD || ".";
@@ -10,43 +10,25 @@ const videoDirectory: string = base + "/src/slack/test/videosDirPopulated";
 const screenshotDirectory: string =
   base + "/src/slack/test/screenshotDirPopulated";
 const logger: boolean = false;
-let mock: SlackMock.Instance;
+let mock: any;
 
 function setup() {
   beforeAll(async () => {
     jest.setTimeout(60000);
-    mock = await SlackMock({ disableRtm: true });
-    await mock.incomingWebhooks.reset();
+    mock = await SlackMock.incomingWebhooks;
   });
 
   beforeEach(async () => {
     jest.resetModules();
-    await mock.incomingWebhooks.reset();
-    expect(mock.incomingWebhooks.calls).toHaveLength(0);
+    // mock = await SlackMock({ disableRtm: true });
+    await mock.reset();
+    expect(mock.calls).toHaveLength(0);
   });
   afterEach(async () => {
-    await mock.incomingWebhooks.reset();
+    await mock.reset();
+    await mock.shutdown();
   });
 }
-
-describe("tester", () => {
-  setup();
-  it("can provide a simple report with an unknown vcsroot provider", async () => {
-    const _vcsRoot = "none";
-    await slacker.slackRunner(
-      ciProvider,
-      _vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      logger
-    );
-    const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
-    expect(body).not.toContain("commits");
-    expect(body).not.toContain("artefacts");
-  });
-});
 
 describe("tester", () => {
   setup();
@@ -165,11 +147,30 @@ describe("Slack Reporter throws error if we cant find the test report", () => {
   });
 });
 
+describe("tester", () => {
+  setup();
+  it("can provide a simple report with an unknown vcsroot provider", async () => {
+    const _vcsRoot = "none";
+    await slacker.slackRunner(
+      ciProvider,
+      _vcsRoot,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      logger
+    );
+    const body = await returnSlackWebhookCall();
+    const messageBuiltUrl = await messageBuildURL(body);
+    expect(body).not.toContain("commits");
+    expect(body).not.toContain("artefacts");
+  });
+});
+
 function returnSlackWebhookCall() {
   // This checks the slack mock call counter
-  expect(mock.incomingWebhooks.calls).toHaveLength(1);
+  expect(mock.calls).toHaveLength(1);
   // Load the response as json
-  const firstCall = mock.incomingWebhooks.calls[0];
+  const firstCall = mock.calls[0];
   // check our webhook url called in ENV var SLACK_WEBHOOK_URL
   expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
   const body = firstCall.params;
