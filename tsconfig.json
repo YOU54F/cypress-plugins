@@ -7,8 +7,8 @@
     ],
     "strict": true,
     "rootDirs": ["src", "cypress"],
-    "outDir": "bin",
-    "skipLibCheck": false,
+    "outDir": "./",
+    "skipLibCheck": true,
     "types": [
       "node",
       "@slack/types",
