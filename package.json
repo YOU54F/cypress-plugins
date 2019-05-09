@@ -69,7 +69,7 @@
     "mochawesome-report-generator": "3.1.5",
     "prettier": "1.17.0",
     "rimraf": "2.6.3",
-    "slack-mocker": "2.0.1",
+    "slack-mock-typed": "2.0.7",
     "ts-jest": "24.0.2",
     "ts-loader": "5.4.5",
     "ts-node": "8.1.0",

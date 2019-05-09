@@ -1,5 +1,5 @@
 import "jest";
-import * as SlackMock from "slack-mocker";
+import * as SlackMock from "slack-mock-typed";
 import * as slacker from "../slack-alert";
 
 const base = process.env.PWD || ".";
@@ -10,12 +10,12 @@ const videoDirectory: string = base + "/src/slack/test/videosDirPopulated";
 const screenshotDirectory: string =
   base + "/src/slack/test/screenshotDirPopulated";
 const logger: boolean = false;
-let mock: SlackMock.Instance;
+const mock: SlackMock.Instance = SlackMock.SlackMocker({ logLevel: "debug" });
 
 function setup() {
   beforeAll(async () => {
     jest.setTimeout(60000);
-    mock = await SlackMock({ disableRtm: true });
+    await mock.incomingWebhooks.start();
     await mock.incomingWebhooks.reset();
   });
 
@@ -173,8 +173,6 @@ function returnSlackWebhookCall() {
   // check our webhook url called in ENV var SLACK_WEBHOOK_URL
   expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
   const body = firstCall.params;
-  // tslint:disable-next-line: no-console
-  console.log(body);
   return body;
 }
 function messageBuildURL(body: string) {
@@ -183,8 +181,6 @@ function messageBuildURL(body: string) {
   // encode our json message request into a URL encoded string
   const encodedBody = encodeURIComponent(body);
   const mbTestUrl = `${mbTestUrlBase}${encodedBody}`;
-  // tslint:disable-next-line: no-console
-  console.log(mbTestUrl);
   return mbTestUrl;
 }
 
