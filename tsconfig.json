@@ -7,7 +7,7 @@
     ],
     "strict": true,
     "rootDirs": ["src", "cypress"],
-    "outDir": "./",
+    "outDir": "./bin",
     "skipLibCheck": true,
     "types": [
       "node",
