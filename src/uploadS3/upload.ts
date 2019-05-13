@@ -2,11 +2,13 @@ import * as AWS from "aws-sdk";
 import * as fs from "fs";
 import * as path from "path";
 import { logger } from "../logger";
+// tslint:disable-next-line: prefer-const
+let returnedS3Object: AWS.S3.ManagedUpload.SendData;
 
 const { BUCKET_NAME, AWS_ACCESS_ID, AWS_SECRET_KEY } = process.env;
 let reportPaths;
 let screenshotPaths;
-let videoPaths:any;
+let videoPaths: any;
 export async function uploadAll() {
   reportPaths = await uploadMochaAwesome();
   screenshotPaths = await uploadScreenshots();
@@ -35,7 +37,10 @@ export async function uploadToS3(
   const returnedData = await s3bucket
     .upload(params, (err, data) => {
       if (err) {
-        logger.error(`An error occurred during s3 upload:`,JSON.stringify(err));
+        logger.error(
+          `An error occurred during s3 upload:`,
+          JSON.stringify(err)
+        );
         return process.exit(1);
       } else {
         logger.info(`Successfully uploaded: ` + JSON.stringify(data));
@@ -83,6 +88,31 @@ export async function getFiles(
   }
 }
 
+// export async function uploadVideos() {
+//   const videosDir = await path.resolve(process.cwd(), "cypress", "videos");
+//   const videos = await getFiles(videosDir, ".mp4", []);
+//   logger.info(`Returned ${videos.length} files in ${videosDir}`);
+//   if (videos.length === 0) {
+//     logger.warn(`No videos files found, will not attempt s3 upload`);
+//     return { Location: "", ETag: "", Bucket: "", Key: "" };
+//   }
+//   let returnedS3Object: AWS.S3.ManagedUpload.SendData;
+//   videos.forEach( videoObject => {
+//     fs.readFile(videoObject.path,  async (err, data) => {
+//       if (err) {
+//         throw err;
+//       }
+//       returnedS3Object =  await uploadToS3(
+//         data,
+//         videoObject.name,
+//         videoObject.type
+//       );
+//       logger.info("returnedData1:-", await returnedS3Object);
+//       return await returnedS3Object;
+//     });
+//   });
+// }
+
 export async function uploadVideos() {
   const videosDir = await path.resolve(process.cwd(), "cypress", "videos");
   const videos = await getFiles(videosDir, ".mp4", []);
@@ -91,25 +121,22 @@ export async function uploadVideos() {
     logger.warn(`No videos files found, will not attempt s3 upload`);
     return { Location: "", ETag: "", Bucket: "", Key: "" };
   }
-  let returnedS3Object: AWS.S3.ManagedUpload.SendData;
-  videos.forEach( videoObject => {
-    
-    fs.readFile(videoObject.path,  async (err, data) => {
+  const s3videos = await processUploads(videos);
+  return s3videos;
+}
+
+async function processUploads(file: FoundFile[]) {
+  let s3uploadedData: AWS.S3.ManagedUpload.SendData;
+  return await file.forEach(async fileObject => {
+    return await fs.readFile(fileObject.path, async (err, data) => {
       if (err) {
         throw err;
       }
-      returnedS3Object =  await uploadToS3(
-        data,
-        videoObject.name,
-        videoObject.type
-      );
-      logger.info("returnedData1:-", await returnedS3Object);
-      return  await returnedS3Object;
+      s3uploadedData = await uploadToS3(data, fileObject.name, fileObject.type);
+      logger.info(`Uploaded file:-`, s3uploadedData);
+      return s3uploadedData;
     });
-    logger.info("returnedData2:-", returnedS3Object);
-    return returnedS3Object;
   });
-
 }
 
 export async function uploadScreenshots() {

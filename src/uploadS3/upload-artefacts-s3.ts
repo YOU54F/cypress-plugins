@@ -11,10 +11,9 @@ const s3uploader = upload;
 // s3uploader.uploadVideos();
 // logger.info(`Finishing up the s3 uploader`);
 
-
 logger.info(`Starting up the s3 uploader`);
 logger.info(`Starting to upload all the things`);
 let result;
-s3uploader.uploadVideos();
+result = s3uploader.uploadVideos();
 
-logger.info(`Finishing up the s3 uploader`,result);
+logger.info(`Finishing up the s3 uploader`, result);

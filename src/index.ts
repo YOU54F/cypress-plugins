@@ -85,5 +85,3 @@ slacker.slackRunner(
   screenshotDirectory,
   verbose
 );
-
-
