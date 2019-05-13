@@ -56,6 +56,7 @@ program
     "cypress/videos"
   )
   .option("--verbose", "show log output")
+  .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
 const ciProvider: string = program.ciProvider;
@@ -84,3 +85,5 @@ slacker.slackRunner(
   screenshotDirectory,
   verbose
 );
+
+

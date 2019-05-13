@@ -55,6 +55,7 @@
     "@types/node": "10.14.4",
     "@types/qs": "6.5.3",
     "aws-sdk": "^2.452.0",
+    "aws-sdk-mock": "^4.4.0",
     "cypress": "3.2.0",
     "cypress-cucumber-preprocessor": "1.11.0",
     "cypress-testing-library": "3.0.1",
