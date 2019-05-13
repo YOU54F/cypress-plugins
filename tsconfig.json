@@ -17,10 +17,8 @@
       "@types/jest",
       "jest",
       "commander/typings",
-      "cypress",
       "@types/dotenv",
       "slack-mock-typed",
-      "aws-sdk-mock"
-    ]
+      "aws-sdk-mock"]
   }
 }
