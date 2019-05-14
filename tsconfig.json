@@ -6,7 +6,7 @@
       }
     ],
     "strict": true,
-    "rootDirs": ["src", "cypress"],
+    "rootDirs": ["src"],
     "outDir": "./bin",
     "target": "es5",
     "skipLibCheck": true,
