@@ -21,4 +21,15 @@
       "slack-mock-typed",
       "aws-sdk-mock"]
   }
+  ,
+  "exclude": [
+    "./node_modules/cypress/types",
+    "./node_modules/cypress-testing-library/typings",
+    "./untyped.d.ts"
+  ]
+  ,
+  "include": [
+    "./src",
+  ]
+,
 }
