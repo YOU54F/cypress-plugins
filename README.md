@@ -195,3 +195,4 @@ If you wish to use another CI provider, you can pass any name other than `circle
   - [ ] add usage instructions to readme
   - [ ] test example
   - [ ] compile
+- [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)

@@ -88,6 +88,8 @@ jobs:
           command: yarn run cli
       - store_artifacts:
           path: src/slack/test
+      - store_artifacts:
+          path: cypress/reports/mocha
 
 workflows:
   build-test:

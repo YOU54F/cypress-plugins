@@ -9,7 +9,7 @@ const { merge } = require("mochawesome-merge");
 // tslint:disable: no-var-requires
 
 CypressNpmApi.run({
-  spec: "./cypress/integration/examples/pageObjects/login/*.ts",
+  spec: "./cypress/integration/examples/**",
   reporter: "mocha-multi-reporters",
   reporterOptions: {
     reporterEnabled: "mocha-junit-reporter, mochawesome",
