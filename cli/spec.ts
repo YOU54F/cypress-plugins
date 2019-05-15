@@ -9,7 +9,6 @@ const { merge } = require("mochawesome-merge");
 // tslint:disable: no-var-requires
 
 CypressNpmApi.run({
-  spec: "./cypress/integration/examples/**",
   reporter: "mocha-multi-reporters",
   reporterOptions: {
     reporterEnabled: "mocha-junit-reporter, mochawesome",
@@ -30,8 +29,7 @@ CypressNpmApi.run({
     const generatedReport =  await Promise.resolve(generateReport({
       reportDir: "cypress/reports/mocha",
       inline: true,
-      timeStamp: 'Date',
-      saveJson: true
+      saveJson: true,
     }))
     logger.info("Merged report available here:-",generatedReport);
     return generatedReport
