@@ -62,7 +62,7 @@
     "jest": "24.8.0",
     "jest-junit": "6.4.0",
     "jest-stare": "1.13.2",
-    "lint-staged": "8.1.6",
+    "lint-staged": "8.1.7",
     "mocha": "5.2.0",
     "mocha-junit-reporter": "1.22.0",
     "mocha-multi-reporters": "1.1.7",
