@@ -72,14 +72,17 @@ Set the following environment variables in your localhost or CI configuration.
 
     $ npx cypress-slack-reporter --help
 
-      Usage: index.js [options]
+      Usage: index.ts [options]
+
       Options:
         -v, --version            output the version number
-        --vcs-provider [type]    VCS Provider [github|bitbucket] (default: "github")
+        --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
         --ci-provider [type]     CI Provider [circleci|none] (default: "circleci")
-        --report-dir [type]      mochawesome html test report directory, relative to your package.json (default: "./mochareports")
-        --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "./cypress/screenshots")
-        --videos-dir [type]      cypress video directory, relative to your package.json (default: "./cypress/videos")
+        --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
+        --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
+        --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
+        --verbose                show log output
+        --s3                     upload artefacts to s3
         -h, --help               output usage information
 
 ## Pre-Requisites
@@ -174,6 +177,21 @@ If you wish to use another CI provider, you can pass any name other than `circle
 
 ## TODO
 
-- provide user ability to provide own CI artefact paths
-- typescript s3 uploader scripts and add to CLI
-- retrieve s3 links for test report/artefacts and inject into the slack report
+- [ ] provide user ability to provide own CI artefact paths
+- [ ] typescript s3 uploader scripts and add to CLI
+  - [X] tsified
+  - [X] able to run in isolation
+  - [X] mock aws-sdk s3 upload function
+  - [X] tests
+  - [X] retrieve s3 links for test report/artefacts and inject into the slack report
+  - [X] uploading artefacts to s3
+  - [ ] add to CLI
+  - [ ] programatically run
+  - [ ] Add into main slack-reporter script
+  - [ ] provide CLI options to provide paths/credentials
+- [ ] Programatically run
+  - [X] provide ability to be programatically run via a script
+  - [X] provide example
+  - [ ] add usage instructions to readme
+  - [ ] test example
+  - [ ] compile
