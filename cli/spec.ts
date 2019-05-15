@@ -33,11 +33,10 @@ CypressNpmApi.run({
       timeStamp: 'Date',
       saveJson: true
     }))
-    logger.info("generatedReport",generatedReport);
+    logger.info("Merged report available here:-",generatedReport);
     return generatedReport
   })
   .then(generatedReport => {
-    logger.info("i shouldn't return first");
     const base = process.env.PWD || ".";
     const program: any = {
       ciProvider: "circleci",
@@ -53,7 +52,7 @@ CypressNpmApi.run({
     const videoDirectory: string = program.videoDir;
     const screenshotDirectory: string = program.screenshotDir;
     const verbose: boolean = program.verbose;
-    logger.info("starting slack upload", {
+    logger.info("Constructing Slack message with the following options", {
       ciProvider,
       vcsProvider,
       reportDirectory,
@@ -61,15 +60,15 @@ CypressNpmApi.run({
       screenshotDirectory,
       verbose
     });
-    const slack = Promise.resolve(slackRunner(
+    const slack = slackRunner(
       ciProvider,
       vcsProvider,
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
       verbose
-    ));
-    logger.info("finished slack upload", slack)
+    );
+    logger.info("Finished slack upload")
 
   })
   .catch((err: any) => {

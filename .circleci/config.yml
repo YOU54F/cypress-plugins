@@ -82,6 +82,10 @@ jobs:
           when: always
           name: Generate Build Failure Slack Alert
           command: yarn run slack-js-opts-build-failed
+      - run:
+          when: always
+          name: Run the CLI Cypress Runner
+          command: yarn run cli
       - store_artifacts:
           path: src/slack/test
 
