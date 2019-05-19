@@ -51,7 +51,7 @@
     "@cypress/webpack-preprocessor": "4.0.3",
     "@types/dotenv": "6.1.1",
     "@types/jest": "24.0.13",
-    "@types/nock": "10.0.2",
+    "@types/nock": "10.0.3",
     "@types/node": "10.14.7",
     "@types/qs": "6.5.3",
     "cypress": "3.2.0",
