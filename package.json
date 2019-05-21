@@ -54,7 +54,7 @@
     "@types/nock": "10.0.2",
     "@types/node": "10.14.7",
     "@types/qs": "6.5.3",
-    "cypress": "3.2.0",
+    "cypress": "3.3.0",
     "cypress-cucumber-preprocessor": "1.11.2",
     "cypress-testing-library": "3.0.1",
     "dotenv": "8.0.0",
