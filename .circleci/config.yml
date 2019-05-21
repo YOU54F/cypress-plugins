@@ -41,7 +41,7 @@ jobs:
       - run:
           when: always
           name: Running cypress tests
-          command: make test
+          command: make test-record
       - run:
           when: always
           name: Generate MochaAwesome Reports

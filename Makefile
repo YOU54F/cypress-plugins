@@ -3,6 +3,9 @@ CYPRESSGUICMD=npx cypress open
 
 test:
 	$(CYPRESSRUNCMD)
+
+test-record:
+	$(CYPRESSRUNCMD) --record
 	
 test-gui:
 	$(CYPRESSGUICMD)
