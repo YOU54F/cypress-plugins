@@ -13,9 +13,6 @@ export async function uploadAll() {
   reportPaths = await uploadMochaAwesome();
   screenshotPaths = await uploadScreenshots();
   videoPaths = await uploadVideos();
-  // logger.warn(reportPaths)
-  // logger.warn(screenshotPaths)
-  logger.warn("videopaths" + JSON.stringify(videoPaths));
 }
 
 export async function uploadToS3(
@@ -23,31 +20,41 @@ export async function uploadToS3(
   name: string,
   type: string
 ): Promise<AWS.S3.ManagedUpload.SendData> {
-  const s3bucket: AWS.S3 = await new AWS.S3({
-    accessKeyId: AWS_ACCESS_ID,
-    secretAccessKey: AWS_SECRET_KEY
-  });
-  const params: AWS.S3.PutObjectRequest = await {
-    Bucket: BUCKET_NAME || "",
-    Key: name,
-    Body: file,
-    ACL: "public-read",
-    ContentType: `image/${type}`
-  };
-  const returnedData = await s3bucket
-    .upload(params, (err, data) => {
-      if (err) {
-        logger.error(
-          `An error occurred during s3 upload:`,
-          JSON.stringify(err)
-        );
-        return process.exit(1);
-      } else {
-        logger.info(`Successfully uploaded: ` + JSON.stringify(data));
-      }
-    })
-    .promise();
-  return await returnedData;
+  try {
+    const s3bucket: AWS.S3 = await new AWS.S3({
+      accessKeyId: AWS_ACCESS_ID,
+      secretAccessKey: AWS_SECRET_KEY
+    });
+    const params: AWS.S3.PutObjectRequest = await {
+      Bucket: BUCKET_NAME || "",
+      Key: name,
+      Body: file,
+      ACL: "public-read",
+      ContentType: `image/${type}`
+    };
+    try {
+      return await s3bucket
+        .upload(params, (err, data) => {
+          if (err) {
+            logger.error(
+              `An error occurred during s3 upload:`,
+              JSON.stringify(err)
+            );
+            return process.exit(1);
+          } else {
+            return logger.info(
+              `Successfully uploaded: ` + JSON.stringify(data)
+            );
+          }
+        })
+        .promise()
+        .catch();
+    } catch (error) {
+      throw Error(`s3 upload err,${error}`);
+    }
+  } catch (err) {
+    throw Error(`whoops,${err}`);
+  }
 }
 
 export interface FoundFile {
@@ -88,31 +95,6 @@ export async function getFiles(
   }
 }
 
-// export async function uploadVideos() {
-//   const videosDir = await path.resolve(process.cwd(), "cypress", "videos");
-//   const videos = await getFiles(videosDir, ".mp4", []);
-//   logger.info(`Returned ${videos.length} files in ${videosDir}`);
-//   if (videos.length === 0) {
-//     logger.warn(`No videos files found, will not attempt s3 upload`);
-//     return { Location: "", ETag: "", Bucket: "", Key: "" };
-//   }
-//   let returnedS3Object: AWS.S3.ManagedUpload.SendData;
-//   videos.forEach( videoObject => {
-//     fs.readFile(videoObject.path,  async (err, data) => {
-//       if (err) {
-//         throw err;
-//       }
-//       returnedS3Object =  await uploadToS3(
-//         data,
-//         videoObject.name,
-//         videoObject.type
-//       );
-//       logger.info("returnedData1:-", await returnedS3Object);
-//       return await returnedS3Object;
-//     });
-//   });
-// }
-
 export async function uploadVideos() {
   const videosDir = await path.resolve(process.cwd(), "cypress", "videos");
   const videos = await getFiles(videosDir, ".mp4", []);
@@ -132,9 +114,17 @@ async function processUploads(file: FoundFile[]) {
       if (err) {
         throw err;
       }
-      s3uploadedData = await uploadToS3(data, fileObject.name, fileObject.type);
-      logger.info(`Uploaded file:-`, s3uploadedData);
-      return s3uploadedData;
+      try {
+        s3uploadedData = await uploadToS3(
+          data,
+          fileObject.name,
+          fileObject.type
+        );
+        logger.info(`Uploaded file:-`, s3uploadedData);
+        return s3uploadedData;
+      } catch (error) {
+        logger.warn("error occurred during upload", err);
+      }
     });
   });
 }
@@ -151,14 +141,8 @@ export async function uploadScreenshots() {
     logger.warn(`No screenshots files found, will not attempt s3 upload`);
     return;
   }
-  screenshots.forEach(screenshotObject => {
-    fs.readFile(screenshotObject.path, async (err, data) => {
-      if (err) {
-        throw err;
-      }
-      await uploadToS3(data, screenshotObject.name, screenshotObject.type);
-    });
-  });
+  const s3screenshots = await processUploads(screenshots);
+  return s3screenshots;
 }
 
 export async function uploadMochaAwesome() {
@@ -169,12 +153,8 @@ export async function uploadMochaAwesome() {
     logger.warn(`No report files found, will not attempt s3 upload`);
     return;
   }
-  await fs.readFile(report[0].path, async (err, data) => {
-    if (err) {
-      throw err;
-    }
-    await uploadToS3(data, report[0].name, report[0].type);
-  });
+  const s3report = await processUploads(report);
+  return s3report;
 }
 
 // export function upload(): Instance {
