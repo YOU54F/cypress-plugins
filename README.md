@@ -1,6 +1,7 @@
 # cypress-slack-reporter
 
 [![npm version](https://badge.fury.io/js/cypress-slack-reporter.svg)](https://badge.fury.io/js/cypress-slack-reporter)
+![npm](https://img.shields.io/npm/dm/cypress-slack-reporter.svg)
 [![CircleCI](https://circleci.com/gh/YOU54F/cypress-slack-reporter.svg?style=svg)](https://circleci.com/gh/YOU54F/cypress-slack-reporter)
 
 A Slack Reporting tool built for Cypress but _should_ work with any mocha based framework that is using [mochawesome](https://github.com/adamgruber/mochawesome/)
