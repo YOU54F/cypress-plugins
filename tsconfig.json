@@ -19,7 +19,8 @@
       "commander/typings",
       "@types/dotenv",
       "slack-mock-typed",
-      "aws-sdk-mock"]
+      "aws-sdk-mock",
+    "bluebird"]
   }
   ,
   "exclude": [

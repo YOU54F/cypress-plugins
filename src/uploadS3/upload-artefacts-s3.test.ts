@@ -23,16 +23,43 @@ describe("S3 Uploads", () => {
   });
 
   describe("upload Checker", () => {
+    test.only("all the things", async () => {
+      const uploadToS3 = jest.spyOn(uploader, "uploadToS3");
+      const spyLogger = jest.spyOn(logger, "log");
+      const uploadAll = jest.spyOn(upload, "uploadAll");
+      const spyUploadVideos = jest.spyOn(upload, "uploadVideos");
+      const spyUploadMochaAwesome = jest.spyOn(upload, "uploadMochaAwesome");
+      const spyUploadScreenshots = jest.spyOn(upload, "uploadScreenshots");
+      const base = process.env.PWD || ".";
+      const videoDir = `${base}/cypress/videos`;
+      const screenshotDir = `${base}/cypress/screenshots`;
+      const reportDir = `${base}/cypress/reports/mocha`;
+
+      await uploader.uploadMochaAwesome(reportDir);
+      expect(spyLogger.mock.calls).toHaveLength(2);
+      expect(spyUploadMochaAwesome).toHaveBeenCalledWith(reportDir);
+      expect(spyUploadMochaAwesome).toHaveBeenCalled();
+      expect(spyUploadMochaAwesome).toHaveReturnedWith(reportDir);
+      // expect(uploadVideos).toHaveBeenCalled();
+      // expect(uploadMochaAwesome).toHaveBeenCalled();
+      // expect(uploadScreenshots).toHaveBeenCalled();
+      // expect(uploadToS3).toHaveBeenCalled();
+    });
     test("all the things", async () => {
       const uploadToS3 = jest.spyOn(uploader, "uploadToS3");
       const spyLogger = jest.spyOn(logger, "log");
       const uploadAll = jest.spyOn(upload, "uploadAll");
-      const uploadVideos = jest.spyOn(upload, "uploadVideos");
-      const uploadMochaAwesome = jest.spyOn(upload, "uploadMochaAwesome");
-      const uploadScreenshots = jest.spyOn(upload, "uploadScreenshots");
+      const spyUploadVideos = jest.spyOn(upload, "uploadVideos");
+      const spyUploadMochaAwesome = jest.spyOn(upload, "uploadMochaAwesome");
+      const spyUploadScreenshots = jest.spyOn(upload, "uploadScreenshots");
+      const base = process.env.PWD || ".";
+      const videoDir = `${base}/cypress/videos`;
+      const screenshotDir = `${base}/cypress/screenshots`;
+      const reportDir = `${base}/cypress/reports/mocha`;
 
-      await uploader.uploadAll();
-      expect(spyLogger.mock.calls).toHaveLength(11);
+      await uploader.uploadAll(videoDir,reportDir,screenshotDir);
+      expect(spyLogger.mock.calls).toHaveLength(10);
+      expect(uploadAll).toHaveBeenCalledWith(videoDir,reportDir,screenshotDir);
       expect(uploadAll).toHaveBeenCalled();
       // expect(uploadVideos).toHaveBeenCalled();
       // expect(uploadMochaAwesome).toHaveBeenCalled();
