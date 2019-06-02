@@ -3,6 +3,9 @@
 [![npm version](https://badge.fury.io/js/cypress-slack-reporter.svg)](https://badge.fury.io/js/cypress-slack-reporter)
 ![npm](https://img.shields.io/npm/dm/cypress-slack-reporter.svg)
 [![CircleCI](https://circleci.com/gh/YOU54F/cypress-slack-reporter.svg?style=svg)](https://circleci.com/gh/YOU54F/cypress-slack-reporter)
+[![TravisCI](https://travis-ci.org/YOU54F/cypress-slack-reporter.svg?branch=master)](https://travis-ci.org/YOU54F/cypress-slack-reporter)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4ad6c94892c6704253ca/maintainability)](https://codeclimate.com/github/YOU54F/cypress-slack-reporter/maintainability)
+[![Coverage Status](https://coveralls.io/repos/github/YOU54F/cypress-slack-reporter/badge.svg)](https://coveralls.io/github/YOU54F/cypress-slack-reporter)
 
 A Slack Reporting tool built for Cypress but _should_ work with any mocha based framework that is using [mochawesome](https://github.com/adamgruber/mochawesome/)
 
