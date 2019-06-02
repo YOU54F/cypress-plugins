@@ -57,9 +57,13 @@ describe("S3 Uploads", () => {
       const screenshotDir = `${base}/cypress/screenshots`;
       const reportDir = `${base}/cypress/reports/mocha`;
 
-      await uploader.uploadAll(videoDir,reportDir,screenshotDir);
+      await uploader.uploadAll(videoDir, reportDir, screenshotDir);
       expect(spyLogger.mock.calls).toHaveLength(10);
-      expect(uploadAll).toHaveBeenCalledWith(videoDir,reportDir,screenshotDir);
+      expect(uploadAll).toHaveBeenCalledWith(
+        videoDir,
+        reportDir,
+        screenshotDir
+      );
       expect(uploadAll).toHaveBeenCalled();
       // expect(uploadVideos).toHaveBeenCalled();
       // expect(uploadMochaAwesome).toHaveBeenCalled();

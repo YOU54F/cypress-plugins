@@ -131,7 +131,9 @@ let s3uploadedLocation: any;
 let s3uploadedData: AWS.S3.ManagedUpload.SendData;
 // let thes3ting: any;
 function processUploads(file: FoundFile[]) {
-  let s3uploadedDatar = () => (_result:Promise<AWS.S3.ManagedUpload.SendData>) =>  {
+  let s3uploadedDatar = () => (
+    _result: Promise<AWS.S3.ManagedUpload.SendData>
+  ) => {
     file.forEach(fileObject => {
       {
         readFileAsync(
@@ -155,7 +157,7 @@ function processUploads(file: FoundFile[]) {
                   console.log("result", result); // "Some User token"
                   return result;
                 });
-                return s3DataResolved
+                return s3DataResolved;
               } catch (error) {
                 logger.warn("error occurred during upload", { error: error });
                 return error;
@@ -167,11 +169,11 @@ function processUploads(file: FoundFile[]) {
             }));
           }
         );
-        return s3DataResolved
+        return s3DataResolved;
       }
     });
   };
-let result:any
+  let result: any;
   let summat = s3uploadedDatar();
   console.log("summat", summat); // Promise { <pending> }
 
