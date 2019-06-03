@@ -1,3 +1,5 @@
+// tslint:disable-next-line: no-reference
+/// <reference path='../../../node_modules/@jest/types/build/index.d.ts'/>
 import "jest";
 import * as SlackMock from "slack-mock-typed";
 import * as slacker from "../slack-alert";

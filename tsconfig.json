@@ -9,7 +9,7 @@
     "downlevelIteration": true,
     "declaration": true,
     "target": "es5",
-    "rootDirs": ["src", "cypress"],
+    "rootDirs": ["src","cypress","cli"],
     "outDir": "./bin",
     "skipLibCheck": true,
     "types": [

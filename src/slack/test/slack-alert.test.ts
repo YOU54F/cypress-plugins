@@ -1,3 +1,5 @@
+// tslint:disable-next-line: no-reference
+/// <reference path='../../../node_modules/@jest/types/build/index.d.ts'/>
 import { MessageAttachment } from "@slack/types";
 import { IncomingWebhookDefaultArguments } from "@slack/webhook";
 import "jest";
