@@ -21,32 +21,13 @@ function setup() {
 
   beforeEach(async () => {
     jest.resetModules();
-    await mock.incomingWebhooks.reset();
+    await mock.reset();
     expect(mock.incomingWebhooks.calls).toHaveLength(0);
   });
   afterEach(async () => {
     await mock.incomingWebhooks.reset();
   });
 }
-
-describe("tester", () => {
-  setup();
-  it("can provide a simple report with an unknown vcsroot provider", async () => {
-    const _vcsRoot = "none";
-    await slacker.slackRunner(
-      ciProvider,
-      _vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      logger
-    );
-    const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
-    expect(body).not.toContain("commits");
-    expect(body).not.toContain("artefacts");
-  });
-});
 
 describe("tester", () => {
   setup();
@@ -63,7 +44,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     expect(body).toContain("bitbucket");
     expect(body).not.toContain("undefined");
   });
@@ -82,7 +63,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     const buildNum = process.env.CIRCLE_BUILD_NUM;
     expect(body).toContain(
       `"text":"CircleCI Logs","url":"https://circleci.com/gh/YOU54F/cypress-slack-reporter/${buildNum}"`
@@ -102,7 +83,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     checkStatus(body, "passed");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
@@ -122,7 +103,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     checkStatus(body, "failed");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
@@ -141,7 +122,7 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-    const messageBuiltUrl = await messageBuildURL(body);
+
     checkStatus(body, "build");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
@@ -162,6 +143,25 @@ describe("Slack Reporter throws error if we cant find the test report", () => {
       );
     }
     expect(mockRunner).toThrowError("Error: Cannot find test report @ ");
+  });
+});
+
+describe("tester", () => {
+  setup();
+  it("can provide a simple report with an unknown vcsroot provider", async () => {
+    const _vcsRoot = "none";
+    await slacker.slackRunner(
+      ciProvider,
+      _vcsRoot,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      logger
+    );
+    const body = await returnSlackWebhookCall();
+
+    expect(body).not.toContain("commits");
+    expect(body).not.toContain("artefacts");
   });
 });
 

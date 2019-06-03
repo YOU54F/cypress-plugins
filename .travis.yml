@@ -1,0 +1,41 @@
+language: node_js
+node_js:
+
+  - "7"
+  - "8"
+  - "9"
+  - "10"
+os:
+  - linux
+matrix:
+  fast_finish: true
+cache: yarn
+env:
+  global:
+    #Coveralls
+    - secure: q18jQ57aIcHrY17uCYptShpEP0tnipb3lbqFEt/wjvvTT127aNAvWmGLOgHgzkzaVBAK4kVXFkEiFsASwCtQLIJMu3vV5bY7tWZ1h72BohFi6rE5V9lhuZxEY5iYlhPWu/25NTnXnf6eeLSv1UZFzbPhY6mFXS+DrfUJpRYuNg47LEB1hA/lhSZ0Fqu2kQ4/QjnR+98P56MIivbTp+k+LjOdW2rYbt9rYC9v4yIW5FgHAFs0hsMSv5tMXDZ2imAZkJYpE1qZ2ojuRd7z/S44Qbi1pXjzfSemoETiTN/p2Qj07sCZ246LEMeDpfuQjFM3u88tlvp1tacfRXGGad5E6dk1WLqQXh5yvRj9ce9yYiX5oqMLoXQC8acbwxyd6rTuU3AwtIzmkRCMCaJp4vkM61I/Rm/cG0RpIujUKRrOcI2fhKqTCL2oSyE6HT9gWGI0hmg9Gee88CaKQMf9zekaErD68aDJpj8fFdLLkWLCloFhCk2hPkqz5e4p98qITEvfMAoIadLrdSETAmrxHd1cNRqC2OWkGIPv0d2/p8nVrROXulSJ/uKHm5lznN5HNhB3yHyOvM/ZNBA3sat33uWjHaVv/pAQWyBy9jXdn7vcn0mirdVLEfvXaHlAdVKZmXQqa6zOF/VWmMDDRm8ImpaVHI2E6N40lvbWlVjZ2larw7k=
+    # npmrc
+    - secure: Dirwkc+Ii0gGqduczSRyLqsY4lm/nqx+2vZ1p/uNv9ISXdogckf1/qACx4/Jb5VB5iCI//LJj7c3HK0dERrqZSaTUZCLbINXBe5T6GEmOVdQc8Duy0hT1WR4BxJITiO5EBUAq63U41rAtauyEcw5gFlknGlUtAhiXaQzPqh9Ok6+ituBwlkeuxQgwXSoQ02+u+NGnAsRWC+1yJZvWyi3o6+NmHcUUoltI0ybEr98XYCfkJiECe+n3kx65etHqv3KiY8O3HLQDnTS56vZUpox1wOdDkkJX3+8eSosdlNLXolL2jijJQfi6G2YlrqRMMuemap/7Q8M0U3AlJX4rbfZ3wUk97DLGMvGJtvT8ut+nszE7PnEmFAoYCkXakyCIOCaKK5il/SuJ+xYXfSoFXUqR8wVvM9pVfRg+myWeEAaz2xOsCSuHQ7EOdFmV6vEQ8C6zGEUCr+rP9p3XWEZlsv0afNMZUsOxV5LE9+zgQObFZlmVe1ZRdMJwpqlXqnAc6vjwMP9XS21mic4CcxmfRJD8g5+6HtqKL1pnWCTWw+GHsr5YQPSRb7Nul6iWdD9DD+nDGwL+ZnMvZJ/Urr/ncVdGnimI9q6zlb4vzi+FJimkK4KqMVNL1fLqB5Rq69aqUmy6Zmsvyz2nNSeHQOae2Tjf/ONDSIyiOyL4uYCSwQjeVs=
+install: yarn install --ignore-engines 
+script: ./scripts/build.sh
+before_deploy:
+  - npm prune --production
+  - tar -czvf cypress-slack-reporter.tar.gz package.json bin/* LICENSE README.md CHANGELOG.md
+  - npm run deploy:prepare
+deploy:
+  - provider: releases
+    api_key:
+      secure: gaPLY7BxQp2J74fAEAil/6zbBMC5kOQ9ac9H2fm7e7dx5zta/81/4xec42z2SsvIQV7Wdeg9ImrroBijCJyQK8lRELgXaRddXuH0b80cPR3dVDUE3BLlcyme5b/KaJq+ar9beL3Y4BuyvCtgenW4ZqYEs5dwcJrvrzhnuENqdILSvm67Y21JTCWX7KQZECb7rHQsCI5mHfYBC1PzIKcNwXQ6TwnHg0GY/hPIJNYUFq5u+Xi1NUys8dmDfiMqTmRzZGGPXzN++XPlNUAq37+9l9ZqgNcz2NdLgxE5G4ix7XIfuUoRgMheI8JnzLitcBcHJPJVk6Mhz0UJtb7vz0yDVvBeofmS9547TellDqSgC3IVEfPibAQsAAFMI9oPr+Ed1B6+HAKKnShEiQiHIPqa7Uvwb5AvaUyBMWeBD7hxO7/PWKW6D4PlvcjAcR3mT0V4d4bAvDHR/8+d3s7oR/+rIga2XlydlHQfoXoYWbQxF79dTekWnMMHits55chj1pJUF7xAeuDcCGmpum8NpJK+XnNyuxepQEz+jaiZsVzOvXNJy/XJt6rzZjZDhgrSibe1l0if1CY3B8tPZXMFbDDtsPylXjkHMuy42ERhvrC0G/Ni+fKTCqfU5EISTk4GbanfoY/zt90KXZuSKRg1DiAPiPFxNwA2XxehPeL6KJPIi5o=
+    file: cypress-slack-reporter.tar.gz
+    skip_cleanup: true
+    on:
+      tags: true
+      branch: master
+      node: "8"
+  - provider: script
+    skip_cleanup: true
+    script: ./scripts/publish.sh
+    on:
+      tags: true
+      branch: master
+      node: "8"

@@ -6,6 +6,9 @@
       }
     ],
     "strict": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "target": "es5",
     "rootDirs": ["src", "cypress"],
     "outDir": "./bin",
     "skipLibCheck": true,
