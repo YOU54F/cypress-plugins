@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-
   - "7"
   - "8"
   - "9"
@@ -17,7 +16,7 @@ env:
     # npmrc
     - secure: Dirwkc+Ii0gGqduczSRyLqsY4lm/nqx+2vZ1p/uNv9ISXdogckf1/qACx4/Jb5VB5iCI//LJj7c3HK0dERrqZSaTUZCLbINXBe5T6GEmOVdQc8Duy0hT1WR4BxJITiO5EBUAq63U41rAtauyEcw5gFlknGlUtAhiXaQzPqh9Ok6+ituBwlkeuxQgwXSoQ02+u+NGnAsRWC+1yJZvWyi3o6+NmHcUUoltI0ybEr98XYCfkJiECe+n3kx65etHqv3KiY8O3HLQDnTS56vZUpox1wOdDkkJX3+8eSosdlNLXolL2jijJQfi6G2YlrqRMMuemap/7Q8M0U3AlJX4rbfZ3wUk97DLGMvGJtvT8ut+nszE7PnEmFAoYCkXakyCIOCaKK5il/SuJ+xYXfSoFXUqR8wVvM9pVfRg+myWeEAaz2xOsCSuHQ7EOdFmV6vEQ8C6zGEUCr+rP9p3XWEZlsv0afNMZUsOxV5LE9+zgQObFZlmVe1ZRdMJwpqlXqnAc6vjwMP9XS21mic4CcxmfRJD8g5+6HtqKL1pnWCTWw+GHsr5YQPSRb7Nul6iWdD9DD+nDGwL+ZnMvZJ/Urr/ncVdGnimI9q6zlb4vzi+FJimkK4KqMVNL1fLqB5Rq69aqUmy6Zmsvyz2nNSeHQOae2Tjf/ONDSIyiOyL4uYCSwQjeVs=
 install: yarn install --ignore-engines 
-script: ./scripts/build.sh
+script: npm run ci
 before_deploy:
   - npm prune --production
   - tar -czvf cypress-slack-reporter.tar.gz package.json bin/* LICENSE README.md CHANGELOG.md
