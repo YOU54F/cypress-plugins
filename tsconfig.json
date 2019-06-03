@@ -31,6 +31,5 @@
     "./node_modules/cypress/types",
     "./untyped.d.ts"
   ],
-  "include": ["./src"],
   "files": ["src/index.ts", "src/slack/slack-alert.ts"]
 }
