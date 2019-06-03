@@ -18,6 +18,8 @@ config.env.test
 .codeclimate.yml
 commitlint.config.js
 cypress-slack-reporter.tar.gz
+config.env.test
+yarn-error.log
 
 #Folders
 .circleci
@@ -29,5 +31,4 @@ scripts
 .scannerwork
 src
 samples
-config.env.test
-yarn-error.log
+cli/spec.ts
