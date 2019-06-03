@@ -28,10 +28,6 @@ testReports
 scripts
 .scannerwork
 src
-<<<<<<< HEAD
 samples
 config.env.test
 yarn-error.log
-=======
-samples
->>>>>>> origin/master
