@@ -1,5 +1,5 @@
-// import "jest";
-import * as SlackMock from "../../slackMock/slacker";
+import "jest";
+import * as SlackMock from "slack-mock-typed";
 import * as slacker from "../slack-alert";
 
 const base = process.env.PWD || ".";
@@ -10,21 +10,22 @@ const videoDirectory: string = base + "/src/slack/test/videosDirPopulated";
 const screenshotDirectory: string =
   base + "/src/slack/test/screenshotDirPopulated";
 const logger: boolean = false;
-let mock: any;
+const mock: SlackMock.Instance = SlackMock.SlackMocker({ logLevel: "debug" });
 
 function setup() {
   beforeAll(async () => {
     jest.setTimeout(60000);
-    mock = await SlackMock.incomingWebhooks;
+    await mock.incomingWebhooks.start();
+    await mock.incomingWebhooks.reset();
   });
 
   beforeEach(async () => {
     jest.resetModules();
     await mock.reset();
-    expect(mock.calls).toHaveLength(0);
+    expect(mock.incomingWebhooks.calls).toHaveLength(0);
   });
   afterEach(async () => {
-    await mock.shutdown();
+    await mock.incomingWebhooks.reset();
   });
 }
 
@@ -166,13 +167,21 @@ describe("tester", () => {
 
 function returnSlackWebhookCall() {
   // This checks the slack mock call counter
-  expect(mock.calls).toHaveLength(1);
+  expect(mock.incomingWebhooks.calls).toHaveLength(1);
   // Load the response as json
-  const firstCall = mock.calls[0];
+  const firstCall = mock.incomingWebhooks.calls[0];
   // check our webhook url called in ENV var SLACK_WEBHOOK_URL
   expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
   const body = firstCall.params;
   return body;
+}
+function messageBuildURL(body: string) {
+  // build a URL to check the message renders
+  const mbTestUrlBase = "https://api.slack.com/docs/messages/builder?msg=";
+  // encode our json message request into a URL encoded string
+  const encodedBody = encodeURIComponent(body);
+  const mbTestUrl = `${mbTestUrlBase}${encodedBody}`;
+  return mbTestUrl;
 }
 
 function checkStatus(body: string, status: string) {
