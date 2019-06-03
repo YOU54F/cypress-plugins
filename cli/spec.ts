@@ -1,5 +1,5 @@
 // tslint:disable-next-line: no-reference
-/// <reference path='../types/cypress-npm-api.d.ts'/>
+/// <reference path='../node_modules/cypress/types/cypress-npm-api.d.ts'/>
 import * as CypressNpmApi from "cypress";
 import { logger } from "../src/logger";
 import { slackRunner } from "../src/slack/slack-alert";

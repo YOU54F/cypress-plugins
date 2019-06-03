@@ -29,9 +29,8 @@
   },
   "exclude": [
     "./node_modules/cypress/types",
-    "./node_modules/cypress-testing-library/typings",
     "./untyped.d.ts"
   ],
   "include": ["./src"],
-  "files": ["src/slack/index.ts", "src/slack/slack-alert.ts"]
+  "files": ["src/index.ts", "src/slack/slack-alert.ts"]
 }
