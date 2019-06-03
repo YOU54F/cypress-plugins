@@ -17,7 +17,7 @@ generate-report:
 	npx marge mochareports/*.json -f report-$$(date +'%Y%m%d-%H%M%S') -o mochareports
 
 slack-alert:
-	npx ts-node src/slack/index.ts --report-dir test/reportSingle --video-dir test/videosDirPopulated --screenshot-dir test/screenshotsDirPopulated --verbose
+	npx ts-node src/index.ts --report-dir test/reportSingle --video-dir test/videosDirPopulated --screenshot-dir test/screenshotsDirPopulated --verbose
 
 slack-alert-js:
 	npx node dist/index.js --verbose
