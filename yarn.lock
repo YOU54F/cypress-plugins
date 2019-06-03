@@ -8205,10 +8205,10 @@ sisteransi@^1.0.0:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
   integrity sha512-N+z4pHB4AmUv0SjveWRd6q1Nj5w62m5jodv+GD8lvmbY/83T/rpbJGZOnK5T149OldDj4Db07BSv9xY4K6NTPQ==
 
-slack-mock-typed@2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/slack-mock-typed/-/slack-mock-typed-2.0.7.tgz#17e523db3710db14d6e8c3c57d28f484bd61e844"
-  integrity sha512-JScTCLveByJjLIWBBXVRBrn0s+KP2pI2iDnFCIS4MOCP5F28r+Ni0JU/c8NdTfcwb165lS79wQHtfU174hZ6zw==
+slack-mock-typed@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/slack-mock-typed/-/slack-mock-typed-2.1.2.tgz#63f722812b997e36a4890c3ef893d847971d5e87"
+  integrity sha512-JjvBFDZ0/PmSo3gEHV5h2ofzSQkgEXFeUVoNBvNF/+u0woLkNfn9VwNGfUaEd+fUnbpL7Z71ja/6+t+GRkJW3A==
   dependencies:
     nock "^10.0.6"
     qs "^6.3.0"
