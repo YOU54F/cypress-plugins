@@ -9,10 +9,10 @@ const { merge } = require("mochawesome-merge");
 // tslint:disable: no-var-requires
 
 CypressNpmApi.run({
-  reporter: "mocha-multi-reporters",
+  reporter: "cypress-multi-reporters",
   reporterOptions: {
-    reporterEnabled: "mocha-junit-reporter, mochawesome",
-    mochaJunitReporterReporterOptions: {
+    reporterEnabled: "mocha-junit-reporters, mochawesome",
+    mochaJunitReportersReporterOptions: {
       mochaFile: "cypress/reports/junit/test_results[hash].xml",
       toConsole: false
     },

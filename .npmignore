@@ -21,3 +21,4 @@ yarn.lock
 src
 samples
 config.env.test
+yarn-error.log

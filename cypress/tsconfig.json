@@ -9,7 +9,6 @@
   },
   "include": [
     "../node_modules/cypress/types",
-    "../node_modules/cypress-testing-library/typings",
     "**/*.ts", "../untyped.d.ts"
   ]
 ,
