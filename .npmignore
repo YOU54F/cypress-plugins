@@ -20,4 +20,4 @@ yarn.lock
 .scannerwork
 src
 samples
-fff
+config.env.test

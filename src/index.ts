@@ -2,7 +2,8 @@
 
 import * as program from "commander";
 import * as fs from "fs";
-import * as slacker from "./slack-alert";
+import { logger } from "./logger";
+import * as slacker from "./slack/slack-alert";
 let version;
 try {
   const json = JSON.parse(
@@ -54,7 +55,9 @@ program
     "cypress video directory, relative to your package.json",
     "cypress/videos"
   )
+  .option("--verbose", "show log output")
   .option("--logger", "show log output")
+  // .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
 const ciProvider: string = program.ciProvider;
@@ -62,9 +65,9 @@ const vcsProvider: string = program.vcsProvider;
 const reportDirectory: string = base + "/" + program.reportDir;
 const videoDirectory: string = base + "/" + program.videoDir;
 const screenshotDirectory: string = base + "/" + program.screenshotDir;
-const logger: boolean = program.logger;
+const verbose: boolean = program.verbose;
 
-if (program.logger) {
+if (program.verbose || program.logger) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
@@ -81,5 +84,5 @@ slacker.slackRunner(
   reportDirectory,
   videoDirectory,
   screenshotDirectory,
-  logger
+  verbose
 );

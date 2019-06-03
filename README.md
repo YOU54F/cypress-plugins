@@ -72,14 +72,16 @@ Set the following environment variables in your localhost or CI configuration.
 
     $ npx cypress-slack-reporter --help
 
-      Usage: index.js [options]
+      Usage: index.ts [options]
+
       Options:
         -v, --version            output the version number
-        --vcs-provider [type]    VCS Provider [github|bitbucket] (default: "github")
+        --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
         --ci-provider [type]     CI Provider [circleci|none] (default: "circleci")
-        --report-dir [type]      mochawesome html test report directory, relative to your package.json (default: "./mochareports")
-        --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "./cypress/screenshots")
-        --videos-dir [type]      cypress video directory, relative to your package.json (default: "./cypress/videos")
+        --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
+        --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
+        --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
+        --verbose                show log output
         -h, --help               output usage information
 
 ## Pre-Requisites
@@ -172,8 +174,189 @@ If you wish to use another CI provider, you can pass any name other than `circle
 - `CI_PROJECT_REPONAME`
 - `CI_PROJECT_USERNAME`
 
+## CLI Runner
+
+An example script is [here](./cli/spec.ts) as `cli/spec/ts`
+
+```ts
+import { slackRunner } from "../src/slack/slack-alert";
+
+
+CypressNpmApi.run({
+  reporter: "mocha-multi-reporters",
+  reporterOptions: {
+    reporterEnabled: "mocha-junit-reporter, mochawesome",
+    mochaJunitReporterReporterOptions: {
+      mochaFile: "cypress/reports/junit/test_results[hash].xml",
+      toConsole: false
+    },
+    mochawesomeReporterOptions: {
+      reportDir: "cypress/reports/mocha",
+      quiet: true,
+      overwrite: true,
+      html: false,
+      json: true
+    }
+  }
+})
+  .then(async results => {
+    const generatedReport =  await Promise.resolve(generateReport({
+      reportDir: "cypress/reports/mocha",
+      inline: true,
+      timeStamp: Date,
+      saveJson: true
+    }))
+    logger.info("Merged report available here:-",generatedReport);
+    return generatedReport
+  })
+  .then(generatedReport => {
+    const base = process.env.PWD || ".";
+    const program: any = {
+      ciProvider: "circleci",
+      videoDir: `${base}/cypress/videos`,
+      vcsProvider: "github",
+      screenshotDir: `${base}/cypress/screenshots`,
+      verbose: true,
+      reportDir: `${base}/cypress/reports/mocha`
+    };
+    const ciProvider: string = program.ciProvider;
+    const vcsProvider: string = program.vcsProvider;
+    const reportDirectory: string = program.reportDir;
+    const videoDirectory: string = program.videoDir;
+    const screenshotDirectory: string = program.screenshotDir;
+    const verbose: boolean = program.verbose;
+    logger.info("Constructing Slack message with the following options", {
+      ciProvider,
+      vcsProvider,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      verbose
+    });
+    const slack = slackRunner(
+      ciProvider,
+      vcsProvider,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      verbose
+    );
+    logger.info("Finished slack upload")
+
+  })
+  .catch((err: any) => {
+    logger.warn(err);
+  });
+
+function generateReport(options: any) {
+  return merge(options).then((report: any) => 
+    marge.create(report, options)
+  );
+}
+```
+
+```ts
+// tslint:disable-next-line: no-reference
+/// <reference path='../types/cypress-npm-api.d.ts'/>
+import * as CypressNpmApi from "cypress";
+import { logger } from "../src/logger";
+import { slackRunner } from "../src/slack/slack-alert";
+// tslint:disable: no-var-requires
+const marge = require("mochawesome-report-generator");
+const { merge } = require("mochawesome-merge");
+// tslint:disable: no-var-requires
+
+CypressNpmApi.run({
+  reporter: "mocha-multi-reporters",
+  reporterOptions: {
+    reporterEnabled: "mocha-junit-reporter, mochawesome",
+    mochaJunitReporterReporterOptions: {
+      mochaFile: "cypress/reports/junit/test_results[hash].xml",
+      toConsole: false
+    },
+    mochawesomeReporterOptions: {
+      reportDir: "cypress/reports/mocha",
+      quiet: true,
+      overwrite: true,
+      html: false,
+      json: true
+    }
+  }
+})
+  .then(async results => {
+    const generatedReport =  await Promise.resolve(generateReport({
+      reportDir: "cypress/reports/mocha",
+      inline: true,
+      timeStamp: 'Date',
+      saveJson: true
+    }))
+    logger.info("Merged report available here:-",generatedReport);
+    return generatedReport
+  })
+  .then(generatedReport => {
+    const base = process.env.PWD || ".";
+    const program: any = {
+      ciProvider: "circleci",
+      videoDir: `${base}/cypress/videos`,
+      vcsProvider: "github",
+      screenshotDir: `${base}/cypress/screenshots`,
+      verbose: true,
+      reportDir: `${base}/cypress/reports/mocha`
+    };
+    const ciProvider: string = program.ciProvider;
+    const vcsProvider: string = program.vcsProvider;
+    const reportDirectory: string = program.reportDir;
+    const videoDirectory: string = program.videoDir;
+    const screenshotDirectory: string = program.screenshotDir;
+    const verbose: boolean = program.verbose;
+    logger.info("Constructing Slack message with the following options", {
+      ciProvider,
+      vcsProvider,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      verbose
+    });
+    const slack = slackRunner(
+      ciProvider,
+      vcsProvider,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      verbose
+    );
+    logger.info("Finished slack upload")
+
+  })
+  .catch((err: any) => {
+    logger.warn(err);
+  });
+
+function generateReport(options: any) {
+  return merge(options).then((report: any) => 
+    marge.create(report, options)
+  );
+}
+```
+
 ## TODO
 
-- provide user ability to provide own CI artefact paths
-- typescript s3 uploader scripts and add to CLI
-- retrieve s3 links for test report/artefacts and inject into the slack report
+- [ ] provide user ability to provide own CI artefact paths
+- [ ] typescript s3 uploader scripts and add to CLI
+  - [X] tsified
+  - [X] able to run in isolation
+  - [X] mock aws-sdk s3 upload function
+  - [X] tests
+  - [X] retrieve s3 links for test report/artefacts and inject into the slack report
+  - [X] uploading artefacts to s3
+  - [ ] add to CLI
+  - [ ] programatically run
+  - [ ] Add into main slack-reporter script
+  - [ ] provide CLI options to provide paths/credentials
+- [ ] Programatically run
+  - [X] provide ability to be programatically run via a script
+  - [X] provide example
+  - [ ] add usage instructions to readme
+  - [ ] test example
+  - [ ] compile
+- [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
