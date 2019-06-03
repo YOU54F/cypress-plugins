@@ -6,11 +6,12 @@
       }
     ],
     "strict": true,
-    "rootDirs": ["src"],
-    "outDir": "./bin",
-    "target": "es5",
-    "skipLibCheck": true,
+    "downlevelIteration": true,
     "declaration": true,
+    "target": "es5",
+    "rootDirs": ["src", "cypress"],
+    "outDir": "./bin",
+    "skipLibCheck": true,
     "types": [
       "node",
       "@slack/types",
@@ -20,17 +21,17 @@
       "@types/dotenv",
       "slack-mock-typed",
       "aws-sdk-mock",
-    "bluebird"]
-  }
-  ,
+      "bluebird",
+      "cypress",
+      "@types/dotenv",
+      "slack-mock-typed"
+    ]
+  },
   "exclude": [
     "./node_modules/cypress/types",
     "./node_modules/cypress-testing-library/typings",
     "./untyped.d.ts"
-  ]
-  ,
-  "include": [
-    "./src",
-  ]
-,
+  ],
+  "include": ["./src"],
+  "files": ["src/slack/index.ts", "src/slack/slack-alert.ts"]
 }

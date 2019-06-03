@@ -1,10 +1,6 @@
+#Files
 .env
 .env.example
-.circleci
-coverage
-cypress
-mochareports
-testReports
 .gitignore
 cypress.json
 jest.config.js
@@ -17,8 +13,25 @@ untyped.d.ts
 webpack.config.js
 yarn.lock
 .DS_STORE
+config.env.test
+.travis.yml
+.codeclimate.yml
+commitlint.config.js
+cypress-slack-reporter.tar.gz
+
+#Folders
+.circleci
+coverage
+cypress
+mochareports
+testReports
+scripts
 .scannerwork
 src
+<<<<<<< HEAD
 samples
 config.env.test
 yarn-error.log
+=======
+samples
+>>>>>>> origin/master
