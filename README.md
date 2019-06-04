@@ -189,6 +189,14 @@ A example of how you can use this script in your project to:-
 - Merge mochawesome reports with `mochawesome-merge`
 - Construct a slack alert with the merged report, screenshots and videos
 
+Either with the cli
+
+```bash
+./node_modules/.bin/cypress-slack-reporter-full
+```
+
+Or with your own script
+
 ```bash
 rm -rf ./cypress/reports/mocha && npx ts-node script.ts
 ```
@@ -197,7 +205,7 @@ rm -rf ./cypress/reports/mocha && npx ts-node script.ts
 // tslint:disable-next-line: no-reference
 /// <reference path='./node_modules/cypress/types/cypress-npm-api.d.ts'/>
 import * as CypressNpmApi from "cypress";
-import {slackRunner}from "cypress-slack-reporter/bin/slack-alert";
+import {slackRunner}from "cypress-slack-reporter/bin/slack/slack-alert";
 // tslint:disable: no-var-requires
 const marge = require("mochawesome-report-generator");
 const { merge } = require("mochawesome-merge");
