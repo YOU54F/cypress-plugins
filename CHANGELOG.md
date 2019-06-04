@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.3.0...v0.3.1) (2019-06-04)
+
+
+### Bug Fixes
+
+* add #!/usr/bin/env node to cli runner ([734f853](https://github.com/you54f/cypress-slack-reporter/commit/734f853))
+
+
+
 ## [0.3.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.2.6...v0.3.0) (2019-06-04)
 
 
