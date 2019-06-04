@@ -41,7 +41,7 @@ jobs:
       - run:
           when: always
           name: Running cypress tests
-          command: make test
+          command: make test-record
       - run:
           when: always
           name: Generate MochaAwesome Reports
@@ -82,8 +82,14 @@ jobs:
           when: always
           name: Generate Build Failure Slack Alert
           command: yarn run slack-js-opts-build-failed
+      - run:
+          when: always
+          name: Run the CLI Cypress Runner
+          command: yarn run cli
       - store_artifacts:
           path: src/slack/test
+      - store_artifacts:
+          path: cypress/reports/mocha
 
 workflows:
   build-test:

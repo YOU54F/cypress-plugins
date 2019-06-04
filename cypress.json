@@ -4,5 +4,6 @@
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {
     "configFile": "reporterOpts.json"
-  }
+  },
+  "projectId": "9f1jyc"
 }

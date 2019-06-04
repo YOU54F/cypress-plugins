@@ -1,3 +1,5 @@
+// tslint:disable-next-line: no-reference
+/// <reference path='../../../node_modules/@jest/types/build/index.d.ts'/>
 import "jest";
 import * as SlackMock from "slack-mock-typed";
 import * as slacker from "../slack-alert";
@@ -11,21 +13,22 @@ const screenshotDirectory: string =
   base + "/src/slack/test/screenshotDirPopulated";
 const logger: boolean = false;
 const mock: SlackMock.Instance = SlackMock.SlackMocker({ logLevel: "debug" });
+const mockedHooks = mock.incomingWebhooks;
 
 function setup() {
   beforeAll(async () => {
     jest.setTimeout(60000);
-    await mock.incomingWebhooks.start();
-    await mock.incomingWebhooks.reset();
+    await mockedHooks.start();
+    await mockedHooks.reset();
   });
 
   beforeEach(async () => {
     jest.resetModules();
-    await mock.reset();
-    expect(mock.incomingWebhooks.calls).toHaveLength(0);
+    await mockedHooks.reset();
+    expect(mockedHooks.calls).toHaveLength(0);
   });
   afterEach(async () => {
-    await mock.incomingWebhooks.reset();
+    await mockedHooks.reset();
   });
 }
 
@@ -167,9 +170,9 @@ describe("tester", () => {
 
 function returnSlackWebhookCall() {
   // This checks the slack mock call counter
-  expect(mock.incomingWebhooks.calls).toHaveLength(1);
+  expect(mockedHooks.calls).toHaveLength(1);
   // Load the response as json
-  const firstCall = mock.incomingWebhooks.calls[0];
+  const firstCall = mockedHooks.calls[0];
   // check our webhook url called in ENV var SLACK_WEBHOOK_URL
   expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
   const body = firstCall.params;

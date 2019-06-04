@@ -9,7 +9,7 @@
     "downlevelIteration": true,
     "declaration": true,
     "target": "es5",
-    "rootDirs": ["src","cypress"],
+    "rootDirs": ["src"],
     "outDir": "./bin",
     "skipLibCheck": true,
     "types": [
@@ -20,15 +20,11 @@
       "commander/typings",
       "@types/dotenv",
       "slack-mock-typed",
-      "aws-sdk-mock",
-      "bluebird",
-      "cypress",
       "@types/dotenv",
-      "slack-mock-typed"
     ]
   },
   "exclude": [
     "./untyped.d.ts"
   ],
-  "files": ["src/index.ts", "src/slack/slack-alert.ts","src/cli/spec.ts"]
+  "files": ["src/index.ts", "src/slack/slack-alert.ts"]
 }

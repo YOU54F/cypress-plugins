@@ -18,6 +18,7 @@ A Slack Reporting tool built for Cypress but _should_ work with any mocha based 
   - Reports Test Status & Provides Report Links
 - Takes the output of Mochawesome JSON output to determine test result & corresponding slack message
 - Provides a URL link to the Test Artefacts (Mochawesome HTML Test Report / Cypress Video & Screenshots)
+- Programatically run Cypress via a script file with full report generation and Slack Reporting.
 
 For users who are not using CircleCi, you can get a simple report
 
@@ -76,14 +77,16 @@ Set the following environment variables in your localhost or CI configuration.
 
     $ npx cypress-slack-reporter --help
 
-      Usage: index.js [options]
+      Usage: index.ts [options]
+
       Options:
         -v, --version            output the version number
-        --vcs-provider [type]    VCS Provider [github|bitbucket] (default: "github")
+        --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
         --ci-provider [type]     CI Provider [circleci|none] (default: "circleci")
-        --report-dir [type]      mochawesome html test report directory, relative to your package.json (default: "./mochareports")
-        --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "./cypress/screenshots")
-        --videos-dir [type]      cypress video directory, relative to your package.json (default: "./cypress/videos")
+        --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
+        --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
+        --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
+        --verbose                show log output
         -h, --help               output usage information
 
 ## Pre-Requisites
@@ -176,8 +179,124 @@ If you wish to use another CI provider, you can pass any name other than `circle
 - `CI_PROJECT_REPONAME`
 - `CI_PROJECT_USERNAME`
 
+## Scripted Runner
+
+An example script is [here](./cli/spec.ts) as `cli/spec/ts`
+
+A example of how you can use this script in your project to:-
+
+- Run Cypress with Mochawesome & junit reporters
+- Merge mochawesome reports with `mochawesome-merge`
+- Construct a slack alert with the merged report, screenshots and videos
+
+```bash
+rm -rf ./cypress/reports/mocha && npx ts-node script.ts
+```
+
+```ts
+// tslint:disable-next-line: no-reference
+/// <reference path='./node_modules/cypress/types/cypress-npm-api.d.ts'/>
+import * as CypressNpmApi from "cypress";
+import {slackRunner}from "cypress-slack-reporter/bin/slack-alert";
+// tslint:disable: no-var-requires
+const marge = require("mochawesome-report-generator");
+const { merge } = require("mochawesome-merge");
+// tslint:disable: no-var-requires
+
+CypressNpmApi.run({
+  reporter: "cypress-multi-reporters",
+  reporterOptions: {
+    reporterEnabled: "mocha-junit-reporters, mochawesome",
+    mochaJunitReportersReporterOptions: {
+      mochaFile: "cypress/reports/junit/test_results[hash].xml",
+      toConsole: false
+    },
+    mochawesomeReporterOptions: {
+      reportDir: "cypress/reports/mocha",
+      quiet: true,
+      overwrite: true,
+      html: false,
+      json: true
+    }
+  }
+})
+  .then(async results => {
+    const generatedReport =  await Promise.resolve(generateReport({
+      reportDir: "cypress/reports/mocha",
+      inline: true,
+      saveJson: true,
+    }))
+    // tslint:disable-next-line: no-console
+    console.log("Merged report available here:-",generatedReport);
+    return generatedReport
+  })
+  .then(generatedReport => {
+    const base = process.env.PWD || ".";
+    const program: any = {
+      ciProvider: "circleci",
+      videoDir: `${base}/cypress/videos`,
+      vcsProvider: "github",
+      screenshotDir: `${base}/cypress/screenshots`,
+      verbose: true,
+      reportDir: `${base}/cypress/reports/mocha`
+    };
+    const ciProvider: string = program.ciProvider;
+    const vcsProvider: string = program.vcsProvider;
+    const reportDirectory: string = program.reportDir;
+    const videoDirectory: string = program.videoDir;
+    const screenshotDirectory: string = program.screenshotDir;
+    const verbose: boolean = program.verbose;
+    // tslint:disable-next-line: no-console
+    console.log("Constructing Slack message with the following options", {
+      ciProvider,
+      vcsProvider,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      verbose
+    });
+    const slack = slackRunner(
+      ciProvider,
+      vcsProvider,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      verbose
+    );
+     // tslint:disable-next-line: no-console
+     console.log("Finished slack upload")
+
+  })
+  .catch((err: any) => {
+    // tslint:disable-next-line: no-console
+    console.log(err);
+  });
+
+function generateReport(options: any) {
+  return merge(options).then((report: any) =>
+    marge.create(report, options)
+  );
+}
+```
+
 ## TODO
 
-- provide user ability to provide own CI artefact paths
-- typescript s3 uploader scripts and add to CLI
-- retrieve s3 links for test report/artefacts and inject into the slack report
+- [ ] provide user ability to provide own CI artefact paths
+- [ ] typescript s3 uploader scripts and add to CLI
+  - [X] tsified
+  - [X] able to run in isolation
+  - [X] mock aws-sdk s3 upload function
+  - [X] tests
+  - [X] retrieve s3 links for test report/artefacts and inject into the slack report
+  - [X] uploading artefacts to s3
+  - [ ] add to CLI
+  - [ ] programatically run
+  - [ ] Add into main slack-reporter script
+  - [ ] provide CLI options to provide paths/credentials
+- [X] Programatically run
+  - [X] provide ability to be programatically run via a script
+  - [X] provide example
+  - [X] add usage instructions to readme
+  - [X] test example
+  - [X] compile
+- [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
