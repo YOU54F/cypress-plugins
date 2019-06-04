@@ -1,8 +1,8 @@
 // tslint:disable-next-line: no-reference
-/// <reference path='../node_modules/cypress/types/cypress-npm-api.d.ts'/>
+/// <reference path='../../node_modules/cypress/types/cypress-npm-api.d.ts'/>
 import * as CypressNpmApi from "cypress";
-import { logger } from "../src/logger";
-import { slackRunner } from "../src/slack/slack-alert";
+import { logger } from "../logger";
+import { slackRunner } from "../slack/slack-alert";
 // tslint:disable: no-var-requires
 const marge = require("mochawesome-report-generator");
 const { merge } = require("mochawesome-merge");
@@ -26,13 +26,15 @@ CypressNpmApi.run({
   }
 })
   .then(async results => {
-    const generatedReport =  await Promise.resolve(generateReport({
-      reportDir: "cypress/reports/mocha",
-      inline: true,
-      saveJson: true,
-    }))
-    logger.info("Merged report available here:-",generatedReport);
-    return generatedReport
+    const generatedReport = await Promise.resolve(
+      generateReport({
+        reportDir: "cypress/reports/mocha",
+        inline: true,
+        saveJson: true
+      })
+    );
+    logger.info("Merged report available here:-", generatedReport);
+    return generatedReport;
   })
   .then(generatedReport => {
     const base = process.env.PWD || ".";
@@ -66,15 +68,12 @@ CypressNpmApi.run({
       screenshotDirectory,
       verbose
     );
-    logger.info("Finished slack upload")
-
+    logger.info("Finished slack upload");
   })
   .catch((err: any) => {
     logger.warn(err);
   });
 
 function generateReport(options: any) {
-  return merge(options).then((report: any) => 
-    marge.create(report, options)
-  );
+  return merge(options).then((report: any) => marge.create(report, options));
 }

@@ -9,7 +9,7 @@
     "downlevelIteration": true,
     "declaration": true,
     "target": "es5",
-    "rootDirs": ["src","cypress","cli"],
+    "rootDirs": ["src"],
     "outDir": "./bin",
     "skipLibCheck": true,
     "types": [
@@ -20,11 +20,7 @@
       "commander/typings",
       "@types/dotenv",
       "slack-mock-typed",
-      "aws-sdk-mock",
-      "bluebird",
-      "cypress",
       "@types/dotenv",
-      "slack-mock-typed"
     ]
   },
   "exclude": [

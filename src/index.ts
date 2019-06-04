@@ -68,6 +68,12 @@ const screenshotDirectory: string = base + "/" + program.screenshotDir;
 const verbose: boolean = program.verbose;
 
 if (program.verbose || program.logger) {
+  if (program.logger) {
+    // tslint:disable-next-line: no-console
+    console.log(
+      "--logger option will soon be deprecated, please switch to --verbose"
+    );
+  }
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",

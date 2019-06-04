@@ -9,7 +9,7 @@
     "downlevelIteration": true,
     "declaration": true,
     "target": "es5",
-    "rootDirs": ["src","cypress","cli"],
+    "rootDirs": ["src","cypress"],
     "outDir": "./bin",
     "skipLibCheck": true,
     "types": [
@@ -30,5 +30,5 @@
   "exclude": [
     "./untyped.d.ts"
   ],
-  "files": ["src/index.ts", "src/slack/slack-alert.ts","cli/spec.ts"]
+  "files": ["src/index.ts", "src/slack/slack-alert.ts","src/cli/spec.ts"]
 }
