@@ -5546,10 +5546,10 @@ jest-snapshot@^24.8.0:
     pretty-format "^24.8.0"
     semver "^5.5.0"
 
-jest-stare@1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-1.14.0.tgz#460795a26a3423a9888534747f36621741d03652"
-  integrity sha512-lL53aLnLSw0RaV2m2MeQtVFNgyIQ6BTrRERdThi2q3kO2fL5pIVNlSNE786OpgL1vEzspGGsOYyCdssen4prcw==
+jest-stare@1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-1.15.0.tgz#dde975f56ef794006724f821e28421b4a39758dd"
+  integrity sha512-mwUGaZKJWkqsypxg0Y2sMdLk6BQRnpzEn9ux82FlqE/V2m9OClTtXmncimHWqGcdmq2Kl7vwpPz2h1K6PPlF3Q==
   dependencies:
     ansi-parser "^3.2.9"
     bootstrap "^4.3.1"
@@ -5559,8 +5559,8 @@ jest-stare@1.14.0:
     holderjs "^2.9.6"
     jquery "^3.4.1"
     moment "^2.23.0"
-    mustache "^2.3.2"
-    pkg-up "^2.0.0"
+    mustache "^3.0.0"
+    pkg-up "^3.0.0"
     popper.js "^1.14.6"
 
 jest-util@^24.8.0:
@@ -6668,10 +6668,10 @@ ms@2.1.1, ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-mustache@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.2.tgz#a6d4d9c3f91d13359ab889a812954f9230a3d0c5"
-  integrity sha512-KpMNwdQsYz3O/SBS1qJ/o3sqUJ5wSb8gb0pul8CO0S56b9Y2ALm8zCfsjPXsqGFfoNBkDwZuZIAjhsZI03gYVQ==
+mustache@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-3.0.1.tgz#873855f23aa8a95b150fb96d9836edbc5a1d248a"
+  integrity sha512-jFI/4UVRsRYdUbuDTKT7KzfOp7FiD5WzYmmwNwXyUVypC0xjoTL78Fqc0jHUPIvvGD+6DQSPHIt1NE7D1ArsqA==
 
 mz@^2.4.0:
   version "2.7.0"
@@ -7437,12 +7437,12 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^3.0.0"
 
-pkg-up@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-2.0.0.tgz#c819ac728059a461cab1c3889a2be3c49a004d7f"
-  integrity sha1-yBmscoBZpGHKscOImivjxJoATX8=
+pkg-up@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
+  integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
-    find-up "^2.1.0"
+    find-up "^3.0.0"
 
 please-upgrade-node@^3.0.2, please-upgrade-node@^3.1.1:
   version "3.1.1"
