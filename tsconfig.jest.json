@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
+    "strict": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "target": "es5",
+    "rootDirs": ["src","cypress","cli"],
+    "outDir": "./bin",
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "@slack/types",
+      "@types/jest",
+      "jest",
+      "commander/typings",
+      "@types/dotenv",
+      "slack-mock-typed",
+      "aws-sdk-mock",
+      "bluebird",
+      "cypress",
+      "@types/dotenv",
+      "slack-mock-typed"
+    ]
+  },
+  "exclude": [
+    "./untyped.d.ts"
+  ],
+  "files": ["src/index.ts", "src/slack/slack-alert.ts"]
+}
