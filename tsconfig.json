@@ -28,7 +28,6 @@
     ]
   },
   "exclude": [
-    "./node_modules/cypress/types",
     "./untyped.d.ts"
   ],
   "files": ["src/index.ts", "src/slack/slack-alert.ts","cli/spec.ts"]
