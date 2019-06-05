@@ -6537,9 +6537,10 @@ mocha@6.1.4:
     yargs-parser "13.0.0"
     yargs-unparser "1.5.0"
 
-mochawesome-merge@Antontelesh/mochawesome-merge#feat/mochawesome-4:
-  version "0.0.0-development"
-  resolved "https://codeload.github.com/Antontelesh/mochawesome-merge/tar.gz/1dfd09f98f18bcde416b39e6045d2694fc402673"
+mochawesome-merge@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/mochawesome-merge/-/mochawesome-merge-2.0.0.tgz#4feb27d1b7382947551485c9cccf1335ace53fe9"
+  integrity sha512-Igr/8fYV70yKGSkkIM8oFgji23HHvec8v++KHPkIuSAtjYyanq9tvAxRSFNcJktRcPKJ+x+Sib7VxYb9DjUVXA==
   dependencies:
     fs-extra "^7.0.1"
     minimatch "^3.0.4"
