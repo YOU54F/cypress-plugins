@@ -63,7 +63,7 @@
     "@types/node": "10.14.8",
     "aws-sdk": "2.469.0",
     "aws-sdk-mock": "4.4.0",
-    "coveralls": "3.0.3",
+    "coveralls": "3.0.4",
     "cypress": "3.3.1",
     "cypress-cucumber-preprocessor": "1.11.2",
     "dotenv": "8.0.0",
