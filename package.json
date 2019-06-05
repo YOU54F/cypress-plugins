@@ -49,7 +49,7 @@
     "commander": "^2.20.0"
   },
   "peerDependencies": {
-    "mochawesome": "^3.1.1"
+    "mochawesome": "4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "8.0.0",
@@ -73,9 +73,9 @@
     "mocha": "6.1.4",
     "mocha-junit-reporters": "1.23.6",
     "cypress-multi-reporters": "1.1.20",
-    "mochawesome": "3.1.2",
-    "mochawesome-merge": "1.0.7",
-    "mochawesome-report-generator": "3.1.5",
+    "mochawesome": "4.0.0",
+    "mochawesome-merge": "2.0.0",
+    "mochawesome-report-generator": "4.0.0",
     "prettier": "1.17.1",
     "rimraf": "2.6.3",
     "slack-mock-typed": "2.1.2",
