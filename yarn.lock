@@ -963,10 +963,10 @@
     date-fns "^1.27.2"
     figures "^1.7.0"
 
-"@cypress/webpack-preprocessor@4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-4.0.4.tgz#404727f4ed4f83630f87da4a521e5854ec92c284"
-  integrity sha512-Qvk3metS2DnlcKvbRjNNY6tndQB3i53RCAVZeAHy9XFYmYVaDxoO3kzAiaymYQaSyB1m4Tlhldvv5QTz/Op3Jw==
+"@cypress/webpack-preprocessor@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-4.1.0.tgz#8c4debc0b1abf045b62524d1996dd9aeaf7e86a8"
+  integrity sha512-LbxsdYVpHGoC2fMOdW0aQvuvVRD7aZx8p8DrP53HISpl7bD1PqLGWKzhHn7cGG24UHycBJrbaEeKEosW29W1dg==
   dependencies:
     bluebird "3.5.0"
     debug "3.1.0"
