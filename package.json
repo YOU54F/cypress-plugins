@@ -71,7 +71,7 @@
     "jest": "24.8.0",
     "jest-junit": "6.4.0",
     "jest-stare": "1.15.0",
-    "lint-staged": "8.1.7",
+    "lint-staged": "8.2.0",
     "mocha": "6.1.4",
     "mocha-junit-reporters": "1.23.6",
     "cypress-multi-reporters": "1.1.20",
