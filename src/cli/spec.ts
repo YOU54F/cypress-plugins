@@ -12,8 +12,8 @@ const { merge } = require("mochawesome-merge");
 CypressNpmApi.run({
   reporter: "cypress-multi-reporters",
   reporterOptions: {
-    reporterEnabled: "mocha-junit-reporters, mochawesome",
-    mochaJunitReportersReporterOptions: {
+    reporterEnabled: "mocha-junit-reporter, mochawesome",
+    mochaJunitReporterReporterOptions: {
       mochaFile: "cypress/reports/junit/test_results[hash].xml",
       toConsole: false
     },
