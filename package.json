@@ -74,7 +74,7 @@
     "lint-staged": "8.2.0",
     "mocha": "6.1.4",
     "mocha-junit-reporter": "1.23.0",
-    "cypress-multi-reporters": "YOU54F/cypress-multi-reporters#check-reporter",
+    "cypress-multi-reporters": "1.1.22",
     "mochawesome": "4.0.0",
     "mochawesome-merge": "2.0.0",
     "mochawesome-report-generator": "4.0.0",
