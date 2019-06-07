@@ -6227,7 +6227,7 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-md5@^2.2.1:
+md5@^2.1.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
   integrity sha1-U6s41f48iJG6RlMp6iP6wFQBJvk=
@@ -6478,16 +6478,16 @@ mkdirp@0.5.1, mkdirp@0.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0
   dependencies:
     minimist "0.0.8"
 
-mocha-junit-reporters@1.23.6:
-  version "1.23.6"
-  resolved "https://registry.yarnpkg.com/mocha-junit-reporters/-/mocha-junit-reporters-1.23.6.tgz#4d38e34090a8c82ea233c7ecdaa88fd99292f306"
-  integrity sha512-Adsu9LRkCuTPrH9WJMsFiIyCjJfvG3SHsKzdbnIrAWDpVw4fk0F+Ikm5xKoj5deQYyga3QFfeLu/Q/WqAQZ4Ew==
+mocha-junit-reporter@1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/mocha-junit-reporter/-/mocha-junit-reporter-1.23.0.tgz#c5ad7f10b5aa9a7cc6e169b6bf15baf2700266ca"
+  integrity sha512-pmpnEO4iDTmLfrT2RKqPsc5relG4crnDSGmXPuGogdda27A7kLujDNJV4EbTbXlVBCZXggN9rQYPEWMkOv4AAA==
   dependencies:
-    debug "^4.1.1"
-    md5 "^2.2.1"
+    debug "^2.2.0"
+    md5 "^2.1.0"
     mkdirp "~0.5.1"
-    strip-ansi "^5.2.0"
-    xml "^1.0.1"
+    strip-ansi "^4.0.0"
+    xml "^1.0.0"
 
 mocha@6.1.4:
   version "6.1.4"
@@ -9546,7 +9546,7 @@ xml2js@0.4.19:
     sax ">=0.6.0"
     xmlbuilder "~9.0.1"
 
-xml@^1.0.1:
+xml@^1.0.0, xml@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
   integrity sha1-eLpyAgApxbyHuKgaPPzXS0ovweU=
