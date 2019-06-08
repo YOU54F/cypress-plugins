@@ -21,7 +21,6 @@
       "@types/dotenv",
       "slack-mock-typed",
       "aws-sdk-mock",
-      "bluebird",
       "cypress",
       "@types/dotenv",
       "slack-mock-typed"

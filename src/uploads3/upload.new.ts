@@ -1,6 +1,6 @@
+import Uploader from "@you54f/s3-batch-upload";
 import globby from "globby";
 import * as path from "path";
-import Uploader from "s3-batch-upload";
 import { logger } from "../logger";
 
 const { BUCKET_NAME } = process.env;
@@ -11,6 +11,7 @@ main();
 
 function uploadVideos() {
   new Uploader({
+    accessControlLevel: "public-read",
     bucket: BUCKET_NAME || "",
     localPath: path.resolve(process.cwd(), "cypress", "videos"),
     remotePath: path.join("cypress", "videos"),
