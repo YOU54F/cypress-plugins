@@ -1,6 +1,6 @@
-import Uploader from "@you54f/s3-batch-upload";
 import globby from "globby";
 import * as path from "path";
+import Uploader from "s3-batch-upload";
 import { logger } from "../logger";
 
 const { BUCKET_NAME } = process.env;
@@ -9,60 +9,40 @@ const { BUCKET_NAME } = process.env;
 // files are downloadable via aws s3 sync s3://cypress-slack-reporter/remote/path .
 main();
 
-function uploadVideos() {
-  new Uploader({
+function uploadS3(artefactPath: string, glob: string) {
+  return new Uploader({
     accessControlLevel: "public-read",
     bucket: BUCKET_NAME || "",
-    localPath: path.resolve(process.cwd(), "cypress", "videos"),
-    remotePath: path.join("cypress", "videos"),
-    glob: "*.mp4", // default is '*.*'
-    cacheControl: "max-age=3600" // can be a string, for all uploade resources
-  }).upload();
-}
-function uploadScreenshots() {
-  new Uploader({
-    bucket: BUCKET_NAME || "",
-    localPath: path.resolve(process.cwd(), "cypress", "screenshots"),
-    remotePath: path.join("cypress", "screenshots"),
-    glob: "*.png", // default is '*.*'
-    cacheControl: "max-age=3600" // can be a string, for all uploade resources
-  }).upload();
-}
-function uploadReports() {
-  new Uploader({
-    bucket: BUCKET_NAME || "",
-    localPath: path.resolve(process.cwd(), "mochareports"),
-    remotePath: path.join("mochareports"),
-    glob: "*.*", // default is '*.*'
+    localPath: path.resolve(process.cwd(), artefactPath),
+    remotePath: path.join(artefactPath),
+    glob,
     cacheControl: "max-age=3600" // can be a string, for all uploade resources
   }).upload();
 }
 
 async function main() {
   await logger.info("Starting to search for files");
-  const videoPaths = await getVideos;
-  const screenshotPaths = await getScreenshots;
-  const reportPaths = await getReports;
-  logger.info("screenshotPaths", await screenshotPaths);
-  logger.info("reportPaths", await reportPaths);
-  logger.info("videoPaths", await videoPaths);
-  uploadVideos();
-  logger.info(`Videos are available at s3://${BUCKET_NAME}/cypress/videos`);
-  logger.info(
-    `files are downloadable via aws s3 sync s3://${BUCKET_NAME}/cypress/videos`
-  );
-  uploadScreenshots();
-  logger.info(
-    `Screenshots are available at s3://${BUCKET_NAME}/cypress/screenshots`
-  );
-  logger.info(
-    `files are downloadable via aws s3 sync s3://${BUCKET_NAME}/cypress/screenshots`
-  );
-  uploadReports();
-  logger.info(`Reports are available at s3://${BUCKET_NAME}/mochareports`);
-  logger.info(
-    `files are downloadable via aws s3 sync s3://${BUCKET_NAME}/mochareports`
-  );
+  await getVideos;
+  await getScreenshots;
+  await getReports;
+  const s3PathsVideos = await uploadS3("cypress/videos", "*.mp4");
+  const s3PathsScreenshots = await uploadS3("cypress/screenshots", "*.png");
+  const s3PathsReports = await uploadS3("mochareports", "*.*");
+  const processedS3PathsVideos = processS3Paths(s3PathsVideos);
+  const processedS3PathsScreenshots = processS3Paths(s3PathsScreenshots);
+  const processedS3PathsReports = processS3Paths(s3PathsReports);
+  logger.info("processedS3PathsVideos", { processedS3PathsVideos });
+  logger.info("processedS3PathsScreenshots", { processedS3PathsScreenshots });
+  logger.info("processedS3PathsReports", { processedS3PathsReports });
+}
+
+function processS3Paths(paths: string[]) {
+  const bucketURL = `https://${BUCKET_NAME}.s3.amazonaws.com/`;
+  const processedS3Paths: string[] = [];
+  paths.forEach(element => {
+    processedS3Paths.push(`${bucketURL}${element}`);
+  });
+  return processedS3Paths;
 }
 
 const getVideos = (async () => {
