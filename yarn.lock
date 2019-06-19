@@ -6547,10 +6547,10 @@ mochawesome-report-generator@4.0.0, mochawesome-report-generator@^4.0.0:
     validator "^10.11.0"
     yargs "^13.2.2"
 
-mochawesome@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-4.0.0.tgz#fb361cb665fe99e64c78d63a9ebdf3ef24478a7e"
-  integrity sha512-7/HiriH6Sj+D/nMflucbuWkJh26epy2IXeYjz8uJ2gB2y2sNh+UT016HRwd1GhijJJjwGq1N1mrSGTzmIw4K9w==
+mochawesome@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-4.0.1.tgz#351af69c8904468e75a71f8704ed0b5767795ccc"
+  integrity sha512-F/hVmiwWCvwBiW/UPhs4/lfgf8mBJBr89W/9fDu+hb+rQ9gFxWh9N/BU7RtEH+dMfBF4o8XIdYHrEcwxJhzqsw==
   dependencies:
     chalk "^2.4.1"
     diff "^4.0.1"
