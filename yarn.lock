@@ -5508,10 +5508,10 @@ jest-snapshot@^24.8.0:
     pretty-format "^24.8.0"
     semver "^5.5.0"
 
-jest-stare@1.15.0:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-1.15.0.tgz#dde975f56ef794006724f821e28421b4a39758dd"
-  integrity sha512-mwUGaZKJWkqsypxg0Y2sMdLk6BQRnpzEn9ux82FlqE/V2m9OClTtXmncimHWqGcdmq2Kl7vwpPz2h1K6PPlF3Q==
+jest-stare@1.16.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-1.16.0.tgz#d4dd2ead9c8ebfefee501ee5e9973e6711f3a64c"
+  integrity sha512-nV2kmTQpXCexLskWpVVNvYYNClJORQsg2BmwfZsEOmPcpwov2giK+TKhGbggbadZsktNFXaZzYaYXKlYjVy9yg==
   dependencies:
     ansi-parser "^3.2.9"
     bootstrap "^4.3.1"
