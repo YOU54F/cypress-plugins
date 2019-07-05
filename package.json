@@ -77,7 +77,7 @@
     "cypress-multi-reporters": "1.1.22",
     "mochawesome": "4.0.1",
     "mochawesome-merge": "2.0.1",
-    "mochawesome-report-generator": "4.0.0",
+    "mochawesome-report-generator": "4.0.1",
     "prettier": "1.18.2",
     "rimraf": "2.6.3",
     "slack-mock-typed": "2.1.2",
