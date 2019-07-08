@@ -6528,7 +6528,26 @@ mochawesome-merge@2.0.1:
     uuid "^3.3.2"
     yargs "^12.0.5"
 
-mochawesome-report-generator@4.0.0, mochawesome-report-generator@^4.0.0:
+mochawesome-report-generator@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-4.0.1.tgz#0a010d1ecf379eb26ba05300feb59e2665076080"
+  integrity sha512-hQbmQt8/yCT68GjrQFat+Diqeuka3haNllexYfja1+y0hpwi3yCJwFpQCdWK9ezzcXL3Nu80f2I6SZeyspwsqg==
+  dependencies:
+    chalk "^2.4.2"
+    dateformat "^3.0.2"
+    fs-extra "^7.0.0"
+    fsu "^1.0.2"
+    lodash.isfunction "^3.0.8"
+    opener "^1.4.2"
+    prop-types "^15.7.2"
+    react "^16.8.5"
+    react-dom "^16.8.5"
+    tcomb "^3.2.17"
+    tcomb-validation "^3.3.0"
+    validator "^10.11.0"
+    yargs "^13.2.2"
+
+mochawesome-report-generator@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-4.0.0.tgz#34c6158d440e8be5b2cdd0d0dc5af3a02c44464a"
   integrity sha512-kdVOUKOc3oe1keZYLE3f3gbC0dpzuLusGG8jHGA0hD6agdIs3vc0SvDd5Iq9LQXop9kHCxzCBX+q1py9qThkwg==
