@@ -9092,10 +9092,10 @@ tslint-no-focused-test@0.5.0:
   resolved "https://registry.yarnpkg.com/tslint-no-focused-test/-/tslint-no-focused-test-0.5.0.tgz#e0a93ef3fa64bd91c7e7437d1f183204880a8ed5"
   integrity sha512-YK0PSY5XAdJaTzVIXxnUGyvB5VAi+H9yTc3e40YVtu8Ix3+zLSz4ufvX6rXT3nWpim0DR6fxXoL/Zk8JI641Vg==
 
-tslint@5.17.0:
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.17.0.tgz#f9f0ce2011d8e90debaa6e9b4975f24cd16852b8"
-  integrity sha512-pflx87WfVoYepTet3xLfDOLDm9Jqi61UXIKePOuca0qoAZyrGWonDG9VTbji58Fy+8gciUn8Bt7y69+KEVjc/w==
+tslint@5.18.0:
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.18.0.tgz#f61a6ddcf372344ac5e41708095bbf043a147ac6"
+  integrity sha512-Q3kXkuDEijQ37nXZZLKErssQVnwCV/+23gFEMROi8IlbaBG6tXqLPQJ5Wjcyt/yHPKBC+hD5SzuGaMora+ZS6w==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     builtin-modules "^1.1.1"
