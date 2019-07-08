@@ -1833,34 +1833,19 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk-mock@4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk-mock/-/aws-sdk-mock-4.4.0.tgz#90f27b6a4e19293e9ad8c25add8e7137c2db94ce"
-  integrity sha512-cnR2Sff2jSO2UazeGL3rp4ulg66I8mVeCWvKZk0Bb+s//b5sUDZ1OhvOqr7v6uRJKhgaikeZJdZtI6efHYsN2Q==
+aws-sdk-mock@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk-mock/-/aws-sdk-mock-4.5.0.tgz#9de5feefaf9c755f22fcf029db3f202599a9219e"
+  integrity sha512-PAZKbQsdaVVoMr1JZbi04FUrkxCK16qnwBWLm4keeBrEfqYab/cFNsn5IVp/ThdMQpJGYHnmqUPyFq1plKaHZg==
   dependencies:
-    aws-sdk "^2.431.0"
-    sinon "^7.3.1"
+    aws-sdk "^2.483.0"
+    sinon "^7.3.2"
     traverse "^0.6.6"
 
-aws-sdk@2.488.0:
+aws-sdk@2.488.0, aws-sdk@^2.483.0:
   version "2.488.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.488.0.tgz#1664e14743d93793d2ffc4b2e70b7ce19c008d84"
   integrity sha512-9AP48tyF1E5+x1CKeiRlj0Sv1YF7KI0BdSW9JP8x3ClhPWNUHjDYNH2OwsALuG1BloeY2ZigYqfI2fB7g3rNHQ==
-  dependencies:
-    buffer "4.9.1"
-    events "1.1.1"
-    ieee754 "1.1.8"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
-
-aws-sdk@^2.431.0:
-  version "2.453.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.453.0.tgz#7f1ada4efc78d255dfd43adc3decd5f01a21ac2c"
-  integrity sha512-UsofQeX8XVElr4+bqw47jOZUGNiwUdFVTNyOdOHcK14RHH2ySsve6JWyvQT8L2rS//XQP1OBIQo20PAl1Zf7ig==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -8285,7 +8270,7 @@ simple-concat@^1.0.0:
   resolved "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.0.tgz#7344cbb8b6e26fb27d66b2fc86f9f6d5997521c6"
   integrity sha1-c0TLuLbib7J9ZrL8hvn21Zl1IcY=
 
-sinon@^7.3.1:
+sinon@^7.3.2:
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-7.3.2.tgz#82dba3a6d85f6d2181e1eca2c10d8657c2161f28"
   integrity sha512-thErC1z64BeyGiPvF8aoSg0LEnptSaWE7YhdWWbWXgelOyThent7uKOnnEh9zBxDbKixtr5dEko+ws1sZMuFMA==
