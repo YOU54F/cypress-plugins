@@ -46,7 +46,7 @@
   "dependencies": {
     "@slack/types": "^1.0.0",
     "@slack/webhook": "^5.0.0",
-    "commander": "^2.20.0"
+    "commander": "^3.0.0"
   },
   "peerDependencies": {
     "mochawesome": ">= 3.1.2",
