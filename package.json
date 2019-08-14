@@ -79,7 +79,7 @@
     "mochawesome-merge": "2.0.1",
     "mochawesome-report-generator": "4.0.1",
     "prettier": "1.18.2",
-    "rimraf": "2.7.0",
+    "rimraf": "2.7.1",
     "slack-mock-typed": "2.2.1",
     "standard-version": "7.0.0",
     "ts-jest": "24.0.2",
