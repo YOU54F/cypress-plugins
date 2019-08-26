@@ -69,7 +69,7 @@
     "dotenv": "8.1.0",
     "husky": "3.0.4",
     "jest": "24.9.0",
-    "jest-junit": "7.0.0",
+    "jest-junit": "8.0.0",
     "jest-stare": "1.18.1",
     "lint-staged": "9.2.3",
     "mocha": "6.2.0",
