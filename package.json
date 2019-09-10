@@ -85,7 +85,7 @@
     "ts-jest": "24.0.2",
     "ts-loader": "6.0.4",
     "ts-node": "8.3.0",
-    "tslint": "5.19.0",
+    "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-no-focused-test": "0.5.0",
     "typescript": "3.6.2",
