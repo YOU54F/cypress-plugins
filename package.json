@@ -61,7 +61,7 @@
     "@types/dotenv": "6.1.1",
     "@types/jest": "24.0.18",
     "@types/node": "10.14.18",
-    "aws-sdk": "2.526.0",
+    "aws-sdk": "2.527.0",
     "aws-sdk-mock": "4.5.0",
     "coveralls": "3.0.6",
     "cypress": "3.4.1",
