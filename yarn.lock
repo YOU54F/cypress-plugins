@@ -1319,7 +1319,7 @@
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
   integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
 
-"@types/jest@24.0.19":
+"@types/jest@24.0.19", "@types/jest@^24.0.19":
   version "24.0.19"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.19.tgz#f7036058d2a5844fe922609187c0ad8be430aff5"
   integrity sha512-YYiqfSjocv7lk5H/T+v5MjATYjaTMsUkbDnjGqSMoO88jWdtJXJV4ST/7DKZcoMHMBvB2SeSfyOzZfkxXHR5xg==
@@ -5708,11 +5708,12 @@ jest-snapshot@^24.9.0:
     pretty-format "^24.9.0"
     semver "^6.2.0"
 
-jest-stare@1.21.0:
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-1.21.0.tgz#40a5363f29154330d45de09e68eee699bde3d6e5"
-  integrity sha512-pT9G1eSHQQrZkc4XE9Q/j1tAYdNadGFj4BoHvMOpwANjFTDS1f4MsLbTvHuO3jTUvlDQv7dkPD6zqhLo/986oA==
+jest-stare@1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-1.23.0.tgz#2792021fed87733eb199d46ee5f8b8282e8d9783"
+  integrity sha512-FJ81fl4IzsQwNYOJkftSdLRxKGCD9mbpPhspF7dm6wMSvhwXn5NeUwg2VJOE8bmQGWnPgpRQ1gM00nehqHpeUA==
   dependencies:
+    "@types/jest" "^24.0.19"
     ansi-parser "^3.2.9"
     bootstrap "^4.3.1"
     chalk "^2.4.2"
