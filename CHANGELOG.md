@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.4](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.3...v0.4.4) (2019-10-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v3 ([#174](https://github.com/you54f/cypress-slack-reporter/issues/174)) ([e730eba](https://github.com/you54f/cypress-slack-reporter/commit/e730eba))
+
+
+
 ### [0.4.3](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.2...v0.4.3) (2019-08-07)
 
 
