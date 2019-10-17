@@ -80,7 +80,7 @@
     "mochawesome-report-generator": "4.0.1",
     "prettier": "1.18.2",
     "rimraf": "3.0.0",
-    "slack-mock-typed": "2.2.1",
+    "slack-mock-typed": "2.2.2",
     "standard-version": "7.0.0",
     "ts-jest": "24.1.0",
     "ts-loader": "6.2.0",
