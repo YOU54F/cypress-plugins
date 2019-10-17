@@ -3361,10 +3361,10 @@ cypress-cucumber-preprocessor@1.12.0:
     glob "^7.1.2"
     through "^2.3.8"
 
-cypress-multi-reporters@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/cypress-multi-reporters/-/cypress-multi-reporters-1.2.1.tgz#55dff4d2d290d1bb466d79e527fa1e9622026cc7"
-  integrity sha512-c8nNFzR5Pftkz05INyMT5py+603+gm0Fsd0HJ06NemqlZZ1UIaTILc0AQCj8PL89WmzJtZ3hVkQyG1rUWMJ8mQ==
+cypress-multi-reporters@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/cypress-multi-reporters/-/cypress-multi-reporters-1.2.3.tgz#4ba39373631c6521d21931d73f6b0bafa1ccbf83"
+  integrity sha512-W3ItWsbSgMfsQFTuB89OXY5gyqLuM0O2lNEn+mcQAYeMs36TxVLAg3q+Hk0Om+NcWj8OLhM06lBQpnu9+i4gug==
   dependencies:
     debug "^4.1.1"
     lodash "^4.17.11"
