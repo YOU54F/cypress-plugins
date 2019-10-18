@@ -72,7 +72,7 @@
     "jest-junit": "8.0.0",
     "jest-stare": "1.24.0",
     "lint-staged": "9.4.2",
-    "mocha": "6.2.1",
+    "mocha": "6.2.2",
     "mocha-junit-reporter": "1.23.1",
     "cypress-multi-reporters": "1.2.3",
     "mochawesome": "4.1.0",
