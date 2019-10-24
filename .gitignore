@@ -8,6 +8,6 @@ videos
 screenshots
 coverage
 testReports
-bin
+#bin
 yarn-error.log
 mochareports
