@@ -18,7 +18,8 @@ let {
   CI_PULL_REQUEST,
   CI_PROJECT_REPONAME,
   CI_PROJECT_USERNAME,
-  CI_URL
+  CI_URL,
+  CI_CIRCLE_JOB
 } = process.env;
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let commitUrl: string = "";
@@ -174,12 +175,19 @@ export function attachmentReports(
   } else {
     branchText = `Branch: ${CI_BRANCH}\n`;
   }
+  var jobText;
+    if (!CI_CIRCLE_JOB) {
+        jobText = "";
+    }
+    else {
+        jobText =   `Job: ${CI_CIRCLE_JOB}\n`;
+    }
   switch (_status) {
     case "passed": {
       return (attachments = {
         color: "#36a64f",
         fallback: `Report available at ${reportHTMLUrl}`,
-        text: `${branchText}Total Passed:  ${totalPasses}`,
+        text: `${branchText}${jobText}Total Passed:  ${totalPasses}`,
         actions: [
           {
             type: "button",
@@ -201,7 +209,7 @@ export function attachmentReports(
         color: "#ff0000",
         fallback: `Report available at ${reportHTMLUrl}`,
         title: `Total Failed: ${totalFailures}`,
-        text: `${branchText}Total Tests: ${totalTests}\nTotal Passed:  ${totalPasses} `,
+        text: `${branchText}${jobText}Total Tests: ${totalTests}\nTotal Passed:  ${totalPasses} `,
         actions: [
           {
             type: "button",
@@ -222,7 +230,7 @@ export function attachmentReports(
       return (attachments = {
         color: "#ff0000",
         fallback: `Build Log available at ${CI_BUILD_URL}`,
-        text: `${branchText}Total Passed:  ${totalPasses} `,
+        text: `${branchText}${jobText}Total Passed:  ${totalPasses} `,
         actions: [
           {
             type: "button",
@@ -426,7 +434,8 @@ export function resolveCIProvider(ciProvider: string) {
           CIRCLE_BUILD_NUM,
           CIRCLE_PULL_REQUEST,
           CIRCLE_PROJECT_REPONAME,
-          CIRCLE_PROJECT_USERNAME
+          CIRCLE_PROJECT_USERNAME,
+          CIRCLE_JOB
         } = process.env;
 
         (CI_SHA1 = CIRCLE_SHA1),
@@ -436,7 +445,8 @@ export function resolveCIProvider(ciProvider: string) {
           (CI_BUILD_NUM = CIRCLE_BUILD_NUM),
           (CI_PULL_REQUEST = CIRCLE_PULL_REQUEST),
           (CI_PROJECT_REPONAME = CIRCLE_PROJECT_REPONAME),
-          (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME);
+          (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME),
+          (CI_CIRCLE_JOB = CIRCLE_JOB);
         CI_URL = "https://circleci.com/api/v1.1/project";
       }
       break;
