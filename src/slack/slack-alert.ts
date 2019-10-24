@@ -175,7 +175,7 @@ export function attachmentReports(
   } else {
     branchText = `Branch: ${CI_BRANCH}\n`;
   }
-  var jobText;
+  let jobText;
     if (!CI_CIRCLE_JOB) {
         jobText = "";
     }
