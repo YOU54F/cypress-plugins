@@ -21,6 +21,7 @@ let {
   CI_URL,
   CI_CIRCLE_JOB
 } = process.env;
+const ENV_SUT = process.env.ENV_SUT;
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let commitUrl: string = "";
 let VCS_BASEURL: string;
@@ -176,18 +177,23 @@ export function attachmentReports(
     branchText = `Branch: ${CI_BRANCH}\n`;
   }
   let jobText;
-    if (!CI_CIRCLE_JOB) {
-        jobText = "";
-    }
-    else {
-        jobText =   `Job: ${CI_CIRCLE_JOB}\n`;
-    }
+  if (!CI_CIRCLE_JOB) {
+    jobText = "";
+  } else {
+    jobText = `Job: ${CI_CIRCLE_JOB}\n`;
+  }
+  let envSut;
+  if (!ENV_SUT) {
+    envSut = "";
+  } else {
+    envSut = `SUT: ${ENV_SUT}\n`;
+  }
   switch (_status) {
     case "passed": {
       return (attachments = {
         color: "#36a64f",
         fallback: `Report available at ${reportHTMLUrl}`,
-        text: `${branchText}${jobText}Total Passed:  ${totalPasses}`,
+        text: `${branchText}${jobText}${envSut}Total Passed:  ${totalPasses}`,
         actions: [
           {
             type: "button",
@@ -209,7 +215,7 @@ export function attachmentReports(
         color: "#ff0000",
         fallback: `Report available at ${reportHTMLUrl}`,
         title: `Total Failed: ${totalFailures}`,
-        text: `${branchText}${jobText}Total Tests: ${totalTests}\nTotal Passed:  ${totalPasses} `,
+        text: `${branchText}${jobText}${envSut}Total Tests: ${totalTests}\nTotal Passed:  ${totalPasses} `,
         actions: [
           {
             type: "button",
@@ -230,7 +236,7 @@ export function attachmentReports(
       return (attachments = {
         color: "#ff0000",
         fallback: `Build Log available at ${CI_BUILD_URL}`,
-        text: `${branchText}${jobText}Total Passed:  ${totalPasses} `,
+        text: `${branchText}${jobText}${envSut}Total Passed:  ${totalPasses} `,
         actions: [
           {
             type: "button",
