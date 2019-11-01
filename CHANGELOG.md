@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.5](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.4...v0.4.5) (2019-11-01)
+
+
+### Features
+
+* added support for circle ci job name under slack report messgae by [@uxi187](https://github.com/uxi187) ([c36fc7b](https://github.com/you54f/cypress-slack-reporter/commit/c36fc7b))
+
 ### [0.4.4](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.3...v0.4.4) (2019-10-17)
 
 
