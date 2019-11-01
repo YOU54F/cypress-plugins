@@ -120,5 +120,10 @@
   "jest-junit": {
     "outputDirectory": "./testReports/",
     "reportDir": "testReports/unit"
+  },
+  "resolutions": {
+    "set-value":  "2.0.1",
+    "braces":  "2.3.1",
+    "handlebars":  "4.3.0"
   }
 }

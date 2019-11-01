@@ -242,7 +242,8 @@ describe("attachmentReports tester", () => {
         ],
         "color": "#36a64f",
         "fallback": "Report available at undefined",
-        "text": "Total Passed:  0",
+        "text": "SUT: envsut
+      Total Passed:  0",
       }
     `);
   });
@@ -266,7 +267,8 @@ describe("attachmentReports tester", () => {
         ],
         "color": "#ff0000",
         "fallback": "Report available at undefined",
-        "text": "Total Tests: 0
+        "text": "SUT: envsut
+      Total Tests: 0
       Total Passed:  0 ",
         "title": "Total Failed: 0",
       }
@@ -286,7 +288,8 @@ describe("attachmentReports tester", () => {
         ],
         "color": "#ff0000",
         "fallback": "Build Log available at undefined",
-        "text": "Total Passed:  0 ",
+        "text": "SUT: envsut
+      Total Passed:  0 ",
       }
     `);
   });
