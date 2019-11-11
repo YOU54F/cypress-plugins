@@ -76,7 +76,7 @@
     "mocha-junit-reporter": "1.23.1",
     "cypress-multi-reporters": "1.2.3",
     "mochawesome": "4.1.0",
-    "mochawesome-merge": "2.0.1",
+    "mochawesome-merge": "2.1.0",
     "mochawesome-report-generator": "4.0.1",
     "prettier": "1.19.1",
     "rimraf": "3.0.0",
