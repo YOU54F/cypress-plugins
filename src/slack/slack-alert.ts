@@ -428,7 +428,13 @@ export function getCommitUrl(_vcsRoot: string) {
   }
 }
 
-export function resolveCIProvider(ciProvider: string) {
+export function resolveCIProvider(ciProvider?: string) {
+  if (!ciProvider && process.env.CIRCLE_SHA1) {
+    ciProvider = "circleci";
+  }
+  if (!ciProvider && process.env.JENKINS_HOME) {
+    ciProvider = "jenkins";
+  }
   switch (ciProvider) {
     case "circleci":
       {
@@ -454,6 +460,39 @@ export function resolveCIProvider(ciProvider: string) {
           (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME),
           (CI_CIRCLE_JOB = CIRCLE_JOB);
         CI_URL = "https://circleci.com/api/v1.1/project";
+      }
+      break;
+    case "jenkins":
+      {
+        const {
+          GIT_COMMIT,
+          BRANCH_NAME,
+          CHANGE_AUTHOR,
+          BUILD_URL,
+          BUILD_ID,
+          CHANGE_ID,
+          JOB_NAME
+        } = process.env;
+        if (typeof process.env.GIT_URL === "undefined") {
+          throw new Error("GIT_URL not defined!");
+        }
+        const urlParts = process.env.GIT_URL.replace(
+          "https://github.com/",
+          ""
+        ).replace(".git", "");
+        const arr = urlParts.split("/");
+        const PROJECT_REPONAME = arr[1];
+        const PROJECT_USERNAME = arr[0];
+        (CI_SHA1 = GIT_COMMIT),
+          (CI_BRANCH = BRANCH_NAME),
+          (CI_USERNAME = CHANGE_AUTHOR),
+          (CI_BUILD_URL = BUILD_URL),
+          (CI_BUILD_NUM = BUILD_ID),
+          (CI_PULL_REQUEST = CHANGE_ID),
+          (CI_PROJECT_REPONAME = PROJECT_REPONAME),
+          (CI_PROJECT_USERNAME = PROJECT_USERNAME),
+          (CI_CIRCLE_JOB = JOB_NAME);
+        CI_URL = process.env.JENKINS_URL;
       }
       break;
     default: {
