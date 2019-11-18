@@ -312,6 +312,8 @@ function generateReport(options: any) {
   - [X] test example
   - [X] compile
 - [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
+- Additional CI providers
+  - [X] Jenkins
 
 ## Contributors
 
