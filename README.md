@@ -24,6 +24,10 @@ For users who are not using CircleCi, you can get a simple report
 
 - pass `--ci-provider none` provider flag to provide a simple slack message based on the mochawesome report status
 
+For jenkins users
+
+- pass `--ci-provider jenkins` provider flag.
+  
 ## Reporting Features
 
 It provides the following distinct message types
@@ -82,7 +86,7 @@ Set the following environment variables in your localhost or CI configuration.
       Options:
         -v, --version            output the version number
         --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
-        --ci-provider [type]     CI Provider [circleci|none] (default: "circleci")
+        --ci-provider [type]     CI Provider [circleci|jenkins|none] (default: "circleci")
         --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
         --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
@@ -308,3 +312,8 @@ function generateReport(options: any) {
   - [X] test example
   - [X] compile
 - [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
+
+## Contributors
+
+- With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
+  

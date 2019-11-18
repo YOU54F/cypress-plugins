@@ -39,7 +39,11 @@ program
     "VCS Provider [github|bitbucket|none]",
     "github"
   )
-  .option("--ci-provider [type]", "CI Provider [circleci|none]", "circleci")
+  .option(
+    "--ci-provider [type]",
+    "CI Provider [circleci|jenkins|none]",
+    "circleci"
+  )
   .option(
     "--report-dir [type]",
     "mochawesome json & html test report directory, relative to your package.json",
