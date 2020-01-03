@@ -54,8 +54,8 @@
     "mochawesome-report-generator": ">= 3.1.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.3",
-    "@commitlint/config-conventional": "8.3.3",
+    "@commitlint/cli": "8.3.4",
+    "@commitlint/config-conventional": "8.3.4",
     "@cypress/webpack-preprocessor": "4.1.1",
     "@types/bluebird": "3.5.29",
     "@types/dotenv": "6.1.1",
