@@ -82,7 +82,7 @@
     "rimraf": "3.0.1",
     "slack-mock-typed": "2.2.2",
     "standard-version": "7.1.0",
-    "ts-jest": "25.1.0",
+    "ts-jest": "25.2.0",
     "ts-loader": "6.2.1",
     "ts-node": "8.6.2",
     "tslint": "5.20.1",
