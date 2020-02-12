@@ -95,7 +95,7 @@ Set the following environment variables in your localhost or CI configuration.
 - [mochawesome](https://github.com/adamgruber/mochawesome/) for json test result generation
 - [mochawesome-merge](https://github.com/Antontelesh/mochawesome-merge) to combine multiple mochawesome reports
 - [mochawesome-report-generator](https://github.com/Antonteleshmochawesome-report-generator) to generate a HTML report, from your mochawesome json test results
-- [mocha-multi-reporters](https://github.com/stanleyhlng/mocha-multi-reporters) to allow you to use multple reporters, in case you require other outputs (junit/spec etc)
+- [cypress-multi-reporters](https://github.com/you54f/cypress-multi-reporters) to allow you to use multple reporters, in case you require other outputs (junit/spec etc)
 
 Yarn installation Instructions
 
@@ -103,7 +103,7 @@ Yarn installation Instructions
     yarn add mochawesome --dev
     yarn add mochawesome-merge --dev
     yarn add mochawesome-report-generator --dev
-    yarn add mocha-multi-reporters --dev
+    yarn add cypress-multi-reporters --dev
 ```
 
 NPM installation Instructions
@@ -112,7 +112,7 @@ NPM installation Instructions
     npm install mochawesome --save-dev
     npm install mochawesome-merge --save-dev
     npm install mochawesome-report-generator --save-dev
-    npm install mocha-multi-reporters --save-dev
+    npm install cypress-multi-reporters --save-dev
 ```
 
 - Add the following in the base of your project
@@ -122,7 +122,7 @@ cypress.json
 ```json
 {
   ...
-  "reporter": "mocha-multi-reporters",
+  "reporter": "cypress-multi-reporters",
   "reporterOptions": {
     "configFile": "reporterOpts.json"
   }
@@ -222,7 +222,7 @@ CypressNpmApi.run({
     mochawesomeReporterOptions: {
       reportDir: "cypress/reports/mocha",
       quiet: true,
-      overwrite: true,
+      overwrite: false,
       html: false,
       json: true
     }
