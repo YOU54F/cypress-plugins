@@ -20,7 +20,7 @@ CypressNpmApi.run({
     mochawesomeReporterOptions: {
       reportDir: "cypress/reports/mocha",
       quiet: true,
-      overwrite: true,
+      overwrite: false,
       html: false,
       json: true
     }
