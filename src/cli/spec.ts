@@ -7,6 +7,7 @@ import { slackRunner } from "../slack/slack-alert";
 // tslint:disable: no-var-requires
 const marge = require("mochawesome-report-generator");
 const { merge } = require("mochawesome-merge");
+const del = require("del");
 // tslint:disable: no-var-requires
 
 CypressNpmApi.run({
@@ -29,7 +30,7 @@ CypressNpmApi.run({
   .then(async results => {
     const generatedReport = await Promise.resolve(
       generateReport({
-        reportDir: "cypress/reports/mocha",
+        files: ["cypress/reports/mocha/*.json"],
         inline: true,
         saveJson: true
       })
@@ -37,6 +38,9 @@ CypressNpmApi.run({
     // tslint:disable-next-line: no-console
     console.log("Merged report available here:-", generatedReport);
     return generatedReport;
+  })
+  .then(async delFiles => {
+    await del(["cypress/reports/mocha/mochawesome_*.json"]);
   })
   .then(generatedReport => {
     const base = process.env.PWD || ".";
