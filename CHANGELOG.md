@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.3](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.2...v0.5.3) (2020-02-14)
+
+
+### Bug Fixes
+
+* update reportDir in cli runner ([f506816](https://github.com/you54f/cypress-slack-reporter/commit/f5068161de2f93e4fb7e22d1ff84e90b7dec3d9a))
+
 ### [0.5.2](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.1...v0.5.2) (2020-02-14)
 
 ### [0.5.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.7...v0.5.1) (2020-02-12)
