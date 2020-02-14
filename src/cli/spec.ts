@@ -50,7 +50,7 @@ CypressNpmApi.run({
       vcsProvider: "github",
       screenshotDir: `${base}/cypress/screenshots`,
       verbose: true,
-      reportDir: `${base}/cypress/reports/mocha`
+      reportDir: `${base}/mochawesome-report`
     };
     const ciProvider: string = program.ciProvider;
     const vcsProvider: string = program.vcsProvider;
