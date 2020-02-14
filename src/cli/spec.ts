@@ -30,7 +30,7 @@ CypressNpmApi.run({
   .then(async results => {
     const generatedReport = await Promise.resolve(
       generateReport({
-        reportDir: "cypress/reports/mocha",
+        files: "cypress/reports/mocha/*.json",
         inline: true,
         saveJson: true
       })
