@@ -166,6 +166,7 @@ The following env vars are read for CircleCI users.
 - `CIRCLE_PROJECT_REPONAME` - The name of the repository of the current project.
 - `CIRCLE_PROJECT_USERNAME` - The GitHub or Bitbucket username of the current project.
 - `CI_URL="https://circleci.com/api/v1.1/project"`
+- `CIRCLE_PROJECT_ID` - This project ID used in artefact URLS
 
 If you wish to use another CI provider, you can pass any name other than `circleci` into the CLI flag `--ci-provider`, which will allow you to enter your own environment variables for CI.
 
@@ -178,6 +179,41 @@ If you wish to use another CI provider, you can pass any name other than `circle
 - `CI_PULL_REQUEST`,
 - `CI_PROJECT_REPONAME`
 - `CI_PROJECT_USERNAME`
+
+### CircleCI Artifact Notes
+
+CircleCI have recently changed the API for retrieving API's. A URL is generated for artefacts in the format
+
+`https://${CI_BUILD_NUM}-${CI_PROJECT_ID}-gh.circle-artifacts.com/0`
+
+You can get the `CIRCLE_PROJECT_ID` by checking [https://circleci.com/docs/api/#artifacts-of-a-build](https://circleci.com/docs/api/#artifacts-of-a-build)
+
+For example. the ID for this project is `177880476`, you can see it in the following URL
+
+`https://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/1/artifacts`
+
+which will return
+
+```json
+[ {
+  "path" : "root/app/mochareports/.gitignore",
+  "pretty_path" : "root/app/mochareports/.gitignore",
+  "node_index" : 0,
+  "url" : "https://1-177880476-gh.circle-artifacts.com/0/root/app/mochareports/.gitignore"
+},
+...
+]
+```
+
+In order to correctly construct your artifact URL, you will need to manually retrieve this ID and set it as an env var titled `CIRCLE_PROJECT_ID`
+
+`EXPORT CIRCLE_PROJECT_ID=177880476`
+
+in windows
+
+`SET CIRCLE_PROJECT_ID=177880476`
+
+or in your CircleCI project's environment page.
 
 ## Scripted Runner
 
