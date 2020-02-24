@@ -43,14 +43,13 @@ CypressNpmApi.run({
     await del(["cypress/reports/mocha/mochawesome_*.json"]);
   })
   .then(generatedReport => {
-    const base = process.env.PWD || ".";
     const program: any = {
       ciProvider: "circleci",
-      videoDir: `${base}/cypress/videos`,
+      videoDir: `cypress/videos`,
       vcsProvider: "github",
-      screenshotDir: `${base}/cypress/screenshots`,
+      screenshotDir: `cypress/screenshots`,
       verbose: true,
-      reportDir: `${base}/mochawesome-report`
+      reportDir: `mochawesome-report`
     };
     const ciProvider: string = program.ciProvider;
     const vcsProvider: string = program.vcsProvider;

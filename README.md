@@ -275,14 +275,13 @@ CypressNpmApi.run({
     return generatedReport
   })
   .then(generatedReport => {
-    const base = process.env.PWD || ".";
     const program: any = {
       ciProvider: "circleci",
-      videoDir: `${base}/cypress/videos`,
+      videoDir: `cypress/videos`,
       vcsProvider: "github",
-      screenshotDir: `${base}/cypress/screenshots`,
+      screenshotDir: `cypress/screenshots`,
       verbose: true,
-      reportDir: `${base}/cypress/reports/mocha`
+      reportDir: `cypress/reports/mocha`
     };
     const ciProvider: string = program.ciProvider;
     const vcsProvider: string = program.vcsProvider;
