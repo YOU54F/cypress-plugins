@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.4](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.3...v0.5.4) (2020-02-24)
+
+
+### Bug Fixes
+
+* update artefact url for cirleci ([#446](https://github.com/you54f/cypress-slack-reporter/issues/446)) ([a52d3bd](https://github.com/you54f/cypress-slack-reporter/commit/a52d3bd1ed729b93cd6d433ae903593efac3a332))
+
 ### [0.5.3](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.2...v0.5.3) (2020-02-14)
 
 
