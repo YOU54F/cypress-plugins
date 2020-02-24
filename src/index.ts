@@ -27,8 +27,6 @@ try {
   }
 }
 
-const base = process.env.PWD || ".";
-
 program
   .version(
     `git@github.com:YOU54F/cypress-slack-reporter.git@${version}`,
@@ -62,9 +60,9 @@ program
 
 const ciProvider: string = program.ciProvider;
 const vcsProvider: string = program.vcsProvider;
-const reportDirectory: string = base + "/" + program.reportDir;
-const videoDirectory: string = base + "/" + program.videoDir;
-const screenshotDirectory: string = base + "/" + program.screenshotDir;
+const reportDirectory: string = program.reportDir;
+const videoDirectory: string = program.videoDir;
+const screenshotDirectory: string = program.screenshotDir;
 const verbose: boolean = program.verbose;
 
 if (program.verbose || program.logger) {
