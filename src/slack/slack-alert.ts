@@ -21,6 +21,7 @@ let {
   CI_URL,
   CI_CIRCLE_JOB
 } = process.env;
+const { CIRCLE_PROJECT_ID } = process.env;
 const ENV_SUT = process.env.ENV_SUT;
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let commitUrl: string = "";
@@ -406,8 +407,10 @@ export function buildHTMLReportURL(_reportDir: string, _artefactUrl: string) {
 export function getArtefactUrl(_vcsRoot: string, _artefactUrl: string) {
   switch (_vcsRoot) {
     case "github":
+      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0`;
+      break;
     case "bitbucket":
-      _artefactUrl = `${CI_URL}/${_vcsRoot}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
+      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0`;
       break;
     default: {
       _artefactUrl = "";
