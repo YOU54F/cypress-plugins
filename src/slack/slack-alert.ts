@@ -407,10 +407,10 @@ export function buildHTMLReportURL(_reportDir: string, _artefactUrl: string) {
 export function getArtefactUrl(_vcsRoot: string, _artefactUrl: string) {
   switch (_vcsRoot) {
     case "github":
-      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0`;
+      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
       break;
     case "bitbucket":
-      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0`;
+      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
       break;
     default: {
       _artefactUrl = "";
