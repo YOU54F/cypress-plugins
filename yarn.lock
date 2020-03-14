@@ -6875,10 +6875,10 @@ mocha@7.1.0:
     yargs-parser "13.1.1"
     yargs-unparser "1.6.0"
 
-mochawesome-merge@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/mochawesome-merge/-/mochawesome-merge-4.0.2.tgz#82732027363810c90fe214c331fb7a0815c14589"
-  integrity sha512-bQf3RchxdFh1gtfCC4BP2lBiE9RUpEpEiUnd9BuHntjoiZIQ5zX7+DyvT8z/PjDO8JkWm28T2U+7fHwyFt/CIg==
+mochawesome-merge@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/mochawesome-merge/-/mochawesome-merge-4.0.3.tgz#b8fc4e43a70695f77e4106ba3d3ff0dead844280"
+  integrity sha512-i4gyUE3UyUbdUVtV7cZRUSSQJbsyH8QJe4jeKUclnC4aK5oFGNz5wTfXyhZ5KXGISh2k76/48uOn8A3PkXRt5g==
   dependencies:
     fs-extra "^7.0.1"
     glob "^7.1.6"
