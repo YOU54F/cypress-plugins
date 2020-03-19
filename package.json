@@ -64,7 +64,7 @@
     "@types/node": "10.17.17",
     "aws-sdk": "2.642.0",
     "aws-sdk-mock": "5.1.0",
-    "coveralls": "3.0.9",
+    "coveralls": "3.0.11",
     "cypress": "4.2.0",
     "cypress-cucumber-preprocessor": "1.12.0",
     "cypress-multi-reporters": "1.2.4",
