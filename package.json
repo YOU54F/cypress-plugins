@@ -73,7 +73,7 @@
     "jest": "25.1.0",
     "jest-junit": "10.0.0",
     "jest-stare": "1.26.0",
-    "lint-staged": "10.0.8",
+    "lint-staged": "10.0.9",
     "mocha": "7.1.1",
     "mocha-junit-reporter": "1.23.3",
     "mochawesome": "5.0.0",
