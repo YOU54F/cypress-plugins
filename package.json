@@ -61,7 +61,7 @@
     "@types/bluebird": "3.5.30",
     "@types/dotenv": "6.1.1",
     "@types/jest": "25.1.4",
-    "@types/node": "10.17.17",
+    "@types/node": "10.17.18",
     "aws-sdk": "2.649.0",
     "aws-sdk-mock": "5.1.0",
     "coveralls": "3.0.11",
