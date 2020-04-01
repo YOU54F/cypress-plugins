@@ -123,7 +123,7 @@
     "reportDir": "testReports/unit"
   },
   "resolutions": {
-    "set-value": "2.0.1",
+    "set-value": "3.0.2",
     "braces": "2.3.2",
     "handlebars": "4.7.4"
   }
