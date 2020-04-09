@@ -69,7 +69,7 @@
     "cypress-cucumber-preprocessor": "1.12.0",
     "cypress-multi-reporters": "1.2.4",
     "dotenv": "8.2.0",
-    "husky": "4.2.3",
+    "husky": "4.2.4",
     "jest": "25.3.0",
     "jest-junit": "10.0.0",
     "jest-stare": "1.27.0",
