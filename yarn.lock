@@ -1718,6 +1718,13 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
   integrity sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==
 
+"@types/moxios@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@types/moxios/-/moxios-0.4.9.tgz#64f5c067e0e0173f72944b785689420e04015b86"
+  integrity sha512-Sd1b24QRW2N194j2LEDPQAZK1h0TBtpN+2EIH+rERCgm38qm14JZwC7NlpE7n3jULhlCIPZBG8uNcbjF8KcCaQ==
+  dependencies:
+    axios "^0.19.0"
+
 "@types/node@*":
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
@@ -2390,6 +2397,13 @@ axios@^0.18.0:
   dependencies:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
+
+axios@^0.19.0, axios@^0.19.2:
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
+  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
+  dependencies:
+    follow-redirects "1.5.10"
 
 babel-jest@^25.4.0:
   version "25.4.0"
@@ -7352,6 +7366,11 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
+moxios@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/moxios/-/moxios-0.4.0.tgz#fc0da2c65477d725ca6b9679d58370ed0c52f53b"
+  integrity sha1-/A2ixlR31yXKa5Z51YNw7QxS9Ts=
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -9046,11 +9065,14 @@ sisteransi@^1.0.0:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
   integrity sha512-N+z4pHB4AmUv0SjveWRd6q1Nj5w62m5jodv+GD8lvmbY/83T/rpbJGZOnK5T149OldDj4Db07BSv9xY4K6NTPQ==
 
-slack-mock-typed@2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/slack-mock-typed/-/slack-mock-typed-2.2.4.tgz#af22a84f98783c7b878012baf2a51f774516e5b4"
-  integrity sha512-PmZpGQ3Xa0ZvQCZZTt2uDFK1W/OQvSd9EVsUTcSmwoN3izST0AedcCgBMI6v+BdFE1Bc5I4Ln1s8n7uFss6MBA==
+slack-mock-typed@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/slack-mock-typed/-/slack-mock-typed-2.4.0.tgz#ad1d8905ceb029bfb3472804e57c0050887f4b1d"
+  integrity sha512-r/QicyYSUth3Xn9WacyePYn6YPkxZ1wrQ74GqI8Cf7Zp5aKsNsVZTwycHBpTz/7hChfE/xtGABGsx1RtmUmY+g==
   dependencies:
+    "@types/moxios" "^0.4.9"
+    axios "^0.19.2"
+    moxios "^0.4.0"
     nock "^10.0.6"
     qs "^6.3.0"
     winston "^2.3.0"
