@@ -4578,7 +4578,7 @@ es6-symbol@^3.1.1, es6-symbol@~3.1.1:
     d "1"
     es5-ext "~0.10.14"
 
-escape-html@~1.0.1:
+escape-html@^1.0.3, escape-html@~1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
@@ -7491,7 +7491,7 @@ mochawesome-merge@4.0.3:
     glob "^7.1.6"
     uuid "^3.3.2"
 
-mochawesome-report-generator@4.1.0, mochawesome-report-generator@^4.1.0:
+mochawesome-report-generator@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-4.1.0.tgz#f303e6acb5b30fd900f2ed8a0ba2054a034c9c39"
   integrity sha512-8diUnfzLqMPybIsq3aw3Zc4Npw9W2ZCx8/fMR0ShAXfDTtPH4t2mRykXEWBhsBA5+jM74mjWpwEqY6Pmz+pCsw==
@@ -7510,21 +7510,39 @@ mochawesome-report-generator@4.1.0, mochawesome-report-generator@^4.1.0:
     validator "^10.11.0"
     yargs "^13.2.2"
 
-mochawesome@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-5.0.0.tgz#eb3d96e589ccdd30146bbde581fb3deec01bcbec"
-  integrity sha512-1Vb0G8rqURptOZUmU5xLkLUWKYlx97IoMF2/xW18tL08Z1CZaUbzLAGbgq/s3DCn/vOrb8Dy7swb/cszp3Ylpg==
+mochawesome-report-generator@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-5.1.0.tgz#b8809e7661ac31732fa7ae7210380f704f7c68f6"
+  integrity sha512-5cI4Jh+sD+jIxc7q94961vnm/6VKDI7TFUPt9dps6oAc4y4WMpEeeOlmgKKM81q2eGaviNUYw+acFalGK6EJ9g==
   dependencies:
-    chalk "^3.0.0"
+    chalk "^2.4.2"
+    dateformat "^3.0.2"
+    escape-html "^1.0.3"
+    fs-extra "^7.0.0"
+    fsu "^1.0.2"
+    lodash.isfunction "^3.0.8"
+    opener "^1.4.2"
+    prop-types "^15.7.2"
+    tcomb "^3.2.17"
+    tcomb-validation "^3.3.0"
+    validator "^10.11.0"
+    yargs "^13.2.2"
+
+mochawesome@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-6.1.1.tgz#9155ac13edb42c9eb17a7adbbcbbb5c6ecefb972"
+  integrity sha512-fRGZkSJI+u4ODRQCFg3JqI4pqZGzOpfZqlEjvUoZ78l2JnBWwepPu7dMTAcyAEUsZbTSx7S4eVnsi+/Zh1Qq6A==
+  dependencies:
+    chalk "^4.0.0"
     diff "^4.0.1"
     json-stringify-safe "^5.0.1"
     lodash.isempty "^4.4.0"
     lodash.isfunction "^3.0.9"
     lodash.isobject "^3.0.2"
     lodash.isstring "^4.0.1"
-    mochawesome-report-generator "^4.1.0"
+    mochawesome-report-generator "^5.1.0"
     strip-ansi "^6.0.0"
-    uuid "^7.0.0"
+    uuid "^7.0.3"
 
 modify-values@^1.0.0:
   version "1.0.1"
@@ -10434,10 +10452,10 @@ uuid@^3.3.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
-uuid@^7.0.0:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.1.tgz#95ed6ff3d8c881cbf85f0f05cc3915ef994818ef"
-  integrity sha512-yqjRXZzSJm9Dbl84H2VDHpM3zMjzSJQ+hn6C4zqd5ilW+7P4ZmLEEqwho9LjP+tGuZlF4xrHQXT0h9QZUS/pWA==
+uuid@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
 uuid@^7.0.2, uuid@^7.0.3:
   version "7.0.3"
