@@ -89,7 +89,7 @@
     "tslint": "5.20.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-no-focused-test": "0.5.0",
-    "typescript": "3.8.3",
+    "typescript": "3.9.2",
     "webpack": "4.43.0",
     "winston": "2.4.4"
   },
