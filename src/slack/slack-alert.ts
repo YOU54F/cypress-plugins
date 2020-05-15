@@ -47,7 +47,7 @@ export function slackRunner(
   reportDir: string,
   videoDir: string,
   screenshotDir: string,
-  artefactUrl: string,
+  _artefactUrl: string,
   logger: boolean,
 ) {
   resolveCIProvider(ciProvider);
@@ -57,7 +57,7 @@ export function slackRunner(
       reportDir,
       videoDir,
       screenshotDir,
-      artefactUrl
+      _artefactUrl
     );
     return messageResult;
   } catch (e) {
