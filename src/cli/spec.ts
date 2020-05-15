@@ -72,6 +72,7 @@ CypressNpmApi.run({
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       verbose
     );
     // tslint:disable-next-line: no-console
