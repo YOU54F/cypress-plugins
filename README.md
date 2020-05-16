@@ -23,6 +23,7 @@ A Slack Reporting tool built for Cypress but _should_ work with any mocha based 
 For users who are not using CircleCi, you can get a simple report
 
 - pass `--ci-provider none` provider flag to provide a simple slack message based on the mochawesome report status
+- Pass `--custom-url` along with ``--ci-provider custom` to set custom report page url. that will be sent to slack.
 
 ## Reporting Features
 
@@ -82,7 +83,8 @@ Set the following environment variables in your localhost or CI configuration.
       Options:
         -v, --version            output the version number
         --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
-        --ci-provider [type]     CI Provider [circleci|none] (default: "circleci")
+        --ci-provider [type]     CI Provider [circleci|none|custom] (default: "circleci")
+        --custom-url [type]      Custom Test Page URL while setting `--ci-provider custom`
         --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
         --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
