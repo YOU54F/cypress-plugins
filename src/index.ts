@@ -37,7 +37,9 @@ program
     "VCS Provider [github|bitbucket|none]",
     "github"
   )
-  .option("--ci-provider [type]", "CI Provider [circleci|none]", "circleci")
+  .option("--ci-provider [type]", "CI Provider [circleci|none|custom]", "circleci")
+  .option("--custom-url [type]", "On selected --ci-provider=custom this link will be set to Test Report",
+   "circleci")
   .option(
     "--report-dir [type]",
     "mochawesome json & html test report directory, relative to your package.json",
@@ -62,6 +64,7 @@ const ciProvider: string = program.ciProvider;
 const vcsProvider: string = program.vcsProvider;
 const reportDirectory: string = program.reportDir;
 const videoDirectory: string = program.videoDir;
+const artifactURI: string = program.customUrl;
 const screenshotDirectory: string = program.screenshotDir;
 const verbose: boolean = program.verbose;
 
@@ -75,6 +78,7 @@ if (program.verbose || program.logger) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
+    "artifactURI:- " + artifactURI + "\n",
     "vcsProvider:- " + vcsProvider + "\n",
     "reportDirectory:- " + reportDirectory + "\n",
     "videoDirectory:- " + videoDirectory + "\n",
@@ -88,5 +92,6 @@ slacker.slackRunner(
   reportDirectory,
   videoDirectory,
   screenshotDirectory,
+  artifactURI,
   verbose
 );

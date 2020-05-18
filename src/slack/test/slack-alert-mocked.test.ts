@@ -44,6 +44,7 @@ describe("tester", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       logger
     );
     const body = await returnSlackWebhookCall();
@@ -63,6 +64,7 @@ describe("tester", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       logger
     );
     const body = await returnSlackWebhookCall();
@@ -83,6 +85,7 @@ describe("tester", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       logger
     );
     const body = await returnSlackWebhookCall();
@@ -103,6 +106,7 @@ describe("tester", () => {
       _reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       logger
     );
     const body = await returnSlackWebhookCall();
@@ -122,6 +126,7 @@ describe("tester", () => {
       _reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       logger
     );
     const body = await returnSlackWebhookCall();
@@ -142,6 +147,7 @@ describe("Slack Reporter throws error if we cant find the test report", () => {
         _reportDirectory,
         videoDirectory,
         screenshotDirectory,
+        "",
         logger
       );
     }
@@ -159,6 +165,7 @@ describe("tester", () => {
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       logger
     );
     const body = await returnSlackWebhookCall();

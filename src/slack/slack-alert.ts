@@ -47,7 +47,8 @@ export function slackRunner(
   reportDir: string,
   videoDir: string,
   screenshotDir: string,
-  logger: boolean
+  _artefactUrl: string,
+  logger: boolean,
 ) {
   resolveCIProvider(ciProvider);
   try {
@@ -56,7 +57,7 @@ export function slackRunner(
       reportDir,
       videoDir,
       screenshotDir,
-      artefactUrl
+      _artefactUrl
     );
     return messageResult;
   } catch (e) {
@@ -411,6 +412,9 @@ export function getArtefactUrl(_vcsRoot: string, _artefactUrl: string) {
       break;
     case "bitbucket":
       _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
+      break;
+    case "custom":
+      _artefactUrl = _artefactUrl || "";
       break;
     default: {
       _artefactUrl = "";
