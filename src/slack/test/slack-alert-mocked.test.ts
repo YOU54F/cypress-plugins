@@ -78,6 +78,27 @@ describe("tester", () => {
 
 describe("tester", () => {
   setup();
+  it("can set custom report link when ci-provider set to custom", async () => {
+    const _ciProvider = "custom";
+    const artifactUrl = "http://example.com/report-data.html"
+    await slacker.slackRunner(
+      _ciProvider,
+      vcsRoot,
+      reportDirectory,
+      videoDirectory,
+      screenshotDirectory,
+      artifactUrl,
+      logger
+    );
+    const body = await returnSlackWebhookCall();
+    expect(body).toContain(
+         `"url":"${artifactUrl}"`
+    );
+  });
+});
+
+describe("tester", () => {
+  setup();
   it("can call a mock slack instance vcs root github", async () => {
     await slacker.slackRunner(
       ciProvider,
@@ -89,7 +110,6 @@ describe("tester", () => {
       logger
     );
     const body = await returnSlackWebhookCall();
-
     checkStatus(body, "passed");
     expect(body).toContain("github");
     expect(body).not.toContain("undefined");
