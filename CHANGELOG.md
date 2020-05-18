@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.7.0...v0.7.1) (2020-05-18)
+
+
+### Features
+
+* custom test page url set ([865eb3c](https://github.com/you54f/cypress-slack-reporter/commit/865eb3ca858616883bdc260af40ab7941e14938a))
+* custom test page url set ([#604](https://github.com/you54f/cypress-slack-reporter/issues/604)) ([23515e0](https://github.com/you54f/cypress-slack-reporter/commit/23515e095037b65a3e2f26e20b3243fb9c451573))
+
 ## [0.7.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.6.0...v0.7.0) (2020-05-18)
 
 ## [0.6.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.7...v0.6.0) (2020-05-11)
