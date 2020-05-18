@@ -57,7 +57,8 @@ export function slackRunner(
       reportDir,
       videoDir,
       screenshotDir,
-      _artefactUrl
+      _artefactUrl,
+      ciProvider
     );
     return messageResult;
   } catch (e) {
@@ -70,11 +71,12 @@ export function sendMessage(
   _reportDir: string,
   _videoDir: string,
   _screenshotDir: string,
-  _artefactUrl: string
+  _artefactUrl: string,
+  _ciProvider: string
 ) {
   commitUrl = getCommitUrl(_vcsRoot) as string;
-  artefactUrl = getArtefactUrl(_vcsRoot, _artefactUrl);
-  reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl);
+  artefactUrl = getArtefactUrl(_vcsRoot, _ciProvider, _artefactUrl);
+  reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl, _ciProvider);
   videoAttachmentsSlack = getVideoLinks(artefactUrl, _videoDir); //
   screenshotAttachmentsSlack = getScreenshotLinks(artefactUrl, _screenshotDir);
   prChecker(CI_PULL_REQUEST as string);
@@ -399,28 +401,36 @@ export function getScreenshotLinks(
   return screenshotAttachmentsSlack;
 }
 
-export function buildHTMLReportURL(_reportDir: string, _artefactUrl: string) {
+export function buildHTMLReportURL(_reportDir: string, _artefactUrl: string, _ciProvider: string) {
+  if(_ciProvider === 'custom'){
+    return _artefactUrl;
+  }
   reportHTMLFilename = getHTMLReportFilename(_reportDir);
   reportHTMLUrl = _artefactUrl + _reportDir + "/" + reportHTMLFilename;
   return reportHTMLUrl;
 }
 
-export function getArtefactUrl(_vcsRoot: string, _artefactUrl: string) {
-  switch (_vcsRoot) {
-    case "github":
-      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
-      break;
-    case "bitbucket":
-      _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
-      break;
-    case "custom":
-      _artefactUrl = _artefactUrl || "";
-      break;
-    default: {
-      _artefactUrl = "";
-    }
+export function getArtefactUrl(_vcsRoot: string, ciProvider: string, _artefactUrl: string) {
+  if (ciProvider === 'custom') {
+    return _artefactUrl;
   }
-  return _artefactUrl;
+  else if (ciProvider === 'circleci') {
+    switch (_vcsRoot) {
+      case "github":
+        _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
+        break;
+      case "bitbucket":
+        _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
+        break;
+      default: {
+        _artefactUrl = "";
+      }
+    }
+    return _artefactUrl;
+  }
+  
+  return "";
+  
 }
 
 export function getCommitUrl(_vcsRoot: string) {
