@@ -219,7 +219,7 @@ or in your CircleCI project's environment page.
 
 ## Scripted Runner
 
-An example script is [here](./cli/spec.ts) as `cli/spec/ts`
+An example script is [here](./src/cli/spec.ts) as `cli/spec/ts`
 
 A example of how you can use this script in your project to:-
 
