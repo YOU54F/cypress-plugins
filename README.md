@@ -217,6 +217,24 @@ in windows
 
 or in your CircleCI project's environment page.
 
+
+There is also another workaround by setting a destination option in store_artifacts job in config.yml (CircleCI).
+``` 
+- store_artifacts:
+          path: ~/path/to/cypress/videos
+          destination: cypress/videos
+```
+will allow you to access artifacts through 
+https://${CI_BUILD_NUM}-${CI_PROJECT_ID}-gh.circle-artifacts.com/0/cypress/videos/some_test_result.mp4
+
+This is what it says on CircleCI Documentation:
+```
+Currently, store_artifacts has two keys: path and destination.
+
+path is a path to the file or directory to be uploaded as artifacts.
+destination (Optional) is a prefix added to the artifact paths in the artifacts API. The directory of the file specified in path is used as the default.
+```
+
 ## Scripted Runner
 
 An example script is [here](./src/cli/spec.ts) as `cli/spec/ts`
