@@ -37,9 +37,16 @@ program
     "VCS Provider [github|bitbucket|none]",
     "github"
   )
-  .option("--ci-provider [type]", "CI Provider [circleci|none|custom]", "circleci")
-  .option("--custom-url [type]", "On selected --ci-provider=custom this link will be set to Test Report",
-   "circleci")
+  .option(
+    "--ci-provider [type]",
+    "CI Provider [circleci|none|custom]",
+    "circleci"
+  )
+  .option(
+    "--custom-url [type]",
+    "On selected --ci-provider=custom this link will be set to Test Report",
+    "circleci"
+  )
   .option(
     "--report-dir [type]",
     "mochawesome json & html test report directory, relative to your package.json",

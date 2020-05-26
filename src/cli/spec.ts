@@ -16,40 +16,40 @@ CypressNpmApi.run({
     reporterEnabled: "mocha-junit-reporter, mochawesome",
     mochaJunitReporterReporterOptions: {
       mochaFile: "cypress/reports/junit/test_results[hash].xml",
-      toConsole: false
+      toConsole: false,
     },
     mochawesomeReporterOptions: {
       reportDir: "cypress/reports/mocha",
       quiet: true,
       overwrite: false,
       html: false,
-      json: true
-    }
-  }
+      json: true,
+    },
+  },
 })
-  .then(async results => {
+  .then(async (results) => {
     const generatedReport = await Promise.resolve(
       generateReport({
         files: ["cypress/reports/mocha/*.json"],
         inline: true,
-        saveJson: true
+        saveJson: true,
       })
     );
     // tslint:disable-next-line: no-console
     console.log("Merged report available here:-", generatedReport);
     return generatedReport;
   })
-  .then(async delFiles => {
+  .then(async (delFiles) => {
     await del(["cypress/reports/mocha/mochawesome_*.json"]);
   })
-  .then(generatedReport => {
+  .then((generatedReport) => {
     const program: any = {
       ciProvider: "circleci",
       videoDir: `cypress/videos`,
       vcsProvider: "github",
       screenshotDir: `cypress/screenshots`,
       verbose: true,
-      reportDir: `mochawesome-report`
+      reportDir: `mochawesome-report`,
     };
     const ciProvider: string = program.ciProvider;
     const vcsProvider: string = program.vcsProvider;
@@ -64,7 +64,7 @@ CypressNpmApi.run({
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
-      verbose
+      verbose,
     });
     const slack = slackRunner(
       ciProvider,

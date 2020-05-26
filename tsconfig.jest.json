@@ -19,8 +19,7 @@
       "jest",
       "commander/typings",
       "@types/dotenv",
-      "slack-mock-typed",
-      "@types/dotenv",
+      "slack-mock-typed"
     ]
   },
   "exclude": [

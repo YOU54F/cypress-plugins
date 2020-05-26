@@ -29,6 +29,7 @@
     "lint": "tslint --project .",
     "lint-fix": "tslint --project . --fix",
     "test": "jest --coverage",
+    "test:jenkins": "cross-env CI_PROVIDER_TO_TEST=jenkins jest --coverage",
     "test:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "compile": "tsc",
     "slack-js": "node bin/index.js --logger",

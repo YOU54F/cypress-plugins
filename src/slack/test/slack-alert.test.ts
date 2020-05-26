@@ -5,7 +5,7 @@ import { IncomingWebhookDefaultArguments } from "@slack/webhook";
 import "jest";
 import * as path from "path";
 import * as slacker from "../slack-alert";
-
+const isWin = process.platform === "win32";
 jest.setTimeout(10000);
 
 describe("webhookInitialArgs tester", () => {
@@ -112,9 +112,11 @@ describe("Get Files Checker", () => {
     const fileList: string[] = [];
     const s = await slacker.getFiles(dir, ext, fileList);
     const rootDir: string = path.dirname(__dirname);
-    expect(s).toEqual([
-      `${rootDir}/test/reportSingle/report-20190403-233436.html`
-    ]);
+    let expected = `${rootDir}/test/reportSingle/report-20190403-233436.html`;
+    if (isWin) {
+      expected = `${rootDir}\\test\\reportSingle/report-20190403-233436.html`;
+    }
+    expect(s).toEqual([expected]);
   });
   test("Returns an empty array if no specified filetypes are found ", async () => {
     const dir: string = path.join(__dirname, "reportSingle");

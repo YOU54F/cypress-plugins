@@ -25,6 +25,10 @@ For users who are not using CircleCi, you can get a simple report
 - pass `--ci-provider none` provider flag to provide a simple slack message based on the mochawesome report status
 - Pass `--custom-url` along with `--ci-provider custom` to set custom report page url. that will be sent to slack.
 
+For jenkins users
+
+- pass `--ci-provider jenkins` provider flag.
+  
 ## Reporting Features
 
 It provides the following distinct message types
@@ -364,3 +368,13 @@ function generateReport(options: any) {
   - [X] test example
   - [X] compile
 - [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
+<<<<<<< HEAD
+- Additional CI providers
+  - [X] Jenkins
+
+## Contributors
+
+- With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
+  
+=======
+>>>>>>> origin/master
