@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.7.1...v0.8.0) (2020-05-26)
+
+
+### Features
+
+* **ci-provider:** added option for Jenkins CI provider ([#321](https://github.com/you54f/cypress-slack-reporter/issues/321)) ([7a5552f](https://github.com/you54f/cypress-slack-reporter/commit/7a5552f8b323b1b3ec37c72191bfcd0c8f668eb9))
+
 ### [0.7.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.7.0...v0.7.1) (2020-05-18)
 
 
