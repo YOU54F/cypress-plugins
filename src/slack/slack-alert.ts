@@ -4,7 +4,7 @@ import { MessageAttachment } from "@slack/types";
 import {
   IncomingWebhook,
   IncomingWebhookDefaultArguments,
-  IncomingWebhookSendArguments
+  IncomingWebhookSendArguments,
 } from "@slack/webhook";
 import * as fs from "fs";
 import * as path from "path";
@@ -19,8 +19,9 @@ let {
   CI_PROJECT_REPONAME,
   CI_PROJECT_USERNAME,
   CI_URL,
-  CI_CIRCLE_JOB
+  CI_CIRCLE_JOB,
 } = process.env;
+const { CIRCLE_PROJECT_ID } = process.env;
 const ENV_SUT = process.env.ENV_SUT;
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
 let commitUrl: string = "";
@@ -46,6 +47,7 @@ export function slackRunner(
   reportDir: string,
   videoDir: string,
   screenshotDir: string,
+  _artefactUrl: string,
   logger: boolean
 ) {
   resolveCIProvider(ciProvider);
@@ -55,7 +57,8 @@ export function slackRunner(
       reportDir,
       videoDir,
       screenshotDir,
-      artefactUrl
+      _artefactUrl,
+      ciProvider
     );
     return messageResult;
   } catch (e) {
@@ -68,11 +71,12 @@ export function sendMessage(
   _reportDir: string,
   _videoDir: string,
   _screenshotDir: string,
-  _artefactUrl: string
+  _artefactUrl: string,
+  _ciProvider: string
 ) {
   commitUrl = getCommitUrl(_vcsRoot) as string;
-  artefactUrl = getArtefactUrl(_vcsRoot, _artefactUrl);
-  reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl);
+  artefactUrl = getArtefactUrl(_vcsRoot, _ciProvider, _artefactUrl);
+  reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl, _ciProvider);
   videoAttachmentsSlack = getVideoLinks(artefactUrl, _videoDir); //
   screenshotAttachmentsSlack = getScreenshotLinks(artefactUrl, _screenshotDir);
   prChecker(CI_PULL_REQUEST as string);
@@ -150,7 +154,7 @@ export function webhookInitialArgs(
     projectName = `${CI_PROJECT_REPONAME}`;
   }
   return (initialArgs = {
-    text: `${projectName} ${statusText}\n${triggerText}${prText}`
+    text: `${projectName} ${statusText}\n${triggerText}${prText}`,
   });
 }
 
@@ -161,7 +165,7 @@ export function webhookSendArgs(
   argsWebhookSend = {
     attachments: messageAttachments,
     unfurl_links: false,
-    unfurl_media: false
+    unfurl_media: false,
   };
   return argsWebhookSend;
 }
@@ -199,15 +203,15 @@ export function attachmentReports(
             type: "button",
             text: "Test Report",
             url: `${reportHTMLUrl}`,
-            style: "primary"
+            style: "primary",
           },
           {
             type: "button",
             text: "CircleCI Logs",
             url: `${CI_BUILD_URL}`,
-            style: "primary"
-          }
-        ]
+            style: "primary",
+          },
+        ],
       });
     }
     case "failed": {
@@ -221,15 +225,15 @@ export function attachmentReports(
             type: "button",
             text: "Test Report",
             url: `${reportHTMLUrl}`,
-            style: "primary"
+            style: "primary",
           },
           {
             type: "button",
             text: "CircleCI Logs",
             url: `${CI_BUILD_URL}`,
-            style: "primary"
-          }
-        ]
+            style: "primary",
+          },
+        ],
       });
     }
     case "error": {
@@ -242,9 +246,9 @@ export function attachmentReports(
             type: "button",
             text: "CircleCI Logs",
             url: `${CI_BUILD_URL}`,
-            style: "danger"
-          }
-        ]
+            style: "danger",
+          },
+        ],
       });
     }
     default: {
@@ -262,13 +266,13 @@ export function attachmentsVideoAndScreenshots(
     case "passed": {
       return (attachments = {
         text: `${videoAttachmentsSlack}${screenshotAttachmentsSlack}`,
-        color: "#36a64f"
+        color: "#36a64f",
       });
     }
     case "failed": {
       return (attachments = {
         text: `${videoAttachmentsSlack}${screenshotAttachmentsSlack}`,
-        color: "#ff0000"
+        color: "#ff0000",
       });
     }
     default: {
@@ -345,7 +349,7 @@ export function getTestReportStatus(reportDir: string) {
       totalFailures,
       totalDuration,
       reportFile,
-      status
+      status,
     };
   }
 }
@@ -366,7 +370,7 @@ export function getVideoLinks(_artefactUrl: string, _videosDir: string) {
     if (videos.length === 0) {
       return (videoAttachmentsSlack = "");
     } else {
-      videos.forEach(videoObject => {
+      videos.forEach((videoObject) => {
         const trimmedVideoFilename = path.basename(videoObject);
         videoAttachmentsSlack = `<${videosURL}${videoObject}|Video:- ${trimmedVideoFilename}>\n${videoAttachmentsSlack}`;
       });
@@ -388,7 +392,7 @@ export function getScreenshotLinks(
     if (screenshots.length === 0) {
       return (screenshotAttachmentsSlack = "");
     } else {
-      screenshots.forEach(screenshotObject => {
+      screenshots.forEach((screenshotObject) => {
         const trimmedScreenshotFilename = path.basename(screenshotObject);
         return (screenshotAttachmentsSlack = `<${screenshotURL}${screenshotObject}|Screenshot:- ${trimmedScreenshotFilename}>\n${screenshotAttachmentsSlack}`);
       });
@@ -397,23 +401,42 @@ export function getScreenshotLinks(
   return screenshotAttachmentsSlack;
 }
 
-export function buildHTMLReportURL(_reportDir: string, _artefactUrl: string) {
+export function buildHTMLReportURL(
+  _reportDir: string,
+  _artefactUrl: string,
+  _ciProvider: string
+) {
+  if (_ciProvider === "custom") {
+    return _artefactUrl;
+  }
   reportHTMLFilename = getHTMLReportFilename(_reportDir);
   reportHTMLUrl = _artefactUrl + _reportDir + "/" + reportHTMLFilename;
   return reportHTMLUrl;
 }
 
-export function getArtefactUrl(_vcsRoot: string, _artefactUrl: string) {
-  switch (_vcsRoot) {
-    case "github":
-    case "bitbucket":
-      _artefactUrl = `${CI_URL}/${_vcsRoot}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/${CI_BUILD_NUM}/artifacts/0`;
-      break;
-    default: {
-      _artefactUrl = "";
+export function getArtefactUrl(
+  _vcsRoot: string,
+  ciProvider: string,
+  _artefactUrl: string
+) {
+  if (ciProvider === "custom") {
+    return _artefactUrl;
+  } else if (ciProvider === "circleci") {
+    switch (_vcsRoot) {
+      case "github":
+        _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
+        break;
+      case "bitbucket":
+        _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
+        break;
+      default: {
+        _artefactUrl = "";
+      }
     }
+    return _artefactUrl;
   }
-  return _artefactUrl;
+
+  return "";
 }
 
 export function getCommitUrl(_vcsRoot: string) {
@@ -447,7 +470,7 @@ export function resolveCIProvider(ciProvider?: string) {
           CIRCLE_PULL_REQUEST,
           CIRCLE_PROJECT_REPONAME,
           CIRCLE_PROJECT_USERNAME,
-          CIRCLE_JOB
+          CIRCLE_JOB,
         } = process.env;
 
         (CI_SHA1 = CIRCLE_SHA1),
@@ -471,7 +494,7 @@ export function resolveCIProvider(ciProvider?: string) {
           BUILD_URL,
           BUILD_ID,
           CHANGE_ID,
-          JOB_NAME
+          JOB_NAME,
         } = process.env;
         if (typeof process.env.GIT_URL === "undefined") {
           throw new Error("GIT_URL not defined!");

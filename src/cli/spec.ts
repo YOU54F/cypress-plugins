@@ -7,6 +7,7 @@ import { slackRunner } from "../slack/slack-alert";
 // tslint:disable: no-var-requires
 const marge = require("mochawesome-report-generator");
 const { merge } = require("mochawesome-merge");
+const del = require("del");
 // tslint:disable: no-var-requires
 
 CypressNpmApi.run({
@@ -15,38 +16,40 @@ CypressNpmApi.run({
     reporterEnabled: "mocha-junit-reporter, mochawesome",
     mochaJunitReporterReporterOptions: {
       mochaFile: "cypress/reports/junit/test_results[hash].xml",
-      toConsole: false
+      toConsole: false,
     },
     mochawesomeReporterOptions: {
       reportDir: "cypress/reports/mocha",
       quiet: true,
-      overwrite: true,
+      overwrite: false,
       html: false,
-      json: true
-    }
-  }
+      json: true,
+    },
+  },
 })
-  .then(async results => {
+  .then(async (results) => {
     const generatedReport = await Promise.resolve(
       generateReport({
-        reportDir: "cypress/reports/mocha",
+        files: ["cypress/reports/mocha/*.json"],
         inline: true,
-        saveJson: true
+        saveJson: true,
       })
     );
     // tslint:disable-next-line: no-console
     console.log("Merged report available here:-", generatedReport);
     return generatedReport;
   })
-  .then(generatedReport => {
-    const base = process.env.PWD || ".";
+  .then(async (delFiles) => {
+    await del(["cypress/reports/mocha/mochawesome_*.json"]);
+  })
+  .then((generatedReport) => {
     const program: any = {
       ciProvider: "circleci",
-      videoDir: `${base}/cypress/videos`,
+      videoDir: `cypress/videos`,
       vcsProvider: "github",
-      screenshotDir: `${base}/cypress/screenshots`,
+      screenshotDir: `cypress/screenshots`,
       verbose: true,
-      reportDir: `${base}/cypress/reports/mocha`
+      reportDir: `mochawesome-report`,
     };
     const ciProvider: string = program.ciProvider;
     const vcsProvider: string = program.vcsProvider;
@@ -61,7 +64,7 @@ CypressNpmApi.run({
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
-      verbose
+      verbose,
     });
     const slack = slackRunner(
       ciProvider,
@@ -69,6 +72,7 @@ CypressNpmApi.run({
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       verbose
     );
     // tslint:disable-next-line: no-console

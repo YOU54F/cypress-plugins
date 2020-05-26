@@ -27,8 +27,6 @@ try {
   }
 }
 
-const base = process.env.PWD || ".";
-
 program
   .version(
     `git@github.com:YOU54F/cypress-slack-reporter.git@${version}`,
@@ -41,7 +39,12 @@ program
   )
   .option(
     "--ci-provider [type]",
-    "CI Provider [circleci|jenkins|none]",
+    "CI Provider [circleci|none|custom]",
+    "circleci"
+  )
+  .option(
+    "--custom-url [type]",
+    "On selected --ci-provider=custom this link will be set to Test Report",
     "circleci"
   )
   .option(
@@ -66,9 +69,10 @@ program
 
 const ciProvider: string = program.ciProvider;
 const vcsProvider: string = program.vcsProvider;
-const reportDirectory: string = base + "/" + program.reportDir;
-const videoDirectory: string = base + "/" + program.videoDir;
-const screenshotDirectory: string = base + "/" + program.screenshotDir;
+const reportDirectory: string = program.reportDir;
+const videoDirectory: string = program.videoDir;
+const artifactURI: string = program.customUrl;
+const screenshotDirectory: string = program.screenshotDir;
 const verbose: boolean = program.verbose;
 
 if (program.verbose || program.logger) {
@@ -81,6 +85,7 @@ if (program.verbose || program.logger) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
+    "artifactURI:- " + artifactURI + "\n",
     "vcsProvider:- " + vcsProvider + "\n",
     "reportDirectory:- " + reportDirectory + "\n",
     "videoDirectory:- " + videoDirectory + "\n",
@@ -94,5 +99,6 @@ slacker.slackRunner(
   reportDirectory,
   videoDirectory,
   screenshotDirectory,
+  artifactURI,
   verbose
 );

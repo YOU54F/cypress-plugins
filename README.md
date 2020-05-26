@@ -23,6 +23,7 @@ A Slack Reporting tool built for Cypress but _should_ work with any mocha based 
 For users who are not using CircleCi, you can get a simple report
 
 - pass `--ci-provider none` provider flag to provide a simple slack message based on the mochawesome report status
+- Pass `--custom-url` along with `--ci-provider custom` to set custom report page url. that will be sent to slack.
 
 For jenkins users
 
@@ -86,7 +87,8 @@ Set the following environment variables in your localhost or CI configuration.
       Options:
         -v, --version            output the version number
         --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
-        --ci-provider [type]     CI Provider [circleci|jenkins|none] (default: "circleci")
+        --ci-provider [type]     CI Provider [circleci|custom|none] (default: "circleci")
+        --custom-url [type]      Set Custom Test Page URL while `--ci-provider custom`
         --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
         --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
@@ -99,7 +101,7 @@ Set the following environment variables in your localhost or CI configuration.
 - [mochawesome](https://github.com/adamgruber/mochawesome/) for json test result generation
 - [mochawesome-merge](https://github.com/Antontelesh/mochawesome-merge) to combine multiple mochawesome reports
 - [mochawesome-report-generator](https://github.com/Antonteleshmochawesome-report-generator) to generate a HTML report, from your mochawesome json test results
-- [mocha-multi-reporters](https://github.com/stanleyhlng/mocha-multi-reporters) to allow you to use multple reporters, in case you require other outputs (junit/spec etc)
+- [cypress-multi-reporters](https://github.com/you54f/cypress-multi-reporters) to allow you to use multple reporters, in case you require other outputs (junit/spec etc)
 
 Yarn installation Instructions
 
@@ -107,7 +109,7 @@ Yarn installation Instructions
     yarn add mochawesome --dev
     yarn add mochawesome-merge --dev
     yarn add mochawesome-report-generator --dev
-    yarn add mocha-multi-reporters --dev
+    yarn add cypress-multi-reporters --dev
 ```
 
 NPM installation Instructions
@@ -116,7 +118,7 @@ NPM installation Instructions
     npm install mochawesome --save-dev
     npm install mochawesome-merge --save-dev
     npm install mochawesome-report-generator --save-dev
-    npm install mocha-multi-reporters --save-dev
+    npm install cypress-multi-reporters --save-dev
 ```
 
 - Add the following in the base of your project
@@ -126,7 +128,7 @@ cypress.json
 ```json
 {
   ...
-  "reporter": "mocha-multi-reporters",
+  "reporter": "cypress-multi-reporters",
   "reporterOptions": {
     "configFile": "reporterOpts.json"
   }
@@ -170,6 +172,7 @@ The following env vars are read for CircleCI users.
 - `CIRCLE_PROJECT_REPONAME` - The name of the repository of the current project.
 - `CIRCLE_PROJECT_USERNAME` - The GitHub or Bitbucket username of the current project.
 - `CI_URL="https://circleci.com/api/v1.1/project"`
+- `CIRCLE_PROJECT_ID` - This project ID used in artefact URLS
 
 If you wish to use another CI provider, you can pass any name other than `circleci` into the CLI flag `--ci-provider`, which will allow you to enter your own environment variables for CI.
 
@@ -183,9 +186,44 @@ If you wish to use another CI provider, you can pass any name other than `circle
 - `CI_PROJECT_REPONAME`
 - `CI_PROJECT_USERNAME`
 
+### CircleCI Artifact Notes
+
+CircleCI have recently changed the API for retrieving API's. A URL is generated for artefacts in the format
+
+`https://${CI_BUILD_NUM}-${CI_PROJECT_ID}-gh.circle-artifacts.com/0`
+
+You can get the `CIRCLE_PROJECT_ID` by checking [https://circleci.com/docs/api/#artifacts-of-a-build](https://circleci.com/docs/api/#artifacts-of-a-build)
+
+For example. the ID for this project is `177880476`, you can see it in the following URL
+
+`https://circleci.com/api/v1.1/project/github/YOU54F/cypress-slack-reporter/1/artifacts`
+
+which will return
+
+```json
+[ {
+  "path" : "root/app/mochareports/.gitignore",
+  "pretty_path" : "root/app/mochareports/.gitignore",
+  "node_index" : 0,
+  "url" : "https://1-177880476-gh.circle-artifacts.com/0/root/app/mochareports/.gitignore"
+},
+...
+]
+```
+
+In order to correctly construct your artifact URL, you will need to manually retrieve this ID and set it as an env var titled `CIRCLE_PROJECT_ID`
+
+`EXPORT CIRCLE_PROJECT_ID=177880476`
+
+in windows
+
+`SET CIRCLE_PROJECT_ID=177880476`
+
+or in your CircleCI project's environment page.
+
 ## Scripted Runner
 
-An example script is [here](./cli/spec.ts) as `cli/spec/ts`
+An example script is [here](./src/cli/spec.ts) as `cli/spec/ts`
 
 A example of how you can use this script in your project to:-
 
@@ -226,7 +264,7 @@ CypressNpmApi.run({
     mochawesomeReporterOptions: {
       reportDir: "cypress/reports/mocha",
       quiet: true,
-      overwrite: true,
+      overwrite: false,
       html: false,
       json: true
     }
@@ -243,14 +281,13 @@ CypressNpmApi.run({
     return generatedReport
   })
   .then(generatedReport => {
-    const base = process.env.PWD || ".";
     const program: any = {
       ciProvider: "circleci",
-      videoDir: `${base}/cypress/videos`,
+      videoDir: `cypress/videos`,
       vcsProvider: "github",
-      screenshotDir: `${base}/cypress/screenshots`,
+      screenshotDir: `cypress/screenshots`,
       verbose: true,
-      reportDir: `${base}/cypress/reports/mocha`
+      reportDir: `cypress/reports/mocha`
     };
     const ciProvider: string = program.ciProvider;
     const vcsProvider: string = program.vcsProvider;
@@ -273,6 +310,7 @@ CypressNpmApi.run({
       reportDirectory,
       videoDirectory,
       screenshotDirectory,
+      "",
       verbose
     );
      // tslint:disable-next-line: no-console
@@ -312,6 +350,7 @@ function generateReport(options: any) {
   - [X] test example
   - [X] compile
 - [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
+<<<<<<< HEAD
 - Additional CI providers
   - [X] Jenkins
 
@@ -319,3 +358,5 @@ function generateReport(options: any) {
 
 - With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
   
+=======
+>>>>>>> origin/master
