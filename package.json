@@ -78,7 +78,7 @@
     "mocha": "7.2.0",
     "mocha-junit-reporter": "1.23.3",
     "mochawesome": "6.1.1",
-    "mochawesome-merge": "4.0.3",
+    "mochawesome-merge": "4.1.0",
     "mochawesome-report-generator": "5.1.0",
     "prettier": "2.0.5",
     "rimraf": "3.0.2",
