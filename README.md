@@ -74,9 +74,9 @@ Note _Please see the pre-requisites folder to current neccessary pre-requisites_
 
 Set the following environment variables in your localhost or CI configuration.
 
-- `$SLACK_WEBHOOK_URL` - The full URL you created in the last step
+- `SLACK_WEBHOOK_URL` - The full URL you created in the last step
 
-    $ export SLACK_WEBHOOK_URL=yourWebhookUrlHere
+  eg. `export SLACK_WEBHOOK_URL=yourWebhookUrlHere`
 
 ## Execution
 
@@ -88,11 +88,12 @@ Set the following environment variables in your localhost or CI configuration.
         -v, --version            output the version number
         --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
         --ci-provider [type]     CI Provider [circleci|custom|none] (default: "circleci")
-        --custom-url [type]      Set Custom Test Page URL while `--ci-provider custom`
+        --custom-url [type]      Set Custom Artefact url (defaults to circleci artefact path otherwise)
         --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
         --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
         --verbose                show log output
+        --only-failed            only send message for failed tests
         -h, --help               output usage information
 
 ## Pre-Requisites
@@ -261,95 +262,25 @@ Or with your own script
 rm -rf ./cypress/reports/mocha && npx ts-node script.ts
 ```
 
-```ts
-// tslint:disable-next-line: no-reference
-/// <reference path='./node_modules/cypress/types/cypress-npm-api.d.ts'/>
-import * as CypressNpmApi from "cypress";
-import {slackRunner}from "cypress-slack-reporter/bin/slack/slack-alert";
-// tslint:disable: no-var-requires
-const marge = require("mochawesome-report-generator");
-const { merge } = require("mochawesome-merge");
-// tslint:disable: no-var-requires
+It can be called with the following options
 
-CypressNpmApi.run({
-  reporter: "cypress-multi-reporters",
-  reporterOptions: {
-    reporterEnabled: "mocha-junit-reporters, mochawesome",
-    mochaJunitReportersReporterOptions: {
-      mochaFile: "cypress/reports/junit/test_results[hash].xml",
-      toConsole: false
-    },
-    mochawesomeReporterOptions: {
-      reportDir: "cypress/reports/mocha",
-      quiet: true,
-      overwrite: false,
-      html: false,
-      json: true
-    }
-  }
-})
-  .then(async results => {
-    const generatedReport =  await Promise.resolve(generateReport({
-      reportDir: "cypress/reports/mocha",
-      inline: true,
-      saveJson: true,
-    }))
-    // tslint:disable-next-line: no-console
-    console.log("Merged report available here:-",generatedReport);
-    return generatedReport
-  })
-  .then(generatedReport => {
-    const program: any = {
-      ciProvider: "circleci",
-      videoDir: `cypress/videos`,
-      vcsProvider: "github",
-      screenshotDir: `cypress/screenshots`,
-      verbose: true,
-      reportDir: `cypress/reports/mocha`
-    };
-    const ciProvider: string = program.ciProvider;
-    const vcsProvider: string = program.vcsProvider;
-    const reportDirectory: string = program.reportDir;
-    const videoDirectory: string = program.videoDir;
-    const screenshotDirectory: string = program.screenshotDir;
-    const verbose: boolean = program.verbose;
-    // tslint:disable-next-line: no-console
-    console.log("Constructing Slack message with the following options", {
-      ciProvider,
-      vcsProvider,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      verbose
-    });
-    const slack = slackRunner(
-      ciProvider,
-      vcsProvider,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      verbose
-    );
-     // tslint:disable-next-line: no-console
-     console.log("Finished slack upload")
-
-  })
-  .catch((err: any) => {
-    // tslint:disable-next-line: no-console
-    console.log(err);
-  });
-
-function generateReport(options: any) {
-  return merge(options).then((report: any) =>
-    marge.create(report, options)
-  );
+```
+interface SlackRunnerOptions {
+  ciProvider: string;
+  vcsRoot: string;
+  reportDir: string;
+  videoDir: string;
+  screenshotDir: string;
+  customUrl?: string;
+  onlyFailed?: boolean;
 }
 ```
 
+And will return a Slack IncomingWebhookResult.
+
 ## TODO
 
-- [ ] provide user ability to provide own CI artefact paths
+- [X] provide user ability to provide own CI artefact paths
 - [ ] typescript s3 uploader scripts and add to CLI
   - [X] tsified
   - [X] able to run in isolation
@@ -368,13 +299,9 @@ function generateReport(options: any) {
   - [X] test example
   - [X] compile
 - [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
-<<<<<<< HEAD
 - Additional CI providers
   - [X] Jenkins
 
 ## Contributors
 
 - With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
-  
-=======
->>>>>>> origin/master

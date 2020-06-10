@@ -63,42 +63,37 @@ program
     "cypress/videos"
   )
   .option("--verbose", "show log output")
-  .option("--logger", "show log output")
+  .option("--only-failed", "only send message for failed tests")
   // .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
 const ciProvider: string = program.ciProvider;
 const vcsProvider: string = program.vcsProvider;
-const reportDirectory: string = program.reportDir;
-const videoDirectory: string = program.videoDir;
-const artifactURI: string = program.customUrl;
-const screenshotDirectory: string = program.screenshotDir;
-const verbose: boolean = program.verbose;
+const reportDir: string = program.reportDir;
+const videoDir: string = program.videoDir;
+const customUrl: string = program.customUrl;
+const screenshotDir: string = program.screenshotDir;
+const onlyFailed: boolean = program.onlyFailed;
+// const verbose: boolean = program.verbose;
 
-if (program.verbose || program.logger) {
-  if (program.logger) {
-    // tslint:disable-next-line: no-console
-    console.log(
-      "--logger option will soon be deprecated, please switch to --verbose"
-    );
-  }
+if (program.verbose) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
-    "artifactURI:- " + artifactURI + "\n",
+    "customUrl:- " + customUrl + "\n",
     "vcsProvider:- " + vcsProvider + "\n",
-    "reportDirectory:- " + reportDirectory + "\n",
-    "videoDirectory:- " + videoDirectory + "\n",
-    "screenshotDirectory:- " + screenshotDirectory + "\n"
+    "reportDirectory:- " + reportDir + "\n",
+    "videoDirectory:- " + videoDir + "\n",
+    "screenshotDirectory:- " + screenshotDir + "\n"
   );
 }
 
-slacker.slackRunner(
+slacker.slackRunner({
   ciProvider,
-  vcsProvider,
-  reportDirectory,
-  videoDirectory,
-  screenshotDirectory,
-  artifactURI,
-  verbose
-);
+  vcsRoot: vcsProvider,
+  reportDir,
+  videoDir,
+  screenshotDir,
+  customUrl,
+  onlyFailed,
+});

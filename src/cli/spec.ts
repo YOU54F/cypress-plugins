@@ -2,7 +2,6 @@
 // tslint:disable-next-line: no-reference
 /// <reference path='../../node_modules/cypress/types/cypress-npm-api.d.ts'/>
 import * as CypressNpmApi from "cypress";
-// import { logger } from "../logger";
 import { slackRunner } from "../slack/slack-alert";
 // tslint:disable: no-var-requires
 const marge = require("mochawesome-report-generator");
@@ -52,29 +51,27 @@ CypressNpmApi.run({
       reportDir: `mochawesome-report`,
     };
     const ciProvider: string = program.ciProvider;
-    const vcsProvider: string = program.vcsProvider;
-    const reportDirectory: string = program.reportDir;
-    const videoDirectory: string = program.videoDir;
-    const screenshotDirectory: string = program.screenshotDir;
+    const vcsRoot: string = program.vcsProvider;
+    const reportDir: string = program.reportDir;
+    const videoDir: string = program.videoDir;
+    const screenshotDir: string = program.screenshotDir;
     const verbose: boolean = program.verbose;
     // tslint:disable-next-line: no-console
     console.log("Constructing Slack message with the following options", {
       ciProvider,
-      vcsProvider,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
+      vcsRoot,
+      reportDir,
+      videoDir,
+      screenshotDir,
       verbose,
     });
-    const slack = slackRunner(
+    slackRunner({
       ciProvider,
-      vcsProvider,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      verbose
-    );
+      vcsRoot,
+      reportDir,
+      videoDir,
+      screenshotDir,
+    });
     // tslint:disable-next-line: no-console
     console.log("Finished slack upload");
   })
