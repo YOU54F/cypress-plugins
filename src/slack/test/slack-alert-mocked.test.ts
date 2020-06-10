@@ -7,11 +7,9 @@ import * as slacker from "../slack-alert";
 const base = process.env.PWD || ".";
 const vcsRoot: string = "github";
 const ciProvider: string = "circleci";
-const reportDirectory: string = base + "/src/slack/test/jsonTestPass";
-const videoDirectory: string = base + "/src/slack/test/videosDirPopulated";
-const screenshotDirectory: string =
-  base + "/src/slack/test/screenshotDirPopulated";
-const logger: boolean = false;
+const reportDir: string = base + "/src/slack/test/jsonTestPass";
+const videoDir: string = base + "/src/slack/test/videosDirPopulated";
+const screenshotDir: string = base + "/src/slack/test/screenshotDirPopulated";
 const mock: SlackMock.Instance = SlackMock.SlackMocker({ logLevel: "debug" });
 const mockedHooks = mock.incomingWebhooks;
 
@@ -36,17 +34,13 @@ describe("tester", () => {
   setup();
 
   it("can call a mock slack instance vcs root bitbucket", async () => {
-    const _vcsRoot = "bitbucket";
-
-    await slacker.slackRunner(
+    await slacker.slackRunner({
       ciProvider,
-      _vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      logger
-    );
+      vcsRoot: "bitbucket",
+      reportDir,
+      videoDir,
+      screenshotDir,
+    });
     const body = await returnSlackWebhookCall();
 
     expect(body).toContain("bitbucket");
@@ -57,16 +51,13 @@ describe("tester", () => {
 describe("tester", () => {
   setup();
   it("can provide a simple report with an unknown ci provider", async () => {
-    const _ciProvider = "csdscscsc";
-    await slacker.slackRunner(
-      _ciProvider,
+    await slacker.slackRunner({
+      ciProvider: "csdscscsc",
       vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      logger
-    );
+      reportDir,
+      videoDir,
+      screenshotDir,
+    });
     const body = await returnSlackWebhookCall();
 
     const buildNum = process.env.CIRCLE_BUILD_NUM;
@@ -79,17 +70,16 @@ describe("tester", () => {
 describe("tester", () => {
   setup();
   it("can set custom report link when ci-provider set to custom", async () => {
-    const _ciProvider = "custom";
     const artifactUrl = "http://example.com/report-data.html";
-    await slacker.slackRunner(
-      _ciProvider,
+
+    await slacker.slackRunner({
+      ciProvider: "custom",
       vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      artifactUrl,
-      logger
-    );
+      reportDir,
+      videoDir,
+      screenshotDir,
+      customUrl: artifactUrl,
+    });
     const body = await returnSlackWebhookCall();
     expect(body).toContain(`"url":"${artifactUrl}"`);
   });
@@ -98,15 +88,13 @@ describe("tester", () => {
 describe("tester", () => {
   setup();
   it("can call a mock slack instance vcs root github", async () => {
-    await slacker.slackRunner(
+    await slacker.slackRunner({
       ciProvider,
       vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      logger
-    );
+      reportDir,
+      videoDir,
+      screenshotDir,
+    });
     const body = await returnSlackWebhookCall();
     checkStatus(body, "passed");
     expect(body).toContain("github");
@@ -117,16 +105,13 @@ describe("tester", () => {
 describe("tester", () => {
   setup();
   it("can call a mock slack instance vcs root github with a failing test report", async () => {
-    const _reportDirectory: string = base + "/src/slack/test/jsonTestFail";
-    await slacker.slackRunner(
+    await slacker.slackRunner({
       ciProvider,
       vcsRoot,
-      _reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      logger
-    );
+      reportDir: base + "/src/slack/test/jsonTestFail",
+      videoDir,
+      screenshotDir,
+    });
     const body = await returnSlackWebhookCall();
 
     checkStatus(body, "failed");
@@ -134,19 +119,51 @@ describe("tester", () => {
     expect(body).not.toContain("undefined");
   });
 });
+
+describe("test onlyFailed flag", () => {
+  setup();
+  it("calls a mock slack instance with failing test report and onlyFailed flag set", async () => {
+    await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: base + "/src/slack/test/jsonTestFail",
+      videoDir,
+      screenshotDir,
+      onlyFailed: true,
+    });
+    const body = await returnSlackWebhookCall();
+
+    checkStatus(body, "failed");
+    expect(body).toContain("github");
+    expect(body).not.toContain("undefined");
+  });
+
+  it("does not call a mock slack instance with passing test report and onlyFailed flag set", async () => {
+    const result = await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: base + "/src/slack/test/jsonTestPass",
+      videoDir,
+      screenshotDir,
+      onlyFailed: true,
+    });
+    expect(mockedHooks.calls).toHaveLength(0);
+
+    expect(result).toContain(
+      "onlyFailed flag set, test run status was passed, so not sending message"
+    );
+  });
+});
 describe("tester", () => {
   setup();
   it("can call a mock slack instance vcs root github with a failing build report", async () => {
-    const _reportDirectory: string = base + "/src/slack/test/jsonBuildFail";
-    await slacker.slackRunner(
+    await slacker.slackRunner({
       ciProvider,
       vcsRoot,
-      _reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      logger
-    );
+      reportDir: base + "/src/slack/test/jsonBuildFail",
+      videoDir,
+      screenshotDir,
+    });
     const body = await returnSlackWebhookCall();
 
     checkStatus(body, "build");
@@ -156,18 +173,15 @@ describe("tester", () => {
 });
 
 describe("Slack Reporter throws error if we cant find the test report", () => {
-  const _reportDirectory: string = "";
   it("throws error when slack isnt available", async () => {
     function mockRunner() {
-      slacker.slackRunner(
+      slacker.slackRunner({
         ciProvider,
         vcsRoot,
-        _reportDirectory,
-        videoDirectory,
-        screenshotDirectory,
-        "",
-        logger
-      );
+        reportDir: "",
+        videoDir,
+        screenshotDir,
+      });
     }
     expect(mockRunner).toThrowError("Error: Cannot find test report @ ");
   });
@@ -176,16 +190,13 @@ describe("Slack Reporter throws error if we cant find the test report", () => {
 describe("tester", () => {
   setup();
   it("can provide a simple report with an unknown vcsroot provider", async () => {
-    const _vcsRoot = "none";
-    await slacker.slackRunner(
+    await slacker.slackRunner({
       ciProvider,
-      _vcsRoot,
-      reportDirectory,
-      videoDirectory,
-      screenshotDirectory,
-      "",
-      logger
-    );
+      vcsRoot: "none",
+      reportDir,
+      videoDir,
+      screenshotDir,
+    });
     const body = await returnSlackWebhookCall();
 
     expect(body).not.toContain("commits");

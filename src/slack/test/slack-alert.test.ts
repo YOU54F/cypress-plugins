@@ -11,45 +11,41 @@ jest.setTimeout(10000);
 describe("webhookInitialArgs tester", () => {
   const initialArgs: IncomingWebhookDefaultArguments = {};
   test("it returns the test status in the title", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.webhookInitialArgs(initialArgs, "passed");
+    const s = slacker.webhookInitialArgs(initialArgs, "passed");
     expect(s).toMatchObject({ text: "Cypress test run passed\n" });
   });
   test("it returns the test status in the title", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.webhookInitialArgs(initialArgs, "failed");
+    const s = slacker.webhookInitialArgs(initialArgs, "failed");
     expect(s).toMatchObject({ text: "Cypress test run failed\n" });
   });
   test("it returns the test status in the title", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.webhookInitialArgs(initialArgs, "error");
+    const s = slacker.webhookInitialArgs(initialArgs, "error");
     expect(s).toMatchObject({ text: "Cypress test build failed\n" });
   });
   test("it returns the test status in the title", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.webhookInitialArgs(initialArgs, "");
+    const s = slacker.webhookInitialArgs(initialArgs, "");
     expect(s).toMatchObject({ text: "Cypress test status unknown\n" });
   });
   test("it returns the test status in the title", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.webhookInitialArgs(initialArgs, "");
+    const s = slacker.webhookInitialArgs(initialArgs, "");
     expect(s).toMatchObject({ text: "Cypress test status unknown\n" });
   });
 
   test("Returns a PR link if CIRCLE_PULL_REQUEST is is an empty string", async () => {
     const CIRCLE_PULL_REQUEST = "";
-    await slacker.prChecker(CIRCLE_PULL_REQUEST);
-    const s = await slacker.webhookInitialArgs(initialArgs, "");
+    slacker.prChecker(CIRCLE_PULL_REQUEST);
+    const s = slacker.webhookInitialArgs(initialArgs, "");
     expect(s).toMatchObject({
-      text: "Cypress test status unknown\n"
+      text: "Cypress test status unknown\n",
     });
   });
   test("Returns a PR link if CIRCLE_PULL_REQUEST is defined", async () => {
     const CIRCLE_PULL_REQUEST = "http://sometesturl.com/pulls";
-    await slacker.prChecker(CIRCLE_PULL_REQUEST);
-    const s = await slacker.webhookInitialArgs(initialArgs, "");
+    slacker.prChecker(CIRCLE_PULL_REQUEST);
+    const s = slacker.webhookInitialArgs(initialArgs, "");
     expect(s).toMatchObject({
-      text: "Cypress test status unknown\n<http://sometesturl.com/pulls| - PR >"
+      text:
+        "Cypress test status unknown\n<http://sometesturl.com/pulls| - PR >",
     });
   });
 });
@@ -62,7 +58,7 @@ describe("Video Link Checker", () => {
   test("Returns video links, if REPORT_ARTEFACT_URL exists", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "videosDirPopulated");
-    const s = await slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
+    const s = slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
     expect(s).toContain(
       `<http://sometesturl.com${dir}/small.mp4|Video:- small.mp4>`
     );
@@ -71,13 +67,13 @@ describe("Video Link Checker", () => {
   test("Returns blank string, if videos dir is empty", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "videosDirEmpty");
-    const s = await slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
+    const s = slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
     expect(s).toEqual("");
   });
   test("Returns blank string, if REPORT_ARTEFACT_URL doesnt exist", async () => {
     const REPORT_ARTEFACT_URL: string = "";
     const dir: string = path.join(__dirname, "videosDirPopulated");
-    const s = await slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
+    const s = slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
     expect(s).toEqual("");
   });
 });
@@ -86,19 +82,19 @@ describe("Screenshot Link Checker", () => {
   test("Returns blank string if screenshot dir is empty and if REPORT_ARTEFACT_URL exists", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "screenshotDirEmpty");
-    const s = await slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
+    const s = slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
     expect(s).toEqual("");
   });
   test("Returns blank string, if REPORT_ARTEFACT_URL doesnt exist", async () => {
     const REPORT_ARTEFACT_URL: string = "";
     const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
+    const s = slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
     expect(s).toEqual("");
   });
   test("Returns screenshots if REPORT_ARTEFACT_URL & screenshots exist", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
+    const s = slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
     expect(s).toContain(
       `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
     );
@@ -110,7 +106,7 @@ describe("Get Files Checker", () => {
     const dir: string = path.join(__dirname, "reportSingle");
     const ext: string = ".html";
     const fileList: string[] = [];
-    const s = await slacker.getFiles(dir, ext, fileList);
+    const s = slacker.getFiles(dir, ext, fileList);
     const rootDir: string = path.dirname(__dirname);
     let expected = `${rootDir}/test/reportSingle/report-20190403-233436.html`;
     if (isWin) {
@@ -122,21 +118,21 @@ describe("Get Files Checker", () => {
     const dir: string = path.join(__dirname, "reportSingle");
     const ext: string = ".htm";
     const fileList: string[] = [];
-    const s = await slacker.getFiles(dir, ext, fileList);
+    const s = slacker.getFiles(dir, ext, fileList);
     expect(s).toEqual([]);
   });
   test("Returns an empty array if the directory is not found", async () => {
     const dir: string = path.join(__dirname, "nonexistentdir");
     const ext: string = ".html";
     const fileList: string[] = [];
-    const s = await slacker.getFiles(dir, ext, fileList);
+    const s = slacker.getFiles(dir, ext, fileList);
     expect(s).toEqual([]);
   });
   test("returns an empty list if the mochareports doesnt exist", async () => {
     const dir: string = path.join("mochareports");
     const ext: string = ".html";
     const fileList: string[] = [];
-    const s = await slacker.getFiles(dir, ext, fileList);
+    const s = slacker.getFiles(dir, ext, fileList);
     expect(s).toEqual([]);
   });
 
@@ -144,7 +140,7 @@ describe("Get Files Checker", () => {
     const dir: string = path.join(__dirname, "nestedfolder");
     const ext: string = ".png";
     const fileList: string[] = [];
-    const s = await slacker.getFiles(dir, ext, fileList);
+    const s = slacker.getFiles(dir, ext, fileList);
     expect(s).toHaveLength(2);
   });
 });
@@ -158,24 +154,24 @@ describe("Test Report Parser", () => {
       totalPasses: 18,
       totalSuites: 4,
       totalTests: 18,
-      status: "passed"
+      status: "passed",
     };
-    const s = await slacker.getTestReportStatus(reportDir);
+    const s = slacker.getTestReportStatus(reportDir);
     expect(s).toMatchObject(reportResult);
   });
   test("Reads a passed status", async () => {
     const reportDir = path.join(__dirname, "jsonTestPass");
-    const s = await slacker.getTestReportStatus(reportDir);
+    const s = slacker.getTestReportStatus(reportDir);
     expect(s).toHaveProperty("status", "passed");
   });
   test("Reads a failed status", async () => {
     const reportDir = path.join(__dirname, "jsonTestFail");
-    const s = await slacker.getTestReportStatus(reportDir);
+    const s = slacker.getTestReportStatus(reportDir);
     expect(s).toHaveProperty("status", "failed");
   });
   test("Reads an error status", async () => {
     const reportDir = path.join(__dirname, "jsonBuildFail");
-    const s = await slacker.getTestReportStatus(reportDir);
+    const s = slacker.getTestReportStatus(reportDir);
     expect(s).toHaveProperty("status", "error");
   });
   test("Returns an error when a test report directory cannot be found", async () => {
@@ -201,7 +197,7 @@ describe("Test Report Parser", () => {
 describe("Test Report URL Generator", () => {
   test("Reads a report a returns the results", async () => {
     const reportDir = path.join(__dirname, "reportSingle");
-    const s = await slacker.getHTMLReportFilename(reportDir);
+    const s = slacker.getHTMLReportFilename(reportDir);
     expect(s).toEqual("report-20190403-233436.html");
   });
   test("Returns an error when a test report directory or file cannot be found", async () => {
@@ -225,7 +221,7 @@ describe("Test Report URL Generator", () => {
 describe("attachmentReports tester", () => {
   const attachments: MessageAttachment = {};
   test("it returns attachments based on test status", async () => {
-    const s = await slacker.attachmentReports(attachments, "passed");
+    const s = slacker.attachmentReports(attachments, "passed");
     expect(s).toMatchInlineSnapshot(`
       Object {
         "actions": Array [
@@ -250,7 +246,7 @@ describe("attachmentReports tester", () => {
     `);
   });
   test("it returns attachments based on test status", async () => {
-    const s = await slacker.attachmentReports(attachments, "failed");
+    const s = slacker.attachmentReports(attachments, "failed");
     expect(s).toMatchInlineSnapshot(`
       Object {
         "actions": Array [
@@ -277,7 +273,7 @@ describe("attachmentReports tester", () => {
     `);
   });
   test("it returns attachments based on test status", async () => {
-    const s = await slacker.attachmentReports(attachments, "error");
+    const s = slacker.attachmentReports(attachments, "error");
     expect(s).toMatchInlineSnapshot(`
       Object {
         "actions": Array [
@@ -296,7 +292,7 @@ describe("attachmentReports tester", () => {
     `);
   });
   test("it returns attachments based on test status", async () => {
-    const s = await slacker.attachmentReports(attachments, "dfdfsfs");
+    const s = slacker.attachmentReports(attachments, "dfdfsfs");
     expect(s).toEqual({});
   });
 });
@@ -305,31 +301,22 @@ describe("attachmentsVideoAndScreenshots tester", () => {
   const attachments: MessageAttachment = {};
   test("it returns attachments based on test status", async () => {
     const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.attachmentsVideoAndScreenshots(
-      attachments,
-      "passed"
-    );
+    const s = slacker.attachmentsVideoAndScreenshots(attachments, "passed");
     expect(s).toMatchObject({
       color: "#36a64f",
-      text: `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>\n`
+      text: `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>\n`,
     });
   });
   test("it returns attachments based on test status", async () => {
     const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = await slacker.attachmentsVideoAndScreenshots(
-      attachments,
-      "failed"
-    );
+    const s = slacker.attachmentsVideoAndScreenshots(attachments, "failed");
     expect(s).toMatchObject({
       color: "#ff0000",
-      text: `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>\n`
+      text: `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>\n`,
     });
   });
   test("it returns attachments based on test status", async () => {
-    const s = await slacker.attachmentsVideoAndScreenshots(
-      attachments,
-      "dfdfsfs"
-    );
+    const s = slacker.attachmentsVideoAndScreenshots(attachments, "dfdfsfs");
     expect(s).toEqual({});
   });
 });

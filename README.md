@@ -93,6 +93,7 @@ Set the following environment variables in your localhost or CI configuration.
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
         --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
         --verbose                show log output
+        --only-failed            only send message for failed tests
         -h, --help               output usage information
 
 ## Pre-Requisites

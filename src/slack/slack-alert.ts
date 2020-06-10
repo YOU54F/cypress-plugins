@@ -41,47 +41,63 @@ let totalDuration: number;
 let status: string;
 const sendArgs: IncomingWebhookSendArguments = {};
 
-export function slackRunner(
-  ciProvider: string,
-  vcsRoot: string,
-  reportDir: string,
-  videoDir: string,
-  screenshotDir: string,
-  _artefactUrl: string,
-  logger: boolean
-) {
+export interface SlackRunnerOptions {
+  ciProvider: string;
+  vcsRoot: string;
+  reportDir: string;
+  videoDir: string;
+  screenshotDir: string;
+  customUrl?: string;
+  onlyFailed?: boolean;
+}
+export function slackRunner({
+  ciProvider,
+  vcsRoot,
+  reportDir,
+  videoDir,
+  screenshotDir,
+  customUrl,
+  onlyFailed,
+}: SlackRunnerOptions) {
   resolveCIProvider(ciProvider);
+
   try {
-    const messageResult = sendMessage(
+    const messageResult = sendMessage({
       vcsRoot,
       reportDir,
       videoDir,
       screenshotDir,
-      _artefactUrl,
-      ciProvider
-    );
+      customUrl,
+      ciProvider,
+      onlyFailed,
+    });
     return messageResult;
   } catch (e) {
     throw new Error(e);
   }
 }
 
-export function sendMessage(
-  _vcsRoot: string,
-  _reportDir: string,
-  _videoDir: string,
-  _screenshotDir: string,
-  _artefactUrl: string,
-  _ciProvider: string
-) {
+export function sendMessage({
+  ciProvider: _ciProvider,
+  vcsRoot: _vcsRoot,
+  reportDir: _reportDir,
+  videoDir: _videoDir,
+  screenshotDir: _screenshotDir,
+  customUrl = "",
+  onlyFailed = false,
+}: SlackRunnerOptions) {
   commitUrl = getCommitUrl(_vcsRoot) as string;
-  artefactUrl = getArtefactUrl(_vcsRoot, _ciProvider, _artefactUrl);
+  artefactUrl = getArtefactUrl(_vcsRoot, _ciProvider, customUrl);
   reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl, _ciProvider);
   videoAttachmentsSlack = getVideoLinks(artefactUrl, _videoDir); //
   screenshotAttachmentsSlack = getScreenshotLinks(artefactUrl, _screenshotDir);
   prChecker(CI_PULL_REQUEST as string);
   const reportStatistics = getTestReportStatus(_reportDir); // process the test report
-  constructMessage(reportStatistics.status);
+  if (onlyFailed && reportStatistics.status !== "failed") {
+    return `onlyFailed flag set, test run status was ${reportStatistics.status}, so not sending message`;
+  } else {
+    return constructMessage(reportStatistics.status);
+  }
 }
 
 export function constructMessage(_status: string) {
@@ -417,23 +433,23 @@ export function buildHTMLReportURL(
 export function getArtefactUrl(
   _vcsRoot: string,
   ciProvider: string,
-  _artefactUrl: string
+  customUrl: string
 ) {
   if (ciProvider === "custom") {
-    return _artefactUrl;
+    return (artefactUrl = customUrl);
   } else if (ciProvider === "circleci") {
     switch (_vcsRoot) {
       case "github":
-        _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
+        artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
         break;
       case "bitbucket":
-        _artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
+        artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
         break;
       default: {
-        _artefactUrl = "";
+        artefactUrl = "";
       }
     }
-    return _artefactUrl;
+    return artefactUrl;
   }
 
   return "";
