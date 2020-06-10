@@ -69,19 +69,19 @@ describe("tester", () => {
 
 describe("tester", () => {
   setup();
-  it("can set custom report link when ci-provider set to custom", async () => {
-    const artifactUrl = "http://example.com/report-data.html";
-
+  it("can set custom report link when a custom url is provided", async () => {
+    const artifactUrl = "http://example.com";
+    // /report-data.html
     await slacker.slackRunner({
-      ciProvider: "custom",
+      ciProvider,
       vcsRoot,
-      reportDir,
+      reportDir: base + "/src/slack/test/jsonTestFail",
       videoDir,
       screenshotDir,
       customUrl: artifactUrl,
     });
     const body = await returnSlackWebhookCall();
-    expect(body).toContain(`"url":"${artifactUrl}"`);
+    expect(body).toContain(`"url":"${artifactUrl}`);
   });
 });
 

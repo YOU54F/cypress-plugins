@@ -2,7 +2,6 @@
 // tslint:disable-next-line: no-reference
 /// <reference path='../../node_modules/cypress/types/cypress-npm-api.d.ts'/>
 import * as CypressNpmApi from "cypress";
-// import { logger } from "../logger";
 import { slackRunner } from "../slack/slack-alert";
 // tslint:disable: no-var-requires
 const marge = require("mochawesome-report-generator");

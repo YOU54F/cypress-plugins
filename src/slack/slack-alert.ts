@@ -422,9 +422,6 @@ export function buildHTMLReportURL(
   _artefactUrl: string,
   _ciProvider: string
 ) {
-  if (_ciProvider === "custom") {
-    return _artefactUrl;
-  }
   reportHTMLFilename = getHTMLReportFilename(_reportDir);
   reportHTMLUrl = _artefactUrl + _reportDir + "/" + reportHTMLFilename;
   return reportHTMLUrl;
@@ -435,7 +432,7 @@ export function getArtefactUrl(
   ciProvider: string,
   customUrl: string
 ) {
-  if (ciProvider === "custom") {
+  if (customUrl) {
     return (artefactUrl = customUrl);
   } else if (ciProvider === "circleci") {
     switch (_vcsRoot) {

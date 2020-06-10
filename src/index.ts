@@ -76,7 +76,7 @@ const screenshotDir: string = program.screenshotDir;
 const onlyFailed: boolean = program.onlyFailed;
 // const verbose: boolean = program.verbose;
 
-if (program.verbose || program.logger) {
+if (program.verbose) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
