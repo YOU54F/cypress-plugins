@@ -3645,10 +3645,10 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
-cypress-cucumber-preprocessor@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/cypress-cucumber-preprocessor/-/cypress-cucumber-preprocessor-2.5.0.tgz#f8470faa4fbe83dd9b30add705fde0b66b64e969"
-  integrity sha512-HjHx4LEr1Xpsr+/0pVYTY1VUc2Gf4bU3hfAUIwulE2g0QHEsFBzp5FDuqIFgQzGVWtkf6KtDqgRualsNy4wQlA==
+cypress-cucumber-preprocessor@2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/cypress-cucumber-preprocessor/-/cypress-cucumber-preprocessor-2.5.1.tgz#44bd1f0be4c28c4ccb732b72c024a068a3b2e6ab"
+  integrity sha512-dnCfilE73Oo1XDfEjXhEXru8Iqm9OCIApcm3h8+IYpT/MokdJVLRFEjNnRbxZ2KHT3t9z3EAYqKE3NS6rrC8eA==
   dependencies:
     "@cypress/browserify-preprocessor" "^2.1.1"
     chai "^4.1.2"
