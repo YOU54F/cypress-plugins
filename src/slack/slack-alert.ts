@@ -102,21 +102,54 @@ export function sendMessage({
 
 export function constructMessage(_status: string) {
   const webhookInitialArguments = webhookInitialArgs({}, _status);
-  const webhook = new IncomingWebhook(
-    SLACK_WEBHOOK_URL,
-    webhookInitialArguments
-  );
   const reports = attachmentReports(attachments, _status);
   switch (_status) {
     case "error": {
-      const sendArguments = webhookSendArgs(sendArgs, [reports]);
-      return webhook.send(sendArguments);
+      const slackWebhookErrorUrl = process.env.SLACK_WEBHOOK_ERROR_URL;
+      const slackWebhookUrls = slackWebhookErrorUrl
+        ? slackWebhookErrorUrl.split(",")
+        : SLACK_WEBHOOK_URL.split(",");
+      slackWebhookUrls.forEach((slackWebhookUrl) => {
+        const webhook = new IncomingWebhook(
+          slackWebhookUrl,
+          webhookInitialArguments
+        );
+        const sendArguments = webhookSendArgs(sendArgs, [reports]);
+        return webhook.send(sendArguments);
+      });
+      break;
     }
-    case "failed":
+    case "failed": {
+      const slackWebhookFailedUrl = process.env.SLACK_WEBHOOK_FAILED_URL;
+      const slackWebhookUrls = slackWebhookFailedUrl
+        ? slackWebhookFailedUrl.split(",")
+        : SLACK_WEBHOOK_URL.split(",");
+      slackWebhookUrls.forEach((slackWebhookUrl) => {
+        const webhook = new IncomingWebhook(
+          slackWebhookUrl,
+          webhookInitialArguments
+        );
+        const artefacts = attachmentsVideoAndScreenshots(attachments, _status);
+        const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
+        return webhook.send(sendArguments);
+      });
+      break;
+    }
     case "passed": {
-      const artefacts = attachmentsVideoAndScreenshots(attachments, _status);
-      const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
-      return webhook.send(sendArguments);
+      const slackWebhookPassedUrl = process.env.SLACK_WEBHOOK_PASSED_URL;
+      const slackWebhookUrls = slackWebhookPassedUrl
+        ? slackWebhookPassedUrl.split(",")
+        : SLACK_WEBHOOK_URL.split(",");
+      slackWebhookUrls.forEach((slackWebhookUrl) => {
+        const webhook = new IncomingWebhook(
+          slackWebhookUrl,
+          webhookInitialArguments
+        );
+        const artefacts = attachmentsVideoAndScreenshots(attachments, _status);
+        const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
+        return webhook.send(sendArguments);
+      });
+      break;
     }
     default: {
       throw new Error("An error occured getting the status of the test run");
