@@ -531,6 +531,41 @@ export function resolveCIProvider(ciProvider?: string) {
         CI_URL = process.env.JENKINS_URL;
       }
       break;
+    case "bitbucket":
+      {
+        const {
+          BITBUCKET_BUILD_NUMBER,
+          BITBUCKET_CLONE_DIR,
+          BITBUCKET_COMMIT,
+          BITBUCKET_WORKSPACE,
+          BITBUCKET_REPO_SLUG,
+          BITBUCKET_REPO_UUID,
+          BITBUCKET_REPO_FULL_NAME,
+          BITBUCKET_BRANCH,
+          BITBUCKET_TAG,
+          BITBUCKET_PR_ID,
+          BITBUCKET_PR_DESTINATION_BRANCH,
+          BITBUCKET_GIT_HTTP_ORIGIN,
+          BITBUCKET_GIT_SSH_ORIGIN,
+          BITBUCKET_STEP_UUID,
+          BITBUCKET_PIPELINE_UUID,
+        } = process.env;
+        const urlParts = process.env.BITBUCKET_REPO_FULL_NAME || "";
+        const arr = urlParts.split("/");
+        const PROJECT_REPONAME = arr[1];
+        const PROJECT_USERNAME = arr[0];
+        (CI_SHA1 = BITBUCKET_COMMIT),
+          (CI_BRANCH = BITBUCKET_BRANCH),
+          (CI_USERNAME = ""),
+          (CI_BUILD_URL = ""),
+          (CI_BUILD_NUM = BITBUCKET_BUILD_NUMBER),
+          (CI_PULL_REQUEST = BITBUCKET_PR_ID),
+          (CI_PROJECT_REPONAME = PROJECT_REPONAME),
+          (CI_PROJECT_USERNAME = PROJECT_USERNAME),
+          (CI_CIRCLE_JOB = "");
+        CI_URL = "https://bitbucket.org";
+      }
+      break;
     default: {
       break;
     }
