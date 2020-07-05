@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.9.0...v0.10.0) (2020-07-05)
+
+
+### Features
+
+* allow multiple webhooks per msg and diff hook per status ([ba14f5c](https://github.com/you54f/cypress-slack-reporter/commit/ba14f5c8f02e43b834b217ad0fc5e72dda0fec29))
+
 ## [0.9.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.8.0...v0.9.0) (2020-06-10)
 
 ## [0.8.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.7.1...v0.8.0) (2020-05-26)
