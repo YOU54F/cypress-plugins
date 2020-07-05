@@ -120,6 +120,93 @@ describe("tester", () => {
   });
 });
 
+describe("test custom webhooks per test status", () => {
+  setup();
+  const errorUrl = "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/error";
+  const failedUrl =
+    "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/failed";
+  const passedUrl =
+    "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/passed";
+  const errorUrlMultiple =
+    "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/error1,https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/error2";
+  const failedUrlMultiple =
+    "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/failed1,https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/failed2";
+  const passedUrlMultiple =
+    "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/passed1,https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/passed2";
+
+  it("calls a mock slack instance with specific webhook for failed test runs", async () => {
+    process.env.SLACK_WEBHOOK_FAILED_URL = failedUrl;
+
+    await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: base + "/src/slack/test/jsonTestFail",
+      videoDir,
+      screenshotDir,
+    });
+    const body = await returnSlackWebhookCall(failedUrl);
+
+    checkStatus(body, "failed");
+    expect(body).toContain("github");
+    expect(body).not.toContain("undefined");
+    process.env.SLACK_WEBHOOK_FAILED_URL = "";
+  });
+
+  it("calls a mock slack instance with specific webhook for passed test runs", async () => {
+    process.env.SLACK_WEBHOOK_PASSED_URL = passedUrl;
+
+    await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: base + "/src/slack/test/jsonTestPass",
+      videoDir,
+      screenshotDir,
+    });
+    const body = await returnSlackWebhookCall(passedUrl);
+    checkStatus(body, "passed");
+    expect(body).toContain("github");
+    expect(body).not.toContain("undefined");
+    expect(mockedHooks.calls).toHaveLength(1);
+    process.env.SLACK_WEBHOOK_PASSED_URL = "";
+  });
+
+  it("calls a mock slack instance with specific webhook for erroring test runs", async () => {
+    process.env.SLACK_WEBHOOK_ERROR_URL = errorUrl;
+
+    await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: base + "/src/slack/test/jsonBuildFail",
+      videoDir,
+      screenshotDir,
+    });
+    const body = await returnSlackWebhookCall(errorUrl);
+    checkStatus(body, "build");
+    expect(body).toContain("github");
+    expect(body).not.toContain("undefined");
+    expect(mockedHooks.calls).toHaveLength(1);
+    process.env.SLACK_WEBHOOK_ERROR_URL = "";
+  });
+
+  it("calls a mock slack instance multiple times if more than one webhook is provided", async () => {
+    process.env.SLACK_WEBHOOK_PASSED_URL = passedUrlMultiple;
+
+    await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: base + "/src/slack/test/jsonTestPass",
+      videoDir,
+      screenshotDir,
+    });
+    const body = await returnSlackWebhookCall(passedUrlMultiple, 2);
+    checkStatus(body, "passed");
+    expect(body).toContain("github");
+    expect(body).not.toContain("undefined");
+    expect(mockedHooks.calls).toHaveLength(2);
+    process.env.SLACK_WEBHOOK_PASSED_URL = "";
+  });
+});
+
 describe("test onlyFailed flag", () => {
   setup();
   it("calls a mock slack instance with failing test report and onlyFailed flag set", async () => {
@@ -204,14 +291,25 @@ describe("tester", () => {
   });
 });
 
-function returnSlackWebhookCall() {
+function returnSlackWebhookCall(webhookUrl?: string, noOfCalls?: number) {
   // This checks the slack mock call counter
-  expect(mockedHooks.calls).toHaveLength(1);
+  expect(mockedHooks.calls).toHaveLength(noOfCalls ? noOfCalls : 1);
   // Load the response as json
-  const firstCall = mockedHooks.calls[0];
-  // check our webhook url called in ENV var SLACK_WEBHOOK_URL
-  expect(firstCall.url).toEqual(process.env.SLACK_WEBHOOK_URL);
-  const body = firstCall.params;
+
+  if (!webhookUrl) {
+    webhookUrl = process.env.SLACK_WEBHOOK_URL;
+  }
+  if (webhookUrl) {
+    let i = 0;
+    webhookUrl.split(",").forEach((eachWebhookUrl) => {
+      const firstCall = mockedHooks.calls[i];
+      // check our webhook url called in ENV var SLACK_WEBHOOK_URL
+      expect(firstCall.url).toEqual(eachWebhookUrl);
+      i++;
+    });
+  }
+  const body = mockedHooks.calls[0].params;
+
   return body;
 }
 function messageBuildURL(body: string) {

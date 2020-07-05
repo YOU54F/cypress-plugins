@@ -78,6 +78,14 @@ Set the following environment variables in your localhost or CI configuration.
 
   eg. `export SLACK_WEBHOOK_URL=yourWebhookUrlHere`
 
+You can optionally set one or more of the following env vars, to utilise a different slack webhook, dependent on the status of your build or test run.
+
+`SLACK_WEBHOOK_ERROR_URL` - For failing CI runs
+`SLACK_WEBHOOK_FAILED_URL`  - For failing test runs
+`SLACK_WEBHOOK_PASSED_URL` - For passing test runs
+
+Any of the 4 env vars above with accept a comma seperated list of webhooks, if you wish to post your slack message to multiple webhooks.
+
 ## Execution
 
     $ npx cypress-slack-reporter --help
