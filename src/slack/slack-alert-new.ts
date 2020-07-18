@@ -49,6 +49,7 @@ export interface SlackRunnerOptions {
   screenshotDir: string;
   customUrl?: string;
   onlyFailed?: boolean;
+  verbose?: boolean;
 }
 export function slackRunner({
   ciProvider,
@@ -58,6 +59,7 @@ export function slackRunner({
   screenshotDir,
   customUrl,
   onlyFailed,
+  verbose,
 }: SlackRunnerOptions) {
   resolveCIProvider(ciProvider);
 

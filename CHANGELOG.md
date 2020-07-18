@@ -2,6 +2,106 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.9.0...v0.10.0) (2020-07-05)
+
+
+### Features
+
+* allow multiple webhooks per msg and diff hook per status ([ba14f5c](https://github.com/you54f/cypress-slack-reporter/commit/ba14f5c8f02e43b834b217ad0fc5e72dda0fec29))
+
+## [0.9.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.8.0...v0.9.0) (2020-06-10)
+
+## [0.8.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.7.1...v0.8.0) (2020-05-26)
+
+
+### Features
+
+* **ci-provider:** added option for Jenkins CI provider ([#321](https://github.com/you54f/cypress-slack-reporter/issues/321)) ([7a5552f](https://github.com/you54f/cypress-slack-reporter/commit/7a5552f8b323b1b3ec37c72191bfcd0c8f668eb9))
+
+### [0.7.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.7.0...v0.7.1) (2020-05-18)
+
+
+### Features
+
+* custom test page url set ([865eb3c](https://github.com/you54f/cypress-slack-reporter/commit/865eb3ca858616883bdc260af40ab7941e14938a))
+* custom test page url set ([#604](https://github.com/you54f/cypress-slack-reporter/issues/604)) ([23515e0](https://github.com/you54f/cypress-slack-reporter/commit/23515e095037b65a3e2f26e20b3243fb9c451573))
+
+## [0.7.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.6.0...v0.7.0) (2020-05-18)
+
+## [0.6.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.7...v0.6.0) (2020-05-11)
+
+### [0.5.7](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.6...v0.5.7) (2020-05-11)
+
+### [0.5.6](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.5...v0.5.6) (2020-05-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v5 ([#481](https://github.com/you54f/cypress-slack-reporter/issues/481)) ([060b999](https://github.com/you54f/cypress-slack-reporter/commit/060b999721582d1357795b0df17244f50c4366a1))
+
+### [0.5.5](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.4...v0.5.5) (2020-02-24)
+
+
+### Bug Fixes
+
+* remove base path from readme & cli runner ([1c2f88e](https://github.com/you54f/cypress-slack-reporter/commit/1c2f88ea5d0d9eb0c833692f30fac6cbdbcfea9d))
+
+### [0.5.4](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.3...v0.5.4) (2020-02-24)
+
+
+### Bug Fixes
+
+* update artefact url for cirleci ([#446](https://github.com/you54f/cypress-slack-reporter/issues/446)) ([a52d3bd](https://github.com/you54f/cypress-slack-reporter/commit/a52d3bd1ed729b93cd6d433ae903593efac3a332))
+
+### [0.5.3](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.2...v0.5.3) (2020-02-14)
+
+
+### Bug Fixes
+
+* update reportDir in cli runner ([f506816](https://github.com/you54f/cypress-slack-reporter/commit/f5068161de2f93e4fb7e22d1ff84e90b7dec3d9a))
+
+### [0.5.2](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.1...v0.5.2) (2020-02-14)
+
+### [0.5.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.7...v0.5.1) (2020-02-12)
+
+### [0.4.7](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.6...v0.4.7) (2020-02-12)
+
+### [0.4.6](https://github.com/you54f/cypress-slack-reporter/compare/v0.5.0...v0.4.6) (2020-02-12)
+
+
+### Bug Fixes
+
+* update docs and add overwrite correction for cli ([#422](https://github.com/you54f/cypress-slack-reporter/issues/422)) ([b7673da](https://github.com/you54f/cypress-slack-reporter/commit/b7673da6e29ee2aa3f209de135c256a86ed563e3))
+* **deps:** update dependency commander to v4 ([#288](https://github.com/you54f/cypress-slack-reporter/issues/288)) ([354242d](https://github.com/you54f/cypress-slack-reporter/commit/354242db7c0074a3983d51af89b9d7ddbd279053))
+
+### [0.5.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.4...v0.5.0) (2019-11-01)
+
+
+### Features
+
+* added support for circle ci job name under slack report messgae by [@uxi187](https://github.com/uxi187) ([c36fc7b](https://github.com/you54f/cypress-slack-reporter/commit/c36fc7b))
+
+### [0.4.4](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.3...v0.4.4) (2019-10-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v3 ([#174](https://github.com/you54f/cypress-slack-reporter/issues/174)) ([e730eba](https://github.com/you54f/cypress-slack-reporter/commit/e730eba))
+
+
+
+### [0.4.3](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.2...v0.4.3) (2019-08-07)
+
+
+
+### [0.4.2](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.1...v0.4.2) (2019-07-08)
+
+
+
+### [0.4.1](https://github.com/you54f/cypress-slack-reporter/compare/v0.4.0...v0.4.1) (2019-07-08)
+
+
+
 ## [0.4.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.3.1...v0.4.0) (2019-06-05)
 
 

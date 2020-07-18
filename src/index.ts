@@ -27,8 +27,6 @@ try {
   }
 }
 
-const base = process.env.PWD || ".";
-
 program
   .version(
     `git@github.com:YOU54F/cypress-slack-reporter.git@${version}`,
@@ -39,7 +37,16 @@ program
     "VCS Provider [github|bitbucket|none]",
     "github"
   )
-  .option("--ci-provider [type]", "CI Provider [circleci|none]", "circleci")
+  .option(
+    "--ci-provider [type]",
+    "CI Provider [circleci|none|custom]",
+    "circleci"
+  )
+  .option(
+    "--custom-url [type]",
+    "On selected --ci-provider=custom this link will be set to Test Report",
+    "circleci"
+  )
   .option(
     "--report-dir [type]",
     "mochawesome json & html test report directory, relative to your package.json",
@@ -56,39 +63,37 @@ program
     "cypress/videos"
   )
   .option("--verbose", "show log output")
-  .option("--logger", "show log output")
+  .option("--only-failed", "only send message for failed tests")
   // .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
 const ciProvider: string = program.ciProvider;
 const vcsProvider: string = program.vcsProvider;
-const reportDirectory: string = base + "/" + program.reportDir;
-const videoDirectory: string = base + "/" + program.videoDir;
-const screenshotDirectory: string = base + "/" + program.screenshotDir;
-const verbose: boolean = program.verbose;
+const reportDir: string = program.reportDir;
+const videoDir: string = program.videoDir;
+const customUrl: string = program.customUrl;
+const screenshotDir: string = program.screenshotDir;
+const onlyFailed: boolean = program.onlyFailed;
+// const verbose: boolean = program.verbose;
 
-if (program.verbose || program.logger) {
-  if (program.logger) {
-    // tslint:disable-next-line: no-console
-    console.log(
-      "--logger option will soon be deprecated, please switch to --verbose"
-    );
-  }
+if (program.verbose) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
+    "customUrl:- " + customUrl + "\n",
     "vcsProvider:- " + vcsProvider + "\n",
-    "reportDirectory:- " + reportDirectory + "\n",
-    "videoDirectory:- " + videoDirectory + "\n",
-    "screenshotDirectory:- " + screenshotDirectory + "\n"
+    "reportDirectory:- " + reportDir + "\n",
+    "videoDirectory:- " + videoDir + "\n",
+    "screenshotDirectory:- " + screenshotDir + "\n"
   );
 }
 
-slacker.slackRunner(
+slacker.slackRunner({
   ciProvider,
-  vcsProvider,
-  reportDirectory,
-  videoDirectory,
-  screenshotDirectory,
-  verbose
-);
+  vcsRoot: vcsProvider,
+  reportDir,
+  videoDir,
+  screenshotDir,
+  customUrl,
+  onlyFailed,
+});
