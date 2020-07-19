@@ -38,7 +38,7 @@ program
   )
   .option(
     "--ci-provider [type]",
-    "CI Provider [circleci|none|custom]",
+    "CI Provider [circleci|jenkins|bitbucket|none|custom]",
     "circleci"
   )
   .option(

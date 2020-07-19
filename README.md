@@ -97,7 +97,7 @@ eg. `export SLACK_WEBHOOK_URL=your1stWebhookUrlHere,your2ndWebhookUrlHere`
       Options:
         -v, --version            output the version number
         --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
-        --ci-provider [type]     CI Provider [circleci|none|custom] (default: "circleci")
+        --ci-provider [type]     CI Provider [circleci|jenkins|bitbucket|none|custom] (default: "circleci")
         --custom-url [type]      On selected --ci-provider=custom this link will be set to Test Report (default: "")
         --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
