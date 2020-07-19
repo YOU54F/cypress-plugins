@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.10.0...v1.0.0) (2020-07-19)
+
+
+### Features
+
+* allow accessControlLevel to be set in s3-batch-upload ([797bf8b](https://github.com/you54f/cypress-slack-reporter/commit/797bf8b932679fef12f38215e2f0a3bc7c2f7475))
+* async refactor + customText, fault tolerant and initial BB support ([4c4a602](https://github.com/you54f/cypress-slack-reporter/commit/4c4a6022aaf74537152bd0e5f0af643b81a7a519))
+* s3 uploader works and returns upload paths ([90d7e85](https://github.com/you54f/cypress-slack-reporter/commit/90d7e855836ea74f9ba075298a00ffff6f3afb95))
+
 ## [0.10.0](https://github.com/you54f/cypress-slack-reporter/compare/v0.9.0...v0.10.0) (2020-07-05)
 
 
