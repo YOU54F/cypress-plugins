@@ -28,7 +28,7 @@ For users who are not using CircleCi, you can get a simple report
 For jenkins users
 
 - pass `--ci-provider jenkins` provider flag.
-  
+
 ## Reporting Features
 
 It provides the following distinct message types
@@ -62,11 +62,11 @@ Note _Please see the pre-requisites folder to current neccessary pre-requisites_
 
 1. Install the app
 
-    $ yarn add cypress-slack-reporter --dev
+   \$ yarn add cypress-slack-reporter --dev
 
-    or
+   or
 
-    $ npm install cypress-slack-reporter --save-dev
+   \$ npm install cypress-slack-reporter --save-dev
 
 2. Create a Slack app & create an incoming webhook
 
@@ -80,11 +80,13 @@ Set the following environment variables in your localhost or CI configuration.
 
 You can optionally set one or more of the following env vars, to utilise a different slack webhook, dependent on the status of your build or test run.
 
-`SLACK_WEBHOOK_ERROR_URL` - For failing CI runs
-`SLACK_WEBHOOK_FAILED_URL`  - For failing test runs
-`SLACK_WEBHOOK_PASSED_URL` - For passing test runs
+- `SLACK_WEBHOOK_ERROR_URL` - For failing CI runs
+- `SLACK_WEBHOOK_FAILED_URL` - For failing test runs
+- `SLACK_WEBHOOK_PASSED_URL` - For passing test runs
 
-Any of the 4 env vars above with accept a comma seperated list of webhooks, if you wish to post your slack message to multiple webhooks.
+Any of the 4 env vars above with accept a comma seperated list of webhooks, if you wish to post your slack message to multiple webhooks (one webhook per channel in slack).
+
+eg. `export SLACK_WEBHOOK_URL=your1stWebhookUrlHere,your2ndWebhookUrlHere`
 
 ## Execution
 
@@ -95,14 +97,15 @@ Any of the 4 env vars above with accept a comma seperated list of webhooks, if y
       Options:
         -v, --version            output the version number
         --vcs-provider [type]    VCS Provider [github|bitbucket|none] (default: "github")
-        --ci-provider [type]     CI Provider [circleci|custom|none] (default: "circleci")
-        --custom-url [type]      Set Custom Artefact url (defaults to circleci artefact path otherwise)
+        --ci-provider [type]     CI Provider [circleci|none|custom] (default: "circleci")
+        --custom-url [type]      On selected --ci-provider=custom this link will be set to Test Report (default: "")
         --report-dir [type]      mochawesome json & html test report directory, relative to your package.json (default: "mochareports")
         --screenshot-dir [type]  cypress screenshot directory, relative to your package.json (default: "cypress/screenshots")
         --video-dir [type]       cypress video directory, relative to your package.json (default: "cypress/videos")
         --verbose                show log output
         --only-failed            only send message for failed tests
-        -h, --help               output usage information
+        --custom-text [type]     add additional text to message, wrap message in quotes
+        -h, --help               display help for command
 
 ## Pre-Requisites
 
@@ -114,7 +117,7 @@ Any of the 4 env vars above with accept a comma seperated list of webhooks, if y
 
 Yarn installation Instructions
 
-``` sh
+```sh
     yarn add mochawesome --dev
     yarn add mochawesome-merge --dev
     yarn add mochawesome-report-generator --dev
@@ -123,7 +126,7 @@ Yarn installation Instructions
 
 NPM installation Instructions
 
-``` sh
+```sh
     npm install mochawesome --save-dev
     npm install mochawesome-merge --save-dev
     npm install mochawesome-report-generator --save-dev
@@ -230,17 +233,19 @@ in windows
 
 or in your CircleCI project's environment page.
 
-
 There is also another workaround by setting a destination option in store_artifacts job in config.yml (CircleCI).
-``` 
+
+```
 - store_artifacts:
           path: ~/path/to/cypress/videos
           destination: cypress/videos
 ```
-will allow you to access artifacts through 
+
+will allow you to access artifacts through
 https://${CI_BUILD_NUM}-${CI_PROJECT_ID}-gh.circle-artifacts.com/0/cypress/videos/some_test_result.mp4
 
 This is what it says on CircleCI Documentation:
+
 ```
 Currently, store_artifacts has two keys: path and destination.
 
@@ -288,27 +293,27 @@ And will return a Slack IncomingWebhookResult.
 
 ## TODO
 
-- [X] provide user ability to provide own CI artefact paths
+- [x] provide user ability to provide own CI artefact paths
 - [ ] typescript s3 uploader scripts and add to CLI
-  - [X] tsified
-  - [X] able to run in isolation
-  - [X] mock aws-sdk s3 upload function
-  - [X] tests
-  - [X] retrieve s3 links for test report/artefacts and inject into the slack report
-  - [X] uploading artefacts to s3
+  - [x] tsified
+  - [x] able to run in isolation
+  - [x] mock aws-sdk s3 upload function
+  - [x] tests
+  - [x] retrieve s3 links for test report/artefacts and inject into the slack report
+  - [x] uploading artefacts to s3
   - [ ] add to CLI
   - [ ] programatically run
   - [ ] Add into main slack-reporter script
   - [ ] provide CLI options to provide paths/credentials
-- [X] Programatically run
-  - [X] provide ability to be programatically run via a script
-  - [X] provide example
-  - [X] add usage instructions to readme
-  - [X] test example
-  - [X] compile
-- [X] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
+- [x] Programatically run
+  - [x] provide ability to be programatically run via a script
+  - [x] provide example
+  - [x] add usage instructions to readme
+  - [x] test example
+  - [x] compile
+- [x] Migrate Slack mock to seperate module available at [npm - slack-mock-typed](https://www.npmjs.com/package/slack-mock-typed)
 - Additional CI providers
-  - [X] Jenkins
+  - [x] Jenkins
 
 ## Contributors
 

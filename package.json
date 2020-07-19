@@ -47,8 +47,11 @@
   "dependencies": {
     "@slack/types": "^1.0.0",
     "@slack/webhook": "^5.0.0",
+    "@types/commander": "^2.12.2",
+    "@types/pino": "^6.0.1",
     "commander": "^5.0.0",
-    "del": "^5.1.0"
+    "del": "^5.1.0",
+    "pino": "^6.2.1"
   },
   "peerDependencies": {
     "mochawesome": ">= 3.1.2",
@@ -56,8 +59,6 @@
     "mochawesome-report-generator": ">= 3.1.5"
   },
   "devDependencies": {
-    "globby": "^9.2.0",
-    "s3-batch-upload": "^1.2.0",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@cypress/webpack-preprocessor": "5.4.1",
@@ -65,6 +66,7 @@
     "@types/dotenv": "6.1.1",
     "@types/jest": "26.0.5",
     "@types/node": "10.17.27",
+    "@types/pino": "^6.0.1",
     "aws-sdk": "2.715.0",
     "aws-sdk-mock": "5.1.0",
     "coveralls": "3.1.0",
@@ -72,6 +74,7 @@
     "cypress-cucumber-preprocessor": "2.5.3",
     "cypress-multi-reporters": "1.4.0",
     "dotenv": "8.2.0",
+    "globby": "^9.2.0",
     "husky": "4.2.5",
     "jest": "26.1.0",
     "jest-junit": "10.0.0",
@@ -84,6 +87,7 @@
     "mochawesome-report-generator": "5.1.0",
     "prettier": "2.0.5",
     "rimraf": "3.0.2",
+    "s3-batch-upload": "^1.2.0",
     "slack-mock-typed": "2.4.0",
     "standard-version": "8.0.2",
     "ts-jest": "25.5.1",

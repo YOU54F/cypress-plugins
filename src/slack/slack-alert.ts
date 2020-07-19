@@ -4,42 +4,15 @@ import { MessageAttachment } from "@slack/types";
 import {
   IncomingWebhook,
   IncomingWebhookDefaultArguments,
+  IncomingWebhookResult,
   IncomingWebhookSendArguments,
 } from "@slack/webhook";
 import * as fs from "fs";
+import globby from "globby";
 import * as path from "path";
+import * as pino from "pino";
 
-let {
-  CI_SHA1,
-  CI_BRANCH,
-  CI_USERNAME,
-  CI_BUILD_URL,
-  CI_BUILD_NUM,
-  CI_PULL_REQUEST,
-  CI_PROJECT_REPONAME,
-  CI_PROJECT_USERNAME,
-  CI_URL,
-  CI_CIRCLE_JOB,
-} = process.env;
-const { CIRCLE_PROJECT_ID } = process.env;
-const ENV_SUT = process.env.ENV_SUT;
-const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
-let commitUrl: string = "";
-let VCS_BASEURL: string;
-let prLink: string = "";
-let videoAttachmentsSlack: string;
-let screenshotAttachmentsSlack: string;
-let reportHTMLFilename: string = "";
-let reportHTMLUrl: string;
-let artefactUrl: string = "";
-let attachments: MessageAttachment;
-let totalSuites: number;
-let totalTests: number;
-let totalPasses: number;
-let totalFailures: number;
-let totalDuration: number;
-let status: string;
-const sendArgs: IncomingWebhookSendArguments = {};
+const log = pino();
 
 export interface SlackRunnerOptions {
   ciProvider: string;
@@ -49,120 +22,255 @@ export interface SlackRunnerOptions {
   screenshotDir: string;
   customUrl?: string;
   onlyFailed?: boolean;
+  verbose?: boolean;
+  customText?: string;
 }
-export function slackRunner({
+
+export interface CiEnvVars {
+  CI_SHA1: string | undefined;
+  CI_BRANCH: string | undefined;
+  CI_USERNAME: string | undefined;
+  CI_BUILD_URL: string | undefined;
+  CI_BUILD_NUM: string | undefined;
+  CI_PULL_REQUEST: string | undefined;
+  CI_PROJECT_REPONAME: string | undefined;
+  CI_PROJECT_USERNAME: string | undefined;
+  JOB_NAME: string | undefined;
+  CIRCLE_PROJECT_ID: string | undefined;
+}
+
+interface ReportStatistics {
+  totalSuites: any;
+  totalTests: any;
+  totalPasses: any;
+  totalFailures: any;
+  totalDuration: any;
+  reportFile: string[];
+  status: string;
+}
+
+export const slackRunner = async ({
   ciProvider,
   vcsRoot,
   reportDir,
   videoDir,
   screenshotDir,
-  customUrl,
-  onlyFailed,
-}: SlackRunnerOptions) {
-  resolveCIProvider(ciProvider);
-
+  customUrl = "",
+  onlyFailed = false,
+  customText = "",
+}: SlackRunnerOptions) => {
   try {
-    const messageResult = sendMessage({
+    const ciEnvVars = await resolveCIProvider(ciProvider);
+    const artefactUrl = await getArtefactUrl({
       vcsRoot,
-      reportDir,
-      videoDir,
-      screenshotDir,
-      customUrl,
+      ciEnvVars,
       ciProvider,
-      onlyFailed,
+      customUrl,
     });
-    return messageResult;
+    const reportHTMLUrl = await buildHTMLReportURL({
+      reportDir,
+      artefactUrl,
+      ciProvider,
+    });
+    const videoAttachmentsSlack = await getVideoLinks({
+      artefactUrl,
+      videosDir: videoDir,
+    }); //
+    const screenshotAttachmentsSlack = await getScreenshotLinks({
+      artefactUrl,
+      screenshotDir,
+    });
+    const prLink = await prChecker(ciEnvVars);
+    const reportStatistics = await getTestReportStatus(reportDir); // process the test report
+    if (onlyFailed && reportStatistics.status !== "failed") {
+      return `onlyFailed flag set, test run status was ${reportStatistics.status}, so not sending message`;
+    } else {
+      const commitUrl = await getCommitUrl({
+        vcsRoot,
+        ciEnvVars,
+      });
+      const webhookInitialArguments = await webhookInitialArgs({
+        status: reportStatistics.status,
+        ciEnvVars,
+        commitUrl,
+        prLink,
+      });
+      const reports = await attachmentReports({
+        reportStatistics,
+        reportHTMLUrl,
+        ciEnvVars,
+        customText,
+      });
+      const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
+
+      switch (reportStatistics.status) {
+        case "failed": {
+          const slackWebhookFailedUrl = process.env
+            .SLACK_WEBHOOK_FAILED_URL as string;
+          const slackWebhookUrls = slackWebhookFailedUrl
+            ? slackWebhookFailedUrl.split(",")
+            : SLACK_WEBHOOK_URL.split(",");
+          return await Promise.all(
+            slackWebhookUrls.map(async (slackWebhookUrl) => {
+              const webhook = new IncomingWebhook(
+                slackWebhookUrl,
+                webhookInitialArguments
+              );
+              const artefacts = await attachmentsVideoAndScreenshots({
+                status: reportStatistics.status,
+                videoAttachmentsSlack,
+                screenshotAttachmentsSlack,
+              });
+              const sendArguments = await webhookSendArgs({
+                argsWebhookSend: {},
+                messageAttachments: [reports],
+              });
+              log.info({ data: sendArguments }, "failing run");
+              try {
+                const result = await webhook.send(sendArguments);
+                log.info(
+                  { result, testStatus: reportStatistics },
+                  "Slack message sent successfully"
+                );
+                return result;
+              } catch (e) {
+                e.code
+                  ? log.error(
+                      {
+                        code: e.code,
+                        message: e.message,
+                        data: e.original.config.data,
+                      },
+                      "Failed to send slack message"
+                    )
+                  : log.error(
+                      { e },
+                      "Unknown error occurred whilst sending slack message"
+                    );
+                throw new Error(
+                  "An error occurred whilst sending slack message"
+                );
+              }
+            })
+          );
+        }
+        case "passed": {
+          const slackWebhookPassedUrl = process.env.SLACK_WEBHOOK_PASSED_URL;
+          const slackWebhookUrls = slackWebhookPassedUrl
+            ? slackWebhookPassedUrl.split(",")
+            : SLACK_WEBHOOK_URL.split(",");
+          return await Promise.all(
+            slackWebhookUrls.map(async (slackWebhookUrl) => {
+              const webhook = new IncomingWebhook(
+                slackWebhookUrl,
+                webhookInitialArguments
+              );
+
+              const artefacts = await attachmentsVideoAndScreenshots({
+                status: reportStatistics.status,
+                videoAttachmentsSlack,
+                screenshotAttachmentsSlack,
+              });
+              const sendArguments = await webhookSendArgs({
+                argsWebhookSend: {},
+                messageAttachments: [reports],
+              });
+
+              log.info({ data: sendArguments }, "passing run");
+              try {
+                const result = await webhook.send(sendArguments);
+                log.info(
+                  { result, testStatus: reportStatistics },
+                  "Slack message sent successfully"
+                );
+                return result;
+              } catch (e) {
+                e.code
+                  ? log.error(
+                      {
+                        code: e.code,
+                        message: e.message,
+                        data: e.original.config.data,
+                      },
+                      "Failed to send slack message"
+                    )
+                  : log.error(
+                      { e },
+                      "Unknown error occurred whilst sending slack message"
+                    );
+                throw new Error(
+                  "An error occurred whilst sending slack message"
+                );
+              }
+            })
+          );
+        }
+        default: {
+          const slackWebhookErrorUrl = process.env
+            .SLACK_WEBHOOK_ERROR_URL as string;
+          const slackWebhookUrls = slackWebhookErrorUrl
+            ? slackWebhookErrorUrl.split(",")
+            : SLACK_WEBHOOK_URL.split(",");
+          return await Promise.all(
+            slackWebhookUrls.map(async (slackWebhookUrl) => {
+              const webhook = new IncomingWebhook(
+                slackWebhookUrl,
+                webhookInitialArguments
+              );
+              const sendArguments = await webhookSendArgs({
+                argsWebhookSend: {},
+                messageAttachments: [reports],
+              });
+              log.debug({ data: sendArguments }, "erroring run");
+              try {
+                const result = await webhook.send(sendArguments);
+                log.info(
+                  { result, testStatus: reportStatistics },
+                  "Slack message sent successfully"
+                );
+
+                return result;
+              } catch (e) {
+                e.code
+                  ? log.error(
+                      {
+                        code: e.code,
+                        message: e.message,
+                        data: e.original.config.data,
+                      },
+                      "Failed to send slack message"
+                    )
+                  : log.error(
+                      { e },
+                      "Unknown error occurred whilst sending slack message"
+                    );
+                throw new Error(
+                  "An error occurred whilst sending slack message"
+                );
+              }
+            })
+          );
+        }
+      }
+    }
   } catch (e) {
     throw new Error(e);
   }
-}
+};
 
-export function sendMessage({
-  ciProvider: _ciProvider,
-  vcsRoot: _vcsRoot,
-  reportDir: _reportDir,
-  videoDir: _videoDir,
-  screenshotDir: _screenshotDir,
-  customUrl = "",
-  onlyFailed = false,
-}: SlackRunnerOptions) {
-  commitUrl = getCommitUrl(_vcsRoot) as string;
-  artefactUrl = getArtefactUrl(_vcsRoot, _ciProvider, customUrl);
-  reportHTMLUrl = buildHTMLReportURL(_reportDir, artefactUrl, _ciProvider);
-  videoAttachmentsSlack = getVideoLinks(artefactUrl, _videoDir); //
-  screenshotAttachmentsSlack = getScreenshotLinks(artefactUrl, _screenshotDir);
-  prChecker(CI_PULL_REQUEST as string);
-  const reportStatistics = getTestReportStatus(_reportDir); // process the test report
-  if (onlyFailed && reportStatistics.status !== "failed") {
-    return `onlyFailed flag set, test run status was ${reportStatistics.status}, so not sending message`;
-  } else {
-    return constructMessage(reportStatistics.status);
-  }
-}
-
-export function constructMessage(_status: string) {
-  const webhookInitialArguments = webhookInitialArgs({}, _status);
-  const reports = attachmentReports(attachments, _status);
-  switch (_status) {
-    case "error": {
-      const slackWebhookErrorUrl = process.env.SLACK_WEBHOOK_ERROR_URL;
-      const slackWebhookUrls = slackWebhookErrorUrl
-        ? slackWebhookErrorUrl.split(",")
-        : SLACK_WEBHOOK_URL.split(",");
-      slackWebhookUrls.forEach((slackWebhookUrl) => {
-        const webhook = new IncomingWebhook(
-          slackWebhookUrl,
-          webhookInitialArguments
-        );
-        const sendArguments = webhookSendArgs(sendArgs, [reports]);
-        return webhook.send(sendArguments);
-      });
-      break;
-    }
-    case "failed": {
-      const slackWebhookFailedUrl = process.env.SLACK_WEBHOOK_FAILED_URL;
-      const slackWebhookUrls = slackWebhookFailedUrl
-        ? slackWebhookFailedUrl.split(",")
-        : SLACK_WEBHOOK_URL.split(",");
-      slackWebhookUrls.forEach((slackWebhookUrl) => {
-        const webhook = new IncomingWebhook(
-          slackWebhookUrl,
-          webhookInitialArguments
-        );
-        const artefacts = attachmentsVideoAndScreenshots(attachments, _status);
-        const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
-        return webhook.send(sendArguments);
-      });
-      break;
-    }
-    case "passed": {
-      const slackWebhookPassedUrl = process.env.SLACK_WEBHOOK_PASSED_URL;
-      const slackWebhookUrls = slackWebhookPassedUrl
-        ? slackWebhookPassedUrl.split(",")
-        : SLACK_WEBHOOK_URL.split(",");
-      slackWebhookUrls.forEach((slackWebhookUrl) => {
-        const webhook = new IncomingWebhook(
-          slackWebhookUrl,
-          webhookInitialArguments
-        );
-        const artefacts = attachmentsVideoAndScreenshots(attachments, _status);
-        const sendArguments = webhookSendArgs(sendArgs, [reports, artefacts]);
-        return webhook.send(sendArguments);
-      });
-      break;
-    }
-    default: {
-      throw new Error("An error occured getting the status of the test run");
-    }
-  }
-}
-
-export function webhookInitialArgs(
-  initialArgs: IncomingWebhookDefaultArguments,
-  _status: string
-) {
+const webhookInitialArgs = async ({
+  status,
+  ciEnvVars,
+  commitUrl,
+  prLink,
+}: {
+  status: string;
+  ciEnvVars: CiEnvVars;
+  commitUrl?: string;
+  prLink?: string;
+}): Promise<IncomingWebhookDefaultArguments> => {
   let statusText: string;
-  switch (_status) {
+  switch (status) {
     case "passed": {
       statusText = "test run passed";
       break;
@@ -184,10 +292,10 @@ export function webhookInitialArgs(
   if (!commitUrl) {
     triggerText = "";
   } else {
-    if (!CI_USERNAME) {
+    if (!ciEnvVars.CI_USERNAME) {
       triggerText = `This run was triggered by <${commitUrl}|commit>`;
     } else {
-      triggerText = `This run was triggered by <${commitUrl}|${CI_USERNAME}>`;
+      triggerText = `This run was triggered by <${commitUrl}|${ciEnvVars.CI_USERNAME}>`;
     }
   }
   let prText: string;
@@ -197,56 +305,72 @@ export function webhookInitialArgs(
     prText = `${prLink}`;
   }
   let projectName: string;
-  if (!CI_PROJECT_REPONAME) {
+  if (!ciEnvVars.CI_PROJECT_REPONAME) {
     projectName = "Cypress";
   } else {
-    projectName = `${CI_PROJECT_REPONAME}`;
+    projectName = `${ciEnvVars.CI_PROJECT_REPONAME}`;
   }
-  return (initialArgs = {
+  return {
     text: `${projectName} ${statusText}\n${triggerText}${prText}`,
-  });
-}
+  };
+};
 
-export function webhookSendArgs(
-  argsWebhookSend: IncomingWebhookSendArguments,
-  messageAttachments: MessageAttachment[]
-) {
+const webhookSendArgs = async ({
+  argsWebhookSend,
+  messageAttachments,
+}: {
+  argsWebhookSend: IncomingWebhookSendArguments;
+  messageAttachments: MessageAttachment[];
+}) => {
   argsWebhookSend = {
     attachments: messageAttachments,
     unfurl_links: false,
     unfurl_media: false,
   };
   return argsWebhookSend;
-}
+};
 
-export function attachmentReports(
-  attachmentsReports: MessageAttachment,
-  _status: string
-) {
+const attachmentReports = async ({
+  reportStatistics,
+  reportHTMLUrl,
+  ciEnvVars,
+  customText,
+}: {
+  reportStatistics: ReportStatistics;
+  reportHTMLUrl: string;
+  ciEnvVars: CiEnvVars;
+  customText?: string;
+}): Promise<MessageAttachment> => {
   let branchText: string;
-  if (!CI_BRANCH) {
+  if (!ciEnvVars.CI_BRANCH) {
     branchText = "";
   } else {
-    branchText = `Branch: ${CI_BRANCH}\n`;
+    branchText = `Branch: ${ciEnvVars.CI_BRANCH}\n`;
   }
   let jobText;
-  if (!CI_CIRCLE_JOB) {
+  if (!ciEnvVars.JOB_NAME) {
     jobText = "";
   } else {
-    jobText = `Job: ${CI_CIRCLE_JOB}\n`;
+    jobText = `Job: ${ciEnvVars.JOB_NAME}\n`;
   }
-  let envSut;
+  const ENV_SUT = process.env.ENV_SUT;
+  let envSut: string;
   if (!ENV_SUT) {
     envSut = "";
   } else {
     envSut = `SUT: ${ENV_SUT}\n`;
   }
-  switch (_status) {
+  if (!customText) {
+    customText = "";
+  } else {
+    customText = `${customText}\n`;
+  }
+  switch (reportStatistics.status) {
     case "passed": {
-      return (attachments = {
+      return {
         color: "#36a64f",
         fallback: `Report available at ${reportHTMLUrl}`,
-        text: `${branchText}${jobText}${envSut}Total Passed:  ${totalPasses}`,
+        text: `${branchText}${jobText}${envSut}${customText}Total Passed:  ${reportStatistics.totalPasses}`,
         actions: [
           {
             type: "button",
@@ -256,19 +380,19 @@ export function attachmentReports(
           },
           {
             type: "button",
-            text: "CircleCI Logs",
-            url: `${CI_BUILD_URL}`,
+            text: "Build Logs",
+            url: `${ciEnvVars.CI_BUILD_URL}`,
             style: "primary",
           },
         ],
-      });
+      };
     }
     case "failed": {
-      return (attachments = {
+      return {
         color: "#ff0000",
         fallback: `Report available at ${reportHTMLUrl}`,
-        title: `Total Failed: ${totalFailures}`,
-        text: `${branchText}${jobText}${envSut}Total Tests: ${totalTests}\nTotal Passed:  ${totalPasses} `,
+        title: `Total Failed: ${reportStatistics.totalFailures}`,
+        text: `${branchText}${jobText}${envSut}${customText}Total Tests: ${reportStatistics.totalTests}\nTotal Passed:  ${reportStatistics.totalPasses} `,
         actions: [
           {
             type: "button",
@@ -278,270 +402,310 @@ export function attachmentReports(
           },
           {
             type: "button",
-            text: "CircleCI Logs",
-            url: `${CI_BUILD_URL}`,
+            text: "Build Logs",
+            url: `${ciEnvVars.CI_BUILD_URL}`,
             style: "primary",
           },
         ],
-      });
+      };
     }
     case "error": {
-      return (attachments = {
+      return {
         color: "#ff0000",
-        fallback: `Build Log available at ${CI_BUILD_URL}`,
-        text: `${branchText}${jobText}${envSut}Total Passed:  ${totalPasses} `,
+        fallback: `Build Log available at ${ciEnvVars.CI_BUILD_URL}`,
+        text: `${branchText}${jobText}${envSut}${customText}Total Passed:  ${reportStatistics.totalPasses} `,
         actions: [
           {
             type: "button",
-            text: "CircleCI Logs",
-            url: `${CI_BUILD_URL}`,
+            text: "Build Logs",
+            url: `${ciEnvVars.CI_BUILD_URL}`,
             style: "danger",
           },
         ],
-      });
+      };
     }
     default: {
-      break;
+      return {};
     }
   }
-  return attachmentsReports;
-}
+};
 
-export function attachmentsVideoAndScreenshots(
-  attachmentsVideosScreenshots: MessageAttachment,
-  _status: string
-) {
-  switch (_status) {
+const attachmentsVideoAndScreenshots = async ({
+  status,
+  videoAttachmentsSlack,
+  screenshotAttachmentsSlack,
+}: {
+  status: string;
+  videoAttachmentsSlack: string;
+  screenshotAttachmentsSlack: string;
+}) => {
+  switch (status) {
     case "passed": {
-      return (attachments = {
+      return {
         text: `${videoAttachmentsSlack}${screenshotAttachmentsSlack}`,
         color: "#36a64f",
-      });
+      };
     }
     case "failed": {
-      return (attachments = {
+      return {
         text: `${videoAttachmentsSlack}${screenshotAttachmentsSlack}`,
         color: "#ff0000",
-      });
+      };
     }
     default: {
-      break;
+      return {};
     }
   }
-  return attachmentsVideosScreenshots;
-}
+};
 
-export function getFiles(dir: string, ext: string, fileList: string[]) {
-  if (!fs.existsSync(dir) && path.basename(dir) === "mochareports") {
-    return fileList;
-  } else if (!fs.existsSync(dir)) {
-    return fileList;
-  } else {
-    const files = fs.readdirSync(dir);
-    files.forEach((file: string) => {
-      const filePath = `${dir}/${file}`;
-      if (fs.statSync(filePath).isDirectory()) {
-        getFiles(filePath, ext, fileList);
-      } else if (path.extname(file) === ext) {
-        fileList.push(filePath);
-      }
-    });
-    return fileList;
-  }
-}
-
-export function getHTMLReportFilename(reportDir: string) {
-  const reportHTMLFullPath = getFiles(reportDir, ".html", []);
+const getHTMLReportFilename = async (reportDir: string) => {
+  const reportHTMLFullPath = await globby(path.resolve(reportDir), {
+    expandDirectories: {
+      files: ["*"],
+      extensions: ["html"],
+    },
+  });
   if (reportHTMLFullPath.length === 0) {
-    throw new Error(`Cannot find test report @ ${reportDir}`);
-  } else if (reportHTMLFullPath.length >= 2) {
-    throw new Error(
-      "Multiple reports found, please provide only a single report"
+    log.warn(
+      "Multiple html reports found & cannot determine filename, omitting html report from message"
     );
+  } else if (reportHTMLFullPath.length >= 2) {
+    log.warn(
+      "Multiple html reports found & cannot determine filename, omitting html report from message"
+    );
+    const reportHTMLFilename = "";
+    return reportHTMLFilename;
   } else {
-    reportHTMLFilename = reportHTMLFullPath
+    const reportHTMLFilename = reportHTMLFullPath
       .toString()
       .split("/")
       .pop() as string;
     return reportHTMLFilename;
   }
-}
+};
 
-export function getTestReportStatus(reportDir: string) {
-  const reportFile = getFiles(reportDir, ".json", []);
+const getTestReportStatus = async (reportDir: string) => {
+  const reportFile = await globby(path.resolve(reportDir), {
+    expandDirectories: {
+      files: ["*"],
+      extensions: ["json"],
+    },
+  });
   if (reportFile.length === 0) {
-    throw new Error(`Cannot find json test report @ ${reportDir}`);
-  } else if (reportFile.length >= 2) {
-    throw new Error(
-      "Multiple json reports found, please run mochawesome-merge to provide a single report"
-    );
-  } else {
-    const rawdata = fs.readFileSync(reportFile[0]);
-    const parsedData = JSON.parse(rawdata.toString());
-    const reportStats = parsedData.stats;
-    totalSuites = reportStats.suites;
-    totalTests = reportStats.tests;
-    totalPasses = reportStats.passes;
-    totalFailures = reportStats.failures;
-    totalDuration = reportStats.duration;
-    if (totalTests === undefined || totalTests === 0) {
-      status = "error";
-    } else if (totalFailures > 0 || totalPasses === 0) {
-      status = "failed";
-    } else if (totalFailures === 0) {
-      status = "passed";
-    }
+    log.warn("Cannot find test report, so sending build fail message");
     return {
-      totalSuites,
-      totalTests,
-      totalPasses,
-      totalFailures,
-      totalDuration,
-      reportFile,
-      status,
+      totalSuites: 0,
+      totalTests: 0,
+      totalPasses: 0,
+      totalFailures: 0,
+      totalDuration: 0,
+      reportFile: [],
+      status: "error",
     };
   }
-}
 
-export function prChecker(_CI_PULL_REQUEST: string) {
-  if (_CI_PULL_REQUEST && _CI_PULL_REQUEST.indexOf("pull") > -1) {
-    return (prLink = `<${_CI_PULL_REQUEST}| - PR >`);
+  if (reportFile.length >= 2) {
+    log.warn(
+      "Multiple json reports found, please run mochawesome-merge to provide a single report, using first report for test status"
+    );
   }
-}
 
-export function getVideoLinks(_artefactUrl: string, _videosDir: string) {
-  videoAttachmentsSlack = "";
-  if (!_artefactUrl) {
-    return (videoAttachmentsSlack = "");
+  const rawdata = fs.readFileSync(reportFile[0]);
+  const parsedData = JSON.parse(rawdata.toString());
+  const reportStats = parsedData.stats;
+  const totalSuites = reportStats.suites;
+  const totalTests = reportStats.tests;
+  const totalPasses = reportStats.passes;
+  const totalFailures = reportStats.failures;
+  const totalDuration = reportStats.duration;
+  if (totalTests === undefined || totalTests === 0) {
+    reportStats.status = "error";
+  } else if (totalFailures > 0 || totalPasses === 0) {
+    reportStats.status = "failed";
+  } else if (totalFailures === 0) {
+    reportStats.status = "passed";
+  }
+
+  return {
+    totalSuites,
+    totalTests,
+    totalPasses,
+    totalFailures,
+    totalDuration,
+    reportFile,
+    status: reportStats.status,
+  };
+};
+
+const prChecker = async (ciEnvVars: CiEnvVars) => {
+  if (
+    ciEnvVars.CI_PULL_REQUEST &&
+    ciEnvVars.CI_PULL_REQUEST.indexOf("pull") > -1
+  ) {
+    return `<${ciEnvVars.CI_PULL_REQUEST}| - PR >`;
+  }
+};
+
+const getVideoLinks = async ({
+  artefactUrl,
+  videosDir,
+}: {
+  artefactUrl: string;
+  videosDir: string;
+}) => {
+  if (!artefactUrl) {
+    return "";
   } else {
-    const videosURL = `${_artefactUrl}`;
-    const videos = getFiles(_videosDir, ".mp4", []);
+    const videosURL = `${artefactUrl}`;
+    const videos = await globby(path.resolve(process.cwd(), videosDir), {
+      expandDirectories: {
+        files: ["*"],
+        extensions: ["mp4"],
+      },
+    });
     if (videos.length === 0) {
-      return (videoAttachmentsSlack = "");
+      return "";
     } else {
-      videos.forEach((videoObject) => {
-        const trimmedVideoFilename = path.basename(videoObject);
-        videoAttachmentsSlack = `<${videosURL}${videoObject}|Video:- ${trimmedVideoFilename}>\n${videoAttachmentsSlack}`;
-      });
+      const videoLinks = await Promise.all(
+        videos.map((videoObject) => {
+          const trimmedVideoFilename = path.basename(videoObject);
+          return `<${videosURL}${videoObject}|Video:- ${trimmedVideoFilename}>\n`;
+        })
+      );
+      return videoLinks.join();
     }
   }
-  return videoAttachmentsSlack;
-}
+};
 
-export function getScreenshotLinks(
-  _artefactUrl: string,
-  _screenshotDir: string
-) {
-  screenshotAttachmentsSlack = "";
-  if (!_artefactUrl) {
-    return (screenshotAttachmentsSlack = "");
+const getScreenshotLinks = async ({
+  artefactUrl,
+  screenshotDir,
+}: {
+  artefactUrl: string;
+  screenshotDir: string;
+}) => {
+  if (!artefactUrl) {
+    return "";
   } else {
-    const screenshotURL = `${_artefactUrl}`;
-    const screenshots = getFiles(_screenshotDir, ".png", []);
+    const screenshotURL = `${artefactUrl}`;
+    const screenshots = await globby(
+      path.resolve(process.cwd(), screenshotDir),
+      {
+        expandDirectories: {
+          files: ["*"],
+          extensions: ["png"],
+        },
+      }
+    );
+
     if (screenshots.length === 0) {
-      return (screenshotAttachmentsSlack = "");
+      return "";
     } else {
-      screenshots.forEach((screenshotObject) => {
-        const trimmedScreenshotFilename = path.basename(screenshotObject);
-        return (screenshotAttachmentsSlack = `<${screenshotURL}${screenshotObject}|Screenshot:- ${trimmedScreenshotFilename}>\n${screenshotAttachmentsSlack}`);
-      });
+      const screenshotLinks = await Promise.all(
+        screenshots.map((screenshotObject) => {
+          const trimmedScreenshotFilename = path.basename(screenshotObject);
+          return `<${screenshotURL}${screenshotObject}|Screenshot:- ${trimmedScreenshotFilename}>\n`;
+        })
+      );
+
+      return screenshotLinks.join();
     }
   }
-  return screenshotAttachmentsSlack;
-}
+};
 
-export function buildHTMLReportURL(
-  _reportDir: string,
-  _artefactUrl: string,
-  _ciProvider: string
-) {
-  reportHTMLFilename = getHTMLReportFilename(_reportDir);
-  reportHTMLUrl = _artefactUrl + _reportDir + "/" + reportHTMLFilename;
-  return reportHTMLUrl;
-}
-
-export function getArtefactUrl(
-  _vcsRoot: string,
-  ciProvider: string,
-  customUrl: string
-) {
+const buildHTMLReportURL = async ({
+  reportDir,
+  artefactUrl,
+  ciProvider,
+}: {
+  reportDir: string;
+  artefactUrl: string;
+  ciProvider: string;
+}) => {
+  const reportHTMLFilename = await getHTMLReportFilename(reportDir);
+  return artefactUrl + reportDir + "/" + reportHTMLFilename;
+};
+const getArtefactUrl = async ({
+  vcsRoot,
+  ciEnvVars,
+  ciProvider,
+  customUrl,
+}: {
+  vcsRoot: string;
+  ciEnvVars: CiEnvVars;
+  ciProvider: string;
+  customUrl: string;
+}) => {
   if (customUrl) {
-    return (artefactUrl = customUrl);
+    return customUrl;
   } else if (ciProvider === "circleci") {
-    switch (_vcsRoot) {
+    switch (vcsRoot) {
       case "github":
-        artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
-        break;
+        return `https://${ciEnvVars.CI_BUILD_NUM}-${ciEnvVars.CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
       case "bitbucket":
-        artefactUrl = `https://${CI_BUILD_NUM}-${CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
-        break;
+        return `https://${ciEnvVars.CI_BUILD_NUM}-${ciEnvVars.CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
       default: {
-        artefactUrl = "";
+        return "";
       }
     }
-    return artefactUrl;
   }
-
   return "";
-}
+};
 
-export function getCommitUrl(_vcsRoot: string) {
-  if (_vcsRoot === "github") {
-    VCS_BASEURL = "https://github.com";
-    return (commitUrl = `${VCS_BASEURL}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/commit/${CI_SHA1}`);
-  } else if (_vcsRoot === "bitbucket") {
-    VCS_BASEURL = "https://bitbucket.org";
-    return (commitUrl = `${VCS_BASEURL}/${CI_PROJECT_USERNAME}/${CI_PROJECT_REPONAME}/commits/${CI_SHA1}`);
+const getCommitUrl = async ({
+  vcsRoot,
+  ciEnvVars,
+}: {
+  vcsRoot: string;
+  ciEnvVars: CiEnvVars;
+}) => {
+  if (vcsRoot === "github") {
+    return `https://github.com/${ciEnvVars.CI_PROJECT_USERNAME}/${ciEnvVars.CI_PROJECT_REPONAME}/commit/${ciEnvVars.CI_SHA1}`;
+  } else if (vcsRoot === "bitbucket") {
+    return `https://bitbucket.org/${ciEnvVars.CI_PROJECT_USERNAME}/${ciEnvVars.CI_PROJECT_REPONAME}/commits/${ciEnvVars.CI_SHA1}`;
   } else {
-    return (commitUrl = "");
+    return "";
   }
-}
+};
 
-export function resolveCIProvider(ciProvider?: string) {
+const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
+  let {
+    CI_SHA1,
+    CI_BRANCH,
+    CI_USERNAME,
+    CI_BUILD_URL,
+    CI_BUILD_NUM,
+    CI_PULL_REQUEST,
+    CI_PROJECT_REPONAME,
+    CI_PROJECT_USERNAME,
+    JOB_NAME,
+    CIRCLE_PROJECT_ID,
+  } = process.env;
+
   if (!ciProvider && process.env.CIRCLE_SHA1) {
     ciProvider = "circleci";
   }
   if (!ciProvider && process.env.JENKINS_HOME) {
     ciProvider = "jenkins";
   }
+
   switch (ciProvider) {
     case "circleci":
       {
-        const {
-          CIRCLE_SHA1,
-          CIRCLE_BRANCH,
-          CIRCLE_USERNAME,
-          CIRCLE_BUILD_URL,
-          CIRCLE_BUILD_NUM,
-          CIRCLE_PULL_REQUEST,
-          CIRCLE_PROJECT_REPONAME,
-          CIRCLE_PROJECT_USERNAME,
-          CIRCLE_JOB,
-        } = process.env;
-
-        (CI_SHA1 = CIRCLE_SHA1),
-          (CI_BRANCH = CIRCLE_BRANCH),
-          (CI_USERNAME = CIRCLE_USERNAME),
-          (CI_BUILD_URL = CIRCLE_BUILD_URL),
-          (CI_BUILD_NUM = CIRCLE_BUILD_NUM),
-          (CI_PULL_REQUEST = CIRCLE_PULL_REQUEST),
-          (CI_PROJECT_REPONAME = CIRCLE_PROJECT_REPONAME),
-          (CI_PROJECT_USERNAME = CIRCLE_PROJECT_USERNAME),
-          (CI_CIRCLE_JOB = CIRCLE_JOB);
-        CI_URL = "https://circleci.com/api/v1.1/project";
+        (CI_SHA1 = process.env.CIRCLE_SHA1),
+          (CI_BRANCH = process.env.CIRCLE_BRANCH),
+          (CI_USERNAME = process.env.CIRCLE_USERNAME),
+          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL),
+          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM),
+          (CI_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST),
+          (CI_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME),
+          (CI_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME),
+          (JOB_NAME = process.env.CIRCLE_JOB);
+        CIRCLE_PROJECT_ID = process.env.CIRCLE_PROJECT_ID;
       }
       break;
     case "jenkins":
       {
-        const {
-          GIT_COMMIT,
-          BRANCH_NAME,
-          CHANGE_AUTHOR,
-          BUILD_URL,
-          BUILD_ID,
-          CHANGE_ID,
-          JOB_NAME,
-        } = process.env;
         if (typeof process.env.GIT_URL === "undefined") {
           throw new Error("GIT_URL not defined!");
         }
@@ -550,23 +714,55 @@ export function resolveCIProvider(ciProvider?: string) {
           ""
         ).replace(".git", "");
         const arr = urlParts.split("/");
-        const PROJECT_REPONAME = arr[1];
-        const PROJECT_USERNAME = arr[0];
-        (CI_SHA1 = GIT_COMMIT),
-          (CI_BRANCH = BRANCH_NAME),
-          (CI_USERNAME = CHANGE_AUTHOR),
-          (CI_BUILD_URL = BUILD_URL),
-          (CI_BUILD_NUM = BUILD_ID),
-          (CI_PULL_REQUEST = CHANGE_ID),
-          (CI_PROJECT_REPONAME = PROJECT_REPONAME),
-          (CI_PROJECT_USERNAME = PROJECT_USERNAME),
-          (CI_CIRCLE_JOB = JOB_NAME);
-        CI_URL = process.env.JENKINS_URL;
+
+        (CI_SHA1 = process.env.GIT_COMMIT),
+          (CI_BRANCH = process.env.BRANCH_NAME),
+          (CI_USERNAME = process.env.CHANGE_AUTHOR),
+          (CI_BUILD_URL = process.env.BUILD_URL),
+          (CI_BUILD_NUM = process.env.BUILD_ID),
+          (CI_PULL_REQUEST = process.env.CHANGE_ID),
+          (CI_PROJECT_REPONAME = arr[1]),
+          (CI_PROJECT_USERNAME = arr[0]);
       }
       break;
+    case "bitbucket": {
+      (CI_SHA1 = process.env.BITBUCKET_COMMIT),
+        (CI_BUILD_NUM = process.env.BITBUCKET_BUILD_NUMBER),
+        (CI_PROJECT_REPONAME = process.env.BITBUCKET_REPO_SLUG),
+        (CI_PROJECT_USERNAME = process.env.BITBUCKET_WORKSPACE);
+
+      break;
+    }
     default: {
       break;
     }
   }
-  return;
-}
+  return {
+    CI_SHA1,
+    CI_BRANCH,
+    CI_USERNAME,
+    CI_BUILD_URL,
+    CI_BUILD_NUM,
+    CI_PULL_REQUEST,
+    CI_PROJECT_REPONAME,
+    CI_PROJECT_USERNAME,
+    JOB_NAME,
+    CIRCLE_PROJECT_ID,
+  };
+};
+
+export const testables = {
+  resolveCIProvider,
+  getCommitUrl,
+  getArtefactUrl,
+  buildHTMLReportURL,
+  getScreenshotLinks,
+  getVideoLinks,
+  prChecker,
+  webhookInitialArgs,
+  webhookSendArgs,
+  attachmentReports,
+  attachmentsVideoAndScreenshots,
+  getTestReportStatus,
+  getHTMLReportFilename,
+};

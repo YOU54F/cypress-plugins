@@ -2,8 +2,7 @@
 
 import * as program from "commander";
 import * as fs from "fs";
-import { logger } from "./logger";
-import * as slacker from "./slack/slack-alert";
+import { slackRunner } from "./slack/slack-alert";
 let version;
 try {
   const json = JSON.parse(
@@ -45,7 +44,7 @@ program
   .option(
     "--custom-url [type]",
     "On selected --ci-provider=custom this link will be set to Test Report",
-    "circleci"
+    ""
   )
   .option(
     "--report-dir [type]",
@@ -64,6 +63,10 @@ program
   )
   .option("--verbose", "show log output")
   .option("--only-failed", "only send message for failed tests")
+  .option(
+    "--custom-text [type]",
+    "add additional text to message, wrap message in quotes"
+  )
   // .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
@@ -74,6 +77,7 @@ const videoDir: string = program.videoDir;
 const customUrl: string = program.customUrl;
 const screenshotDir: string = program.screenshotDir;
 const onlyFailed: boolean = program.onlyFailed;
+const customText: string = program.customText;
 // const verbose: boolean = program.verbose;
 
 if (program.verbose) {
@@ -88,7 +92,7 @@ if (program.verbose) {
   );
 }
 
-slacker.slackRunner({
+slackRunner({
   ciProvider,
   vcsRoot: vcsProvider,
   reportDir,
@@ -96,4 +100,5 @@ slacker.slackRunner({
   screenshotDir,
   customUrl,
   onlyFailed,
+  customText,
 });

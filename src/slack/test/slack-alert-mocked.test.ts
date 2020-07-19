@@ -50,7 +50,7 @@ describe("tester", () => {
 
 describe("tester", () => {
   setup();
-  it("can provide a simple report with an unknown ci provider", async () => {
+  it("skips build logs with an unknown ci provider", async () => {
     await slacker.slackRunner({
       ciProvider: "csdscscsc",
       vcsRoot,
@@ -60,10 +60,8 @@ describe("tester", () => {
     });
     const body = await returnSlackWebhookCall();
 
-    const buildNum = process.env.CIRCLE_BUILD_NUM;
-    expect(body).toContain(
-      `"text":"CircleCI Logs","url":"https://circleci.com/gh/YOU54F/cypress-slack-reporter/${buildNum}"`
-    );
+    const buildNum = process.env.CI_BUILD_NUM;
+    expect(body).toContain(`"text":"Build Logs","url":"undefined"`);
   });
 });
 
@@ -260,17 +258,25 @@ describe("tester", () => {
 });
 
 describe("Slack Reporter throws error if we cant find the test report", () => {
-  it("throws error when slack isnt available", async () => {
-    function mockRunner() {
-      slacker.slackRunner({
-        ciProvider,
-        vcsRoot,
-        reportDir: "",
-        videoDir,
-        screenshotDir,
-      });
-    }
-    expect(mockRunner).toThrowError("Error: Cannot find test report @ ");
+  it("Slack Reporter logs a warning and send an error slack message if we cant find the test report", async () => {
+    process.env.SLACK_WEBHOOK_ERROR_URL =
+      "https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/error";
+
+    await slacker.slackRunner({
+      ciProvider,
+      vcsRoot,
+      reportDir: "/test",
+      videoDir,
+      screenshotDir,
+    });
+    const body = await returnSlackWebhookCall(
+      process.env.SLACK_WEBHOOK_ERROR_URL
+    );
+    checkStatus(body, "build");
+    expect(body).toContain("github");
+    expect(body).not.toContain("undefined");
+    expect(mockedHooks.calls).toHaveLength(1);
+    process.env.SLACK_WEBHOOK_ERROR_URL = "";
   });
 });
 

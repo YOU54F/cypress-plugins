@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
     "plugins": [
       {
         "name": "typescript-tslint-plugin"
@@ -8,8 +9,8 @@
     "strict": true,
     "downlevelIteration": true,
     "declaration": true,
-    "target": "es5",
-    "rootDirs": ["src","cypress"],
+    "target": "es2017",
+    "rootDirs": ["src", "cypress"],
     "outDir": "./bin",
     "skipLibCheck": true,
     "types": [
@@ -26,8 +27,6 @@
       "slack-mock-typed"
     ]
   },
-  "exclude": [
-    "./untyped.d.ts"
-  ],
-  "files": ["src/index.ts", "src/slack/slack-alert.ts","src/cli/spec.ts"]
+  "exclude": ["./untyped.d.ts"],
+  "files": ["src/index.ts", "src/slack/slack-alert.ts", "src/cli/spec.ts"]
 }

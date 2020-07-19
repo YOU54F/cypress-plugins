@@ -1,51 +1,89 @@
 // tslint:disable-next-line: no-reference
 /// <reference path='../../../node_modules/@jest/types/build/index.d.ts'/>
 import { MessageAttachment } from "@slack/types";
-import { IncomingWebhookDefaultArguments } from "@slack/webhook";
 import "jest";
 import * as path from "path";
-import * as slacker from "../slack-alert";
+import { testables } from "../slack-alert";
+const {
+  getScreenshotLinks,
+  getVideoLinks,
+  prChecker,
+  webhookInitialArgs,
+  attachmentReports,
+  attachmentsVideoAndScreenshots,
+  getTestReportStatus,
+  getHTMLReportFilename,
+} = testables;
+
 const isWin = process.platform === "win32";
 jest.setTimeout(10000);
 
+const envVars = {
+  CI_SHA1: "123",
+  CI_BRANCH: "123",
+  CI_USERNAME: "123",
+  CI_BUILD_URL: "123",
+  CI_BUILD_NUM: "123",
+  CI_PULL_REQUEST: "123",
+  CI_PROJECT_REPONAME: "Cypress",
+  CI_PROJECT_USERNAME: "123",
+  JOB_NAME: "123",
+  CIRCLE_PROJECT_ID: "123",
+};
 describe("webhookInitialArgs tester", () => {
-  const initialArgs: IncomingWebhookDefaultArguments = {};
   test("it returns the test status in the title", async () => {
-    const s = slacker.webhookInitialArgs(initialArgs, "passed");
+    const s = await webhookInitialArgs({
+      status: "passed",
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchObject({ text: "Cypress test run passed\n" });
   });
   test("it returns the test status in the title", async () => {
-    const s = slacker.webhookInitialArgs(initialArgs, "failed");
+    const s = await webhookInitialArgs({
+      status: "failed",
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchObject({ text: "Cypress test run failed\n" });
   });
   test("it returns the test status in the title", async () => {
-    const s = slacker.webhookInitialArgs(initialArgs, "error");
+    const s = await webhookInitialArgs({
+      status: "error",
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchObject({ text: "Cypress test build failed\n" });
   });
   test("it returns the test status in the title", async () => {
-    const s = slacker.webhookInitialArgs(initialArgs, "");
-    expect(s).toMatchObject({ text: "Cypress test status unknown\n" });
-  });
-  test("it returns the test status in the title", async () => {
-    const s = slacker.webhookInitialArgs(initialArgs, "");
+    const s = await webhookInitialArgs({
+      status: "",
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchObject({ text: "Cypress test status unknown\n" });
   });
 
   test("Returns a PR link if CIRCLE_PULL_REQUEST is is an empty string", async () => {
-    const CIRCLE_PULL_REQUEST = "";
-    slacker.prChecker(CIRCLE_PULL_REQUEST);
-    const s = slacker.webhookInitialArgs(initialArgs, "");
+    const prLink = await prChecker({ ...envVars, CI_PULL_REQUEST: "" });
+    const s = await webhookInitialArgs({
+      status: "passed",
+      ciEnvVars: envVars,
+      prLink,
+    });
     expect(s).toMatchObject({
-      text: "Cypress test status unknown\n",
+      text: "Cypress test run passed\n",
     });
   });
   test("Returns a PR link if CIRCLE_PULL_REQUEST is defined", async () => {
     const CIRCLE_PULL_REQUEST = "http://sometesturl.com/pulls";
-    slacker.prChecker(CIRCLE_PULL_REQUEST);
-    const s = slacker.webhookInitialArgs(initialArgs, "");
+    const prLink = await prChecker({
+      ...envVars,
+      CI_PULL_REQUEST: CIRCLE_PULL_REQUEST,
+    });
+    const s = await webhookInitialArgs({
+      status: "passed",
+      ciEnvVars: envVars,
+      prLink,
+    });
     expect(s).toMatchObject({
-      text:
-        "Cypress test status unknown\n<http://sometesturl.com/pulls| - PR >",
+      text: `Cypress test run passed\n<${CIRCLE_PULL_REQUEST}| - PR >`,
     });
   });
 });
@@ -58,7 +96,10 @@ describe("Video Link Checker", () => {
   test("Returns video links, if REPORT_ARTEFACT_URL exists", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "videosDirPopulated");
-    const s = slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
+    const s = await getVideoLinks({
+      artefactUrl: REPORT_ARTEFACT_URL,
+      videosDir: dir,
+    });
     expect(s).toContain(
       `<http://sometesturl.com${dir}/small.mp4|Video:- small.mp4>`
     );
@@ -67,13 +108,19 @@ describe("Video Link Checker", () => {
   test("Returns blank string, if videos dir is empty", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "videosDirEmpty");
-    const s = slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
+    const s = await getVideoLinks({
+      artefactUrl: REPORT_ARTEFACT_URL,
+      videosDir: dir,
+    });
     expect(s).toEqual("");
   });
   test("Returns blank string, if REPORT_ARTEFACT_URL doesnt exist", async () => {
     const REPORT_ARTEFACT_URL: string = "";
     const dir: string = path.join(__dirname, "videosDirPopulated");
-    const s = slacker.getVideoLinks(REPORT_ARTEFACT_URL, dir);
+    const s = await getVideoLinks({
+      artefactUrl: REPORT_ARTEFACT_URL,
+      videosDir: dir,
+    });
     expect(s).toEqual("");
   });
 });
@@ -82,66 +129,31 @@ describe("Screenshot Link Checker", () => {
   test("Returns blank string if screenshot dir is empty and if REPORT_ARTEFACT_URL exists", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "screenshotDirEmpty");
-    const s = slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
+    const s = await getScreenshotLinks({
+      artefactUrl: REPORT_ARTEFACT_URL,
+      screenshotDir: dir,
+    });
     expect(s).toEqual("");
   });
   test("Returns blank string, if REPORT_ARTEFACT_URL doesnt exist", async () => {
     const REPORT_ARTEFACT_URL: string = "";
     const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
+    const s = await getScreenshotLinks({
+      artefactUrl: REPORT_ARTEFACT_URL,
+      screenshotDir: dir,
+    });
     expect(s).toEqual("");
   });
   test("Returns screenshots if REPORT_ARTEFACT_URL & screenshots exist", async () => {
     const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
     const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = slacker.getScreenshotLinks(REPORT_ARTEFACT_URL, dir);
+    const s = await getScreenshotLinks({
+      artefactUrl: REPORT_ARTEFACT_URL,
+      screenshotDir: dir,
+    });
     expect(s).toContain(
       `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
     );
-  });
-});
-
-describe("Get Files Checker", () => {
-  test("Returns only specified filetypes if they exist in a dir", async () => {
-    const dir: string = path.join(__dirname, "reportSingle");
-    const ext: string = ".html";
-    const fileList: string[] = [];
-    const s = slacker.getFiles(dir, ext, fileList);
-    const rootDir: string = path.dirname(__dirname);
-    let expected = `${rootDir}/test/reportSingle/report-20190403-233436.html`;
-    if (isWin) {
-      expected = `${rootDir}\\test\\reportSingle/report-20190403-233436.html`;
-    }
-    expect(s).toEqual([expected]);
-  });
-  test("Returns an empty array if no specified filetypes are found ", async () => {
-    const dir: string = path.join(__dirname, "reportSingle");
-    const ext: string = ".htm";
-    const fileList: string[] = [];
-    const s = slacker.getFiles(dir, ext, fileList);
-    expect(s).toEqual([]);
-  });
-  test("Returns an empty array if the directory is not found", async () => {
-    const dir: string = path.join(__dirname, "nonexistentdir");
-    const ext: string = ".html";
-    const fileList: string[] = [];
-    const s = slacker.getFiles(dir, ext, fileList);
-    expect(s).toEqual([]);
-  });
-  test("returns an empty list if the mochareports doesnt exist", async () => {
-    const dir: string = path.join("mochareports");
-    const ext: string = ".html";
-    const fileList: string[] = [];
-    const s = slacker.getFiles(dir, ext, fileList);
-    expect(s).toEqual([]);
-  });
-
-  test("Can process nested folders", async () => {
-    const dir: string = path.join(__dirname, "nestedfolder");
-    const ext: string = ".png";
-    const fileList: string[] = [];
-    const s = slacker.getFiles(dir, ext, fileList);
-    expect(s).toHaveLength(2);
   });
 });
 
@@ -156,72 +168,71 @@ describe("Test Report Parser", () => {
       totalTests: 18,
       status: "passed",
     };
-    const s = slacker.getTestReportStatus(reportDir);
+    const s = await getTestReportStatus(reportDir);
     expect(s).toMatchObject(reportResult);
   });
   test("Reads a passed status", async () => {
     const reportDir = path.join(__dirname, "jsonTestPass");
-    const s = slacker.getTestReportStatus(reportDir);
+    const s = await getTestReportStatus(reportDir);
     expect(s).toHaveProperty("status", "passed");
   });
   test("Reads a failed status", async () => {
     const reportDir = path.join(__dirname, "jsonTestFail");
-    const s = slacker.getTestReportStatus(reportDir);
+    const s = await getTestReportStatus(reportDir);
     expect(s).toHaveProperty("status", "failed");
   });
   test("Reads an error status", async () => {
     const reportDir = path.join(__dirname, "jsonBuildFail");
-    const s = slacker.getTestReportStatus(reportDir);
+    const s = await getTestReportStatus(reportDir);
     expect(s).toHaveProperty("status", "error");
   });
   test("Returns an error when a test report directory cannot be found", async () => {
-    function reportParser() {
-      const reportDir = path.join(__dirname, "nonexistentdir");
-      slacker.getTestReportStatus(reportDir);
-    }
-    expect(reportParser).toThrow();
+    const reportDir = path.join(__dirname, "nonexistentdir");
+    const s = await getTestReportStatus(reportDir);
+
+    expect(s).toHaveProperty("status", "error");
   });
-  test("Returns an error when multiple json reports are found", async () => {
-    function reportParser() {
-      const reportDir = path.join(__dirname, "reportMultiple");
-      slacker.getTestReportStatus(reportDir);
-    }
-    expect(reportParser).toThrowError(
-      new Error(
-        "Multiple json reports found, please run mochawesome-merge to provide a single report"
-      )
-    );
+  test("Reads the first report and logs a warning when multiple json reports are found", async () => {
+    const reportDir = path.join(__dirname, "reportMultiple");
+    const s = await getTestReportStatus(reportDir);
+
+    expect(s).toHaveProperty("status", "passed");
   });
 });
 
 describe("Test Report URL Generator", () => {
   test("Reads a report a returns the results", async () => {
     const reportDir = path.join(__dirname, "reportSingle");
-    const s = slacker.getHTMLReportFilename(reportDir);
+    const s = await getHTMLReportFilename(reportDir);
     expect(s).toEqual("report-20190403-233436.html");
   });
-  test("Returns an error when a test report directory or file cannot be found", async () => {
-    function reportParser() {
-      const reportDir = path.join(__dirname, "nonexistentdir");
-      slacker.getHTMLReportFilename(reportDir);
-    }
-    expect(reportParser).toThrow();
+  test("Return undefined when a html report directory or file cannot be found", async () => {
+    const reportDir = path.join(__dirname, "nonexistentdir");
+    const s = await getHTMLReportFilename(reportDir);
+    expect(s).toEqual(undefined);
   });
   test("Returns an error when multiple html reports are found", async () => {
-    function reportParser() {
-      const reportDir = path.join(__dirname, "reportMultiple");
-      slacker.getHTMLReportFilename(reportDir);
-    }
-    expect(reportParser).toThrowError(
-      new Error("Multiple reports found, please provide only a single report")
-    );
+    const reportDir = path.join(__dirname, "reportMultiple");
+    const s = await getHTMLReportFilename(reportDir);
+    expect(s).toEqual("");
   });
 });
 
 describe("attachmentReports tester", () => {
-  const attachments: MessageAttachment = {};
   test("it returns attachments based on test status", async () => {
-    const s = slacker.attachmentReports(attachments, "passed");
+    const s = await attachmentReports({
+      reportHTMLUrl: "test",
+      reportStatistics: {
+        totalSuites: 1,
+        totalTests: 1,
+        totalPasses: 1,
+        totalFailures: 0,
+        totalDuration: 0,
+        reportFile: [],
+        status: "passed",
+      },
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchInlineSnapshot(`
       Object {
         "actions": Array [
@@ -229,24 +240,38 @@ describe("attachmentReports tester", () => {
             "style": "primary",
             "text": "Test Report",
             "type": "button",
-            "url": "undefined",
+            "url": "test",
           },
           Object {
             "style": "primary",
-            "text": "CircleCI Logs",
+            "text": "Build Logs",
             "type": "button",
-            "url": "undefined",
+            "url": "123",
           },
         ],
         "color": "#36a64f",
-        "fallback": "Report available at undefined",
-        "text": "SUT: envsut
-      Total Passed:  0",
+        "fallback": "Report available at test",
+        "text": "Branch: 123
+      Job: 123
+      SUT: envsut
+      Total Passed:  1",
       }
     `);
   });
   test("it returns attachments based on test status", async () => {
-    const s = slacker.attachmentReports(attachments, "failed");
+    const s = await attachmentReports({
+      reportHTMLUrl: "test",
+      reportStatistics: {
+        totalSuites: 1,
+        totalTests: 1,
+        totalPasses: 0,
+        totalFailures: 1,
+        totalDuration: 0,
+        reportFile: [],
+        status: "failed",
+      },
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchInlineSnapshot(`
       Object {
         "actions": Array [
@@ -254,45 +279,74 @@ describe("attachmentReports tester", () => {
             "style": "primary",
             "text": "Test Report",
             "type": "button",
-            "url": "undefined",
+            "url": "test",
           },
           Object {
             "style": "primary",
-            "text": "CircleCI Logs",
+            "text": "Build Logs",
             "type": "button",
-            "url": "undefined",
+            "url": "123",
           },
         ],
         "color": "#ff0000",
-        "fallback": "Report available at undefined",
-        "text": "SUT: envsut
-      Total Tests: 0
+        "fallback": "Report available at test",
+        "text": "Branch: 123
+      Job: 123
+      SUT: envsut
+      Total Tests: 1
       Total Passed:  0 ",
-        "title": "Total Failed: 0",
+        "title": "Total Failed: 1",
       }
     `);
   });
   test("it returns attachments based on test status", async () => {
-    const s = slacker.attachmentReports(attachments, "error");
+    const s = await attachmentReports({
+      reportHTMLUrl: "test",
+      reportStatistics: {
+        totalSuites: 0,
+        totalTests: 0,
+        totalPasses: 0,
+        totalFailures: 0,
+        totalDuration: 0,
+        reportFile: [],
+        status: "error",
+      },
+      ciEnvVars: envVars,
+    });
     expect(s).toMatchInlineSnapshot(`
       Object {
         "actions": Array [
           Object {
             "style": "danger",
-            "text": "CircleCI Logs",
+            "text": "Build Logs",
             "type": "button",
-            "url": "undefined",
+            "url": "123",
           },
         ],
         "color": "#ff0000",
-        "fallback": "Build Log available at undefined",
-        "text": "SUT: envsut
+        "fallback": "Build Log available at 123",
+        "text": "Branch: 123
+      Job: 123
+      SUT: envsut
       Total Passed:  0 ",
       }
     `);
   });
   test("it returns attachments based on test status", async () => {
-    const s = slacker.attachmentReports(attachments, "dfdfsfs");
+    const s = await attachmentReports({
+      reportHTMLUrl: "test",
+      reportStatistics: {
+        totalSuites: 1,
+        totalTests: 1,
+        totalPasses: 1,
+        totalFailures: 0,
+        totalDuration: 0,
+        reportFile: [],
+        status: "passedsdsd",
+      },
+      ciEnvVars: envVars,
+    });
+
     expect(s).toEqual({});
   });
 });
@@ -300,34 +354,52 @@ describe("attachmentReports tester", () => {
 describe("attachmentsVideoAndScreenshots tester", () => {
   const attachments: MessageAttachment = {};
   test("it returns attachments based on test status", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = slacker.attachmentsVideoAndScreenshots(attachments, "passed");
+    const s = await attachmentsVideoAndScreenshots({
+      videoAttachmentsSlack: "",
+      screenshotAttachmentsSlack:
+        "<http://sometesturl.com/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>",
+      status: "passed",
+    });
     expect(s).toMatchObject({
       color: "#36a64f",
-      text: `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>\n`,
+      text: `<http://sometesturl.com/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`,
     });
   });
   test("it returns attachments based on test status", async () => {
-    const dir: string = path.join(__dirname, "screenshotDirPopulated");
-    const s = slacker.attachmentsVideoAndScreenshots(attachments, "failed");
+    const s = await attachmentsVideoAndScreenshots({
+      videoAttachmentsSlack:
+        "<http://sometesturl.com$/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>",
+      screenshotAttachmentsSlack: "",
+      status: "failed",
+    });
+
     expect(s).toMatchObject({
       color: "#ff0000",
-      text: `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>\n`,
+      text: `<http://sometesturl.com$/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`,
     });
   });
   test("it returns attachments based on test status", async () => {
-    const s = slacker.attachmentsVideoAndScreenshots(attachments, "dfdfsfs");
-    expect(s).toEqual({});
+    const s = await attachmentsVideoAndScreenshots({
+      videoAttachmentsSlack: "dfsf",
+      screenshotAttachmentsSlack: "sfd",
+      status: "failed",
+    });
+
+    expect(s).toEqual({ color: "#ff0000", text: "dfsfsfd" });
   });
 });
 
-describe("constructMessage tester", () => {
-  test("it throws an error if we cant get the status of the test build", async () => {
-    function mockRunner() {
-      slacker.constructMessage("");
-    }
-    expect(mockRunner).toThrowError(
-      "An error occured getting the status of the test run"
-    );
-  });
-});
+// describe("constructAndSend tester", () => {
+//   test("it sends an error message if we cant get the status of the test build", async () => {
+//     const s = await constructAndSend({
+//       totalSuites: undefined,
+//       totalTests: undefined,
+//       totalPasses: undefined,
+//       totalFailures: undefined,
+//       totalDuration: undefined,
+//       reportFile: [],
+//       status: "dsds",
+//     });
+//     expect(s).toEqual([{ text: "ok" }]);
+//   });
+// });
