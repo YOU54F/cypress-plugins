@@ -200,7 +200,7 @@ If you wish to use another CI provider, you can pass any name other than `circle
 
 ### CircleCI Artifact Notes
 
-CircleCI have recently changed the API for retrieving API's. A URL is generated for artefacts in the format
+CircleCI have recently changed the API for retrieving API's. A URL is generated for artifacts in the format
 
 `https://${CI_BUILD_NUM}-${CI_PROJECT_ID}-gh.circle-artifacts.com/0`
 
