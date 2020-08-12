@@ -8,11 +8,13 @@ import {
   IncomingWebhookSendArguments,
 } from "@slack/webhook";
 import * as fs from "fs";
-import globby from "globby";
+import * as globby from "globby";
 import * as path from "path";
 import * as pino from "pino";
 
-const log = pino();
+const log = pino({
+  level: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info",
+});
 
 export interface SlackRunnerOptions {
   ciProvider: string;
@@ -123,7 +125,7 @@ export const slackRunner = async ({
               });
               const sendArguments = await webhookSendArgs({
                 argsWebhookSend: {},
-                messageAttachments: [reports],
+                messageAttachments: [reports, artefacts],
               });
               log.info({ data: sendArguments }, "failing run");
               try {
@@ -173,7 +175,7 @@ export const slackRunner = async ({
               });
               const sendArguments = await webhookSendArgs({
                 argsWebhookSend: {},
-                messageAttachments: [reports],
+                messageAttachments: [reports, artefacts],
               });
 
               log.info({ data: sendArguments }, "passing run");
@@ -556,6 +558,7 @@ const getVideoLinks = async ({
   if (!artefactUrl) {
     return "";
   } else {
+    log.debug({ artefactUrl, videosDir }, "getVideoLinks");
     const videosURL = `${artefactUrl}`;
     const videos = await globby(path.resolve(process.cwd(), videosDir), {
       expandDirectories: {
@@ -563,6 +566,7 @@ const getVideoLinks = async ({
         extensions: ["mp4"],
       },
     });
+
     if (videos.length === 0) {
       return "";
     } else {
@@ -572,7 +576,7 @@ const getVideoLinks = async ({
           return `<${videosURL}${videoObject}|Video:- ${trimmedVideoFilename}>\n`;
         })
       );
-      return videoLinks.join();
+      return videoLinks.join("");
     }
   }
 };
@@ -608,7 +612,7 @@ const getScreenshotLinks = async ({
         })
       );
 
-      return screenshotLinks.join();
+      return screenshotLinks.join("");
     }
   }
 };
