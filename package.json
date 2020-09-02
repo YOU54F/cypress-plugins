@@ -76,7 +76,7 @@
     "globby": "9.2.0",
     "husky": "4.2.5",
     "jest": "26.4.2",
-    "jest-junit": "10.0.0",
+    "jest-junit": "11.1.0",
     "jest-stare": "2.2.0",
     "lint-staged": "10.2.13",
     "mocha": "8.1.3",
