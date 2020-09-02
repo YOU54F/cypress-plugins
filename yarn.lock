@@ -6280,10 +6280,10 @@ jest-snapshot@^26.4.2:
     pretty-format "^26.4.2"
     semver "^7.3.2"
 
-jest-stare@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-2.1.0.tgz#6c56d33b5afdc3d04a553c005a40ad5bc4ad4a19"
-  integrity sha512-Slwn6GMqa2caegPRfg/nPjjaC6vWdLmvn1S17jV8LgLJ0Q1PLquBPQ5HPPWqsaxxJ9PjNBfL1ItlcXPszGuX+Q==
+jest-stare@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-2.2.0.tgz#73820979083718bd27b0787de7084716380ea524"
+  integrity sha512-cbfgIbOH66LpDjTsv6dv0I3lS5pz+QWagrCnp1uLJ3pG7h/twnDzDcHTcQzqRMHc14/p2E+hxqtQ1MBMSzMPMA==
   dependencies:
     "@jest/reporters" "^25.5.1"
     "@jest/test-result" "^25.5.0"
