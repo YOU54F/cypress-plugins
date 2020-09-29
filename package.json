@@ -70,7 +70,7 @@
     "aws-sdk-mock": "5.1.0",
     "coveralls": "3.1.0",
     "cypress": "4.12.1",
-    "cypress-cucumber-preprocessor": "2.5.5",
+    "cypress-cucumber-preprocessor": "3.0.0",
     "cypress-multi-reporters": "1.4.0",
     "dotenv": "8.2.0",
     "globby": "9.2.0",

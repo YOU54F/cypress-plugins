@@ -2959,9 +2959,10 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-chai@^4.1.2:
+chai@^4.1.2, chai@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.2.0.tgz#760aa72cf20e3795e84b12877ce0e83737aa29e5"
+  integrity sha512-XQU3bhBukrOsQCuwZndwGcCVQHyZi53fQ6Ys1Fym7E4olpIqqZZhhoFJoaKVvV17lWQoXYwgWN2nF5crA8J2jw==
   dependencies:
     assertion-error "^1.1.0"
     check-error "^1.0.2"
@@ -3051,7 +3052,7 @@ check-more-types@^2.24.0:
   resolved "https://registry.yarnpkg.com/check-more-types/-/check-more-types-2.24.0.tgz#1420ffb10fd444dcfc79b43891bbfffd32a84600"
   integrity sha1-FCD/sQ/URNz8ebQ4kbv//TKoRgA=
 
-chokidar@3.4.2:
+chokidar@3.4.2, chokidar@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.2.tgz#38dc8e658dec3809741eb3ef7bb0a47fe424232d"
   integrity sha512-IZHaDeBeI+sZJRX7lGcXsdzgvZqKv6sECqsbErJA4mHWfpRrD8B97kSFN4cQz6nGBGiuFia1MKR4d6c1o8Cv7A==
@@ -3839,14 +3840,14 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
-cypress-cucumber-preprocessor@2.5.5:
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/cypress-cucumber-preprocessor/-/cypress-cucumber-preprocessor-2.5.5.tgz#af20aa40d3dd6dc67b28f6819411831bb0bea925"
-  integrity sha512-bAiqJbh+sJ2fKOnZ71IMxBX4j+e8qwdevYDzHYF+TjpAuSlivZHCbqCs3WUXcSUfLUL3fHwKOx0/oPyPMibAiw==
+cypress-cucumber-preprocessor@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/cypress-cucumber-preprocessor/-/cypress-cucumber-preprocessor-3.0.0.tgz#45c2886bdb598546069c75dad4809dd68ce8c5eb"
+  integrity sha512-vQ/S6zTcCmDFOzKb3ytqaBa97QALrdCPgeBPzCN7MEk+RcUcqUew6f367cbG8IJjwdh8nll1TeP2mDEk9t1UuA==
   dependencies:
     "@cypress/browserify-preprocessor" "^3.0.1"
-    chai "^4.1.2"
-    chokidar "^2.0.4"
+    chai "^4.2.0"
+    chokidar "^3.4.2"
     cosmiconfig "^4.0.0"
     cucumber "^4.2.1"
     cucumber-expressions "^6.0.1"
@@ -3855,7 +3856,7 @@ cypress-cucumber-preprocessor@2.5.5:
     gherkin "^5.1.0"
     glob "^7.1.2"
     js-string-escape "^1.0.1"
-    minimist "^1.2.0"
+    minimist "^1.2.5"
     through "^2.3.8"
 
 cypress-multi-reporters@1.4.0:
