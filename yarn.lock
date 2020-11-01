@@ -7219,10 +7219,10 @@ mochawesome-report-generator@5.1.0, mochawesome-report-generator@^5.1.0:
     validator "^10.11.0"
     yargs "^13.2.2"
 
-mochawesome@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-6.1.1.tgz#9155ac13edb42c9eb17a7adbbcbbb5c6ecefb972"
-  integrity sha512-fRGZkSJI+u4ODRQCFg3JqI4pqZGzOpfZqlEjvUoZ78l2JnBWwepPu7dMTAcyAEUsZbTSx7S4eVnsi+/Zh1Qq6A==
+mochawesome@6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-6.2.0.tgz#77170ee2b5b4bd0b9a481b1a60f85009c6bdc931"
+  integrity sha512-wUNEi+BbozihzSI0P4KftLXhh8COHWmLDGHAW6pnpO32YPUOwRrx6Ts3iDFZJoPYwP7agt8/tzEvFiflUdsVOQ==
   dependencies:
     chalk "^4.0.0"
     diff "^4.0.1"
