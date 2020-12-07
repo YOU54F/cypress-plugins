@@ -91,7 +91,7 @@
     "standard-version": "8.0.2",
     "ts-jest": "25.5.1",
     "ts-loader": "7.0.5",
-    "ts-node": "8.10.2",
+    "ts-node": "9.1.1",
     "tslint": "5.20.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-no-focused-test": "0.5.0",
