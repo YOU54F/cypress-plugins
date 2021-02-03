@@ -8516,10 +8516,10 @@ rxjs@^6.6.3:
   dependencies:
     tslib "^1.9.0"
 
-s3-batch-upload@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/s3-batch-upload/-/s3-batch-upload-1.4.0.tgz#15b6ef3e43242106dc2f1fe4147984de86cea89c"
-  integrity sha512-DbJp4RsvotZ77BybuB16ovcco141XNEr8BM2qcTB1s9gB5KplBV4QBquaHGDGM7LVKP3WnbFlk6KXro86fo01A==
+s3-batch-upload@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/s3-batch-upload/-/s3-batch-upload-1.5.0.tgz#b7e5604c1c2b90d5392da765424dda2d65c466c6"
+  integrity sha512-7sTq6u1xAyd1Venvd4jn5Z9cU2Gyhdcpy/8RZ6VUmm1maru4fuvrNpqicPDsRsT/phlIJABJUaV9HBddRAVSsg==
   dependencies:
     "@babel/runtime" "^7.0.0-beta.35"
     aws-sdk "^2.361.0"
