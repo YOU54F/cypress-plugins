@@ -4129,7 +4129,7 @@ diff@4.0.2, diff@^4.0.2:
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
-diff@5.0.0:
+diff@5.0.0, diff@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
   integrity sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==
@@ -7075,7 +7075,7 @@ mochawesome-merge@4.2.0:
     uuid "^3.3.2"
     yargs "^15.3.1"
 
-mochawesome-report-generator@5.1.0, mochawesome-report-generator@^5.1.0:
+mochawesome-report-generator@5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-5.1.0.tgz#b8809e7661ac31732fa7ae7210380f704f7c68f6"
   integrity sha512-5cI4Jh+sD+jIxc7q94961vnm/6VKDI7TFUPt9dps6oAc4y4WMpEeeOlmgKKM81q2eGaviNUYw+acFalGK6EJ9g==
@@ -7093,21 +7093,39 @@ mochawesome-report-generator@5.1.0, mochawesome-report-generator@^5.1.0:
     validator "^10.11.0"
     yargs "^13.2.2"
 
-mochawesome@6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-6.2.1.tgz#38ed75cf1b2ff86e7c894d6f33499183a49dd0b7"
-  integrity sha512-zew/N1Gb4JYCTl3scu9i8OW0ay7b0ZOGczCrSW/P+XdBrLntqI5/JlJiYV1/Nn/SY4qahddsIE+qWL8ACNerPA==
+mochawesome-report-generator@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-5.2.0.tgz#ffd29f8d610863e48e63c15c4e83b5689d8dbd04"
+  integrity sha512-DDY/3jSkM/VrWy0vJtdYOf6qBLdaPaLcI7rQmBVbnclIX7AKniE1Rhz3T/cMT/7u54W5EHNo1z84z7efotq/Eg==
   dependencies:
-    chalk "^4.0.0"
-    diff "^4.0.1"
+    chalk "^2.4.2"
+    dateformat "^3.0.2"
+    escape-html "^1.0.3"
+    fs-extra "^7.0.0"
+    fsu "^1.0.2"
+    lodash.isfunction "^3.0.8"
+    opener "^1.5.2"
+    prop-types "^15.7.2"
+    tcomb "^3.2.17"
+    tcomb-validation "^3.3.0"
+    validator "^10.11.0"
+    yargs "^13.2.2"
+
+mochawesome@6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-6.2.2.tgz#2847b4cccb254201e8dad89384f760fe9cdbae15"
+  integrity sha512-NuIxYo8zczmL5XWLNFiud21OsAJHXrflt2lcRY2u8a3TilGwglhzTPjUHZCLqJvbqj2CnIHX2ueqOh1ViUNDPw==
+  dependencies:
+    chalk "^4.1.0"
+    diff "^5.0.0"
     json-stringify-safe "^5.0.1"
     lodash.isempty "^4.4.0"
     lodash.isfunction "^3.0.9"
     lodash.isobject "^3.0.2"
     lodash.isstring "^4.0.1"
-    mochawesome-report-generator "^5.1.0"
+    mochawesome-report-generator "^5.2.0"
     strip-ansi "^6.0.0"
-    uuid "^7.0.3"
+    uuid "^8.3.2"
 
 modify-values@^1.0.0:
   version "1.0.1"
@@ -7489,6 +7507,11 @@ opencollective-postinstall@^2.0.2:
 opener@^1.4.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.1.tgz#6d2f0e77f1a0af0032aca716c2c1fbb8e7e8abed"
+
+opener@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.2.tgz#5d37e1f35077b9dcac4301372271afdeb2a13598"
+  integrity sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==
 
 optionator@^0.8.1:
   version "0.8.2"
@@ -9775,15 +9798,15 @@ uuid@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
 
-uuid@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
-  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
-
 uuid@^8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
   integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-to-istanbul@^7.0.0:
   version "7.0.0"
