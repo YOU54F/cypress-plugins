@@ -83,7 +83,7 @@
     "mocha-junit-reporter": "1.23.3",
     "mochawesome": "6.2.2",
     "mochawesome-merge": "4.2.0",
-    "mochawesome-report-generator": "5.1.0",
+    "mochawesome-report-generator": "5.2.0",
     "prettier": "2.2.1",
     "rimraf": "3.0.2",
     "s3-batch-upload": "1.5.0",
