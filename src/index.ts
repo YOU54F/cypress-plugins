@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 import * as program from "commander";
+import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { slackRunner } from "./slack/slack-alert";
+
+dotenv.config();
 let version;
 try {
   const json = JSON.parse(
