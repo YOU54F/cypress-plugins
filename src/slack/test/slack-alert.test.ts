@@ -100,9 +100,7 @@ describe("Video Link Checker", () => {
       artefactUrl: REPORT_ARTEFACT_URL,
       videosDir: dir,
     });
-    expect(s).toContain(
-      `<http://sometesturl.com${dir}/small.mp4|Video:- small.mp4>`
-    );
+    expect(s).toContain(`<http://sometesturl.com/small.mp4|Video:- small.mp4>`);
   });
 
   test("Returns blank string, if videos dir is empty", async () => {
@@ -152,7 +150,7 @@ describe("Screenshot Link Checker", () => {
       screenshotDir: dir,
     });
     expect(s).toContain(
-      `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
+      `<http://sometesturl.com/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
     );
   });
 });

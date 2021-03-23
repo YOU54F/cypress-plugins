@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 
 import * as program from "commander";
+import { config } from "dotenv";
 import * as fs from "fs";
 import { slackRunner } from "./slack/slack-alert";
 let version;
+
+if (!process.env.CI) {
+  config();
+}
+
 try {
   const json = JSON.parse(
     fs.readFileSync(
