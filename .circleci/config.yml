@@ -13,12 +13,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v6-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v6-deps-{{ .Branch }}-
-            - v6-deps-
+            - v7-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v7-deps-{{ .Branch }}-
+            - v7-deps-
       - run: yarn install
       - save_cache:
-          key: v6-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v7-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.npm
             - ~/.cache  
