@@ -475,7 +475,7 @@ const getHTMLReportFilename = async (reportDir: string) => {
   );
   if (reportHTMLFullPath.length === 0) {
     log.warn(
-      "Multiple html reports found & cannot determine filename, omitting html report from message"
+      "No html report(s) found & cannot determine filename, omitting html report from message"
     );
   } else if (reportHTMLFullPath.length >= 2) {
     log.warn(
