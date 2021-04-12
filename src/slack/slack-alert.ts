@@ -589,9 +589,10 @@ const getVideoLinks = async ({
       const videoLinks = await Promise.all(
         videos.map((videoObject) => {
           const trimmedVideoFilename = path.basename(videoObject);
-          return `<${videosURL}/${videoObject
-            .split("/")
-            .pop()}|Video:- ${trimmedVideoFilename}>\n`;
+          return `<${videosURL}/${videosDir}/${path.relative(
+            videosDir,
+            videoObject
+          )}|Video:- ${trimmedVideoFilename}>\n`;
         })
       );
       return videoLinks.join("");
@@ -628,9 +629,10 @@ const getScreenshotLinks = async ({
       const screenshotLinks = await Promise.all(
         screenshots.map((screenshotObject) => {
           const trimmedScreenshotFilename = path.basename(screenshotObject);
-          return `<${screenshotURL}/${screenshotObject
-            .split("/")
-            .pop()}|Screenshot:- ${trimmedScreenshotFilename}>\n`;
+          return `<${screenshotURL}/${screenshotDir}/${path.relative(
+            screenshotDir,
+            screenshotObject
+          )}|Screenshot:- ${trimmedScreenshotFilename}>\n`;
         })
       );
 
