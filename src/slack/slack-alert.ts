@@ -16,6 +16,15 @@ const log = pino({
   level: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info",
 });
 
+const buildUrl = (...urlComponents: Array<string | undefined>) => {
+  return (
+    urlComponents
+      // Trim leading & trailing slashes
+      .map((component) => String(component).replace(/^\/|\/$/g, ""))
+      .join("/")
+  );
+};
+
 export interface SlackRunnerOptions {
   ciProvider: string;
   vcsRoot: string;
@@ -72,7 +81,6 @@ export const slackRunner = async ({
     const reportHTMLUrl = await buildHTMLReportURL({
       reportDir,
       artefactUrl,
-      ciProvider,
     });
     const videoAttachmentsSlack = await getVideoLinks({
       artefactUrl,
@@ -620,14 +628,12 @@ const getScreenshotLinks = async ({
 const buildHTMLReportURL = async ({
   reportDir,
   artefactUrl,
-  ciProvider,
 }: {
   reportDir: string;
   artefactUrl: string;
-  ciProvider: string;
 }) => {
   const reportHTMLFilename = await getHTMLReportFilename(reportDir);
-  return artefactUrl + reportDir + "/" + reportHTMLFilename;
+  return buildUrl(artefactUrl, reportDir, reportHTMLFilename);
 };
 const getArtefactUrl = async ({
   vcsRoot,
