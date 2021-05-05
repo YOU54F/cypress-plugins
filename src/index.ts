@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as program from "commander";
+import { program } from "commander";
 import { config } from "dotenv";
 import * as fs from "fs";
 import { slackRunner } from "./slack/slack-alert";
@@ -77,17 +77,18 @@ program
   // .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
-const ciProvider: string = program.ciProvider;
-const vcsProvider: string = program.vcsProvider;
-const reportDir: string = program.reportDir;
-const videoDir: string = program.videoDir;
-const customUrl: string = program.customUrl;
-const screenshotDir: string = program.screenshotDir;
-const onlyFailed: boolean = program.onlyFailed;
-const customText: string = program.customText;
+const options = program.opts();
+const ciProvider: string = options.ciProvider;
+const vcsProvider: string = options.vcsProvider;
+const reportDir: string = options.reportDir;
+const videoDir: string = options.videoDir;
+const customUrl: string = options.customUrl;
+const screenshotDir: string = options.screenshotDir;
+const onlyFailed: boolean = options.onlyFailed;
+const customText: string = options.customText;
 // const verbose: boolean = program.verbose;
 
-if (program.verbose) {
+if (options.verbose) {
   // tslint:disable-next-line: no-console
   console.log(
     " ciProvider:- " + ciProvider + "\n",
