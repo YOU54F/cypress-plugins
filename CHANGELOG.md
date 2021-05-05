@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.2.1...v1.3.0) (2021-05-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @slack/types to v2 ([#927](https://github.com/you54f/cypress-slack-reporter/issues/927)) ([4204157](https://github.com/you54f/cypress-slack-reporter/commit/4204157cc449995fdc5bb8078b980b17bc472f0f))
+* **deps:** update dependency @slack/webhook to v6 ([#928](https://github.com/you54f/cypress-slack-reporter/issues/928)) ([367b4c4](https://github.com/you54f/cypress-slack-reporter/commit/367b4c4eb3a79e64e1875b7eeb01d2a0d72b8071))
+* **deps:** update dependency commander to v7 ([#931](https://github.com/you54f/cypress-slack-reporter/issues/931)) ([3040a78](https://github.com/you54f/cypress-slack-reporter/commit/3040a7882396c08372282b89a8012e74f9e802f2))
+* **deps:** update dependency del to v6 ([#800](https://github.com/you54f/cypress-slack-reporter/issues/800)) ([cf58e64](https://github.com/you54f/cypress-slack-reporter/commit/cf58e64945bb5be7ff844854c8f2b739631e0466))
+
 ### [1.2.1](https://github.com/you54f/cypress-slack-reporter/compare/v1.2.0...v1.2.1) (2021-05-05)
 
 ## [1.2.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.0.3...v1.2.0) (2021-05-05)
