@@ -45,7 +45,7 @@
     "release": "standard-version --release-as 1.2.1"
   },
   "dependencies": {
-    "@slack/types": "^1.0.0",
+    "@slack/types": "^2.0.0",
     "@slack/webhook": "^6.0.0",
     "@types/commander": "^2.12.2",
     "@types/pino": "^6.0.1",
