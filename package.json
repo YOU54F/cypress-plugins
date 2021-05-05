@@ -63,7 +63,7 @@
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@cypress/webpack-preprocessor": "5.7.0",
-    "@types/bluebird": "3.5.33",
+    "@types/bluebird": "3.5.34",
     "@types/dotenv": "6.1.1",
     "@types/jest": "26.0.23",
     "@types/node": "10.17.59",
