@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/you54f/cypress-slack-reporter/compare/v1.2.0...v1.2.1) (2021-05-05)
+
 ## [1.2.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.0.3...v1.2.0) (2021-05-05)
 
 ### [1.1.9-alpha](https://github.com/you54f/cypress-slack-reporter/compare/v1.0.3...v1.1.9-alpha) (2021-04-29)
