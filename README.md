@@ -318,3 +318,6 @@ And will return a Slack IncomingWebhookResult.
 ## Contributors
 
 - With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
+- With thanks to [samswartz13](https://github.com/samswartz13) for bug fixes
+- With thanks to [ayushipatel126](https://github.com/ayushipatel126) for dotenv support.
+- With thanks to [saikatharryc](https://github.com/saikatharryc) for custom url support.

@@ -42,7 +42,7 @@
     "ci": "npm run test:ci && rimraf ./bin && npm run compile",
     "ship-it": "npm run pre-publish && npm publish",
     "deploy:prepare": "./scripts/create_npmrc_file.sh",
-    "release": "standard-version --release-as 1.2.0"
+    "release": "standard-version --release-as 1.2.1"
   },
   "dependencies": {
     "@slack/types": "^1.0.0",
