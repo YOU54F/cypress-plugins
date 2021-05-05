@@ -11,10 +11,19 @@ import * as fs from "fs";
 import * as globby from "globby";
 import * as path from "path";
 import * as pino from "pino";
-
 const log = pino({
   level: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info",
 });
+
+const isWin = process.platform === "win32";
+const buildUrl = (...urlComponents: Array<string | undefined>) => {
+  return (
+    urlComponents
+      // Trim leading & trailing slashes
+      .map((component) => String(component).replace(/^\/|\/$/g, ""))
+      .join("/")
+  );
+};
 
 export interface SlackRunnerOptions {
   ciProvider: string;
@@ -72,7 +81,6 @@ export const slackRunner = async ({
     const reportHTMLUrl = await buildHTMLReportURL({
       reportDir,
       artefactUrl,
-      ciProvider,
     });
     const videoAttachmentsSlack = await getVideoLinks({
       artefactUrl,
@@ -461,15 +469,20 @@ const attachmentsVideoAndScreenshots = async ({
 };
 
 const getHTMLReportFilename = async (reportDir: string) => {
-  const reportHTMLFullPath = await globby(path.resolve(reportDir), {
-    expandDirectories: {
-      files: ["*"],
-      extensions: ["html"],
-    },
-  });
+  const reportHTMLFullPath = await globby(
+    isWin
+      ? path.resolve(reportDir).replace(/\\/g, "/")
+      : path.resolve(reportDir),
+    {
+      expandDirectories: {
+        files: ["*"],
+        extensions: ["html"],
+      },
+    }
+  );
   if (reportHTMLFullPath.length === 0) {
     log.warn(
-      "Multiple html reports found & cannot determine filename, omitting html report from message"
+      "No html report(s) found & cannot determine filename, omitting html report from message"
     );
   } else if (reportHTMLFullPath.length >= 2) {
     log.warn(
@@ -487,12 +500,17 @@ const getHTMLReportFilename = async (reportDir: string) => {
 };
 
 const getTestReportStatus = async (reportDir: string) => {
-  const reportFile = await globby(path.resolve(reportDir), {
-    expandDirectories: {
-      files: ["*"],
-      extensions: ["json"],
-    },
-  });
+  const reportFile = await globby(
+    isWin
+      ? path.resolve(reportDir).replace(/\\/g, "/")
+      : path.resolve(reportDir),
+    {
+      expandDirectories: {
+        files: ["*"],
+        extensions: ["json"],
+      },
+    }
+  );
   if (reportFile.length === 0) {
     log.warn("Cannot find test report, so sending build fail message");
     return {
@@ -560,12 +578,17 @@ const getVideoLinks = async ({
   } else {
     log.debug({ artefactUrl, videosDir }, "getVideoLinks");
     const videosURL = `${artefactUrl}`;
-    const videos = await globby(path.resolve(process.cwd(), videosDir), {
-      expandDirectories: {
-        files: ["*"],
-        extensions: ["mp4"],
-      },
-    });
+    const videos = await globby(
+      isWin
+        ? path.resolve(process.cwd(), videosDir).replace(/\\/g, "/")
+        : path.resolve(process.cwd(), videosDir),
+      {
+        expandDirectories: {
+          files: ["*"],
+          extensions: ["mp4"],
+        },
+      }
+    );
 
     if (videos.length === 0) {
       return "";
@@ -573,7 +596,10 @@ const getVideoLinks = async ({
       const videoLinks = await Promise.all(
         videos.map((videoObject) => {
           const trimmedVideoFilename = path.basename(videoObject);
-          return `<${videosURL}${videoObject}|Video:- ${trimmedVideoFilename}>\n`;
+          return `<${videosURL}/${videosDir}/${path.relative(
+            videosDir,
+            videoObject
+          )}|Video:- ${trimmedVideoFilename}>\n`;
         })
       );
       return videoLinks.join("");
@@ -593,7 +619,9 @@ const getScreenshotLinks = async ({
   } else {
     const screenshotURL = `${artefactUrl}`;
     const screenshots = await globby(
-      path.resolve(process.cwd(), screenshotDir),
+      isWin
+        ? path.resolve(process.cwd(), screenshotDir).replace(/\\/g, "/")
+        : path.resolve(process.cwd(), screenshotDir),
       {
         expandDirectories: {
           files: ["*"],
@@ -608,7 +636,10 @@ const getScreenshotLinks = async ({
       const screenshotLinks = await Promise.all(
         screenshots.map((screenshotObject) => {
           const trimmedScreenshotFilename = path.basename(screenshotObject);
-          return `<${screenshotURL}${screenshotObject}|Screenshot:- ${trimmedScreenshotFilename}>\n`;
+          return `<${screenshotURL}/${screenshotDir}/${path.relative(
+            screenshotDir,
+            screenshotObject
+          )}|Screenshot:- ${trimmedScreenshotFilename}>\n`;
         })
       );
 
@@ -620,14 +651,12 @@ const getScreenshotLinks = async ({
 const buildHTMLReportURL = async ({
   reportDir,
   artefactUrl,
-  ciProvider,
 }: {
   reportDir: string;
   artefactUrl: string;
-  ciProvider: string;
 }) => {
   const reportHTMLFilename = await getHTMLReportFilename(reportDir);
-  return artefactUrl + reportDir + "/" + reportHTMLFilename;
+  return buildUrl(artefactUrl, reportDir, reportHTMLFilename);
 };
 const getArtefactUrl = async ({
   vcsRoot,

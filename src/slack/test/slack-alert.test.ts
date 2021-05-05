@@ -5,6 +5,7 @@ import "jest";
 import * as path from "path";
 import { testables } from "../slack-alert";
 const {
+  buildHTMLReportURL,
   getScreenshotLinks,
   getVideoLinks,
   prChecker,
@@ -101,7 +102,7 @@ describe("Video Link Checker", () => {
       videosDir: dir,
     });
     expect(s).toContain(
-      `<http://sometesturl.com${dir}/small.mp4|Video:- small.mp4>`
+      `<http://sometesturl.com/${dir}/small.mp4|Video:- small.mp4>`
     );
   });
 
@@ -152,8 +153,42 @@ describe("Screenshot Link Checker", () => {
       screenshotDir: dir,
     });
     expect(s).toContain(
-      `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
+      `<http://sometesturl.com/${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
     );
+  });
+});
+
+describe("HTML report link checker", () => {
+  test("Returns correct url if artefactUrl has no trailing slash", async () => {
+    const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
+    const dir: string = path.join(__dirname, "reportSingle");
+    const s = await buildHTMLReportURL({
+      reportDir: dir,
+      artefactUrl: REPORT_ARTEFACT_URL,
+    });
+    expect(s).toEqual(
+      `http://sometesturl.com${dir}/report-20190403-233436.html`
+    );
+  });
+  test("Returns correct url if artefactUrl has trailing slash", async () => {
+    const REPORT_ARTEFACT_URL: string = "http://sometesturl.com/";
+    const dir: string = path.join(__dirname, "reportSingle");
+    const s = await buildHTMLReportURL({
+      reportDir: dir,
+      artefactUrl: REPORT_ARTEFACT_URL,
+    });
+    expect(s).toEqual(
+      `http://sometesturl.com${dir}/report-20190403-233436.html`
+    );
+  });
+  test("Returns correct url if reportDir is a relative path", async () => {
+    const REPORT_ARTEFACT_URL: string = "http://sometesturl.com";
+    const dir: string = "reportSingle";
+    const s = await buildHTMLReportURL({
+      reportDir: dir,
+      artefactUrl: REPORT_ARTEFACT_URL,
+    });
+    expect(s).toContain(`http://sometesturl.com/${dir}`);
   });
 });
 

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.9-alpha](https://github.com/you54f/cypress-slack-reporter/compare/v1.0.3...v1.1.9-alpha) (2021-04-29)
+
+
+### Bug Fixes
+
+* [#984](https://github.com/you54f/cypress-slack-reporter/issues/984) - more appropriate error msg when no html reports found ([f7ba134](https://github.com/you54f/cypress-slack-reporter/commit/f7ba134119f9f811b34bafec64929e883d7679ee))
+* split filename from artefact paths, globby win fix, dotenv config ([aa34bbf](https://github.com/you54f/cypress-slack-reporter/commit/aa34bbf8ce5e86a348ecc8b54d3c79cd8c907736))
+* update artefact path for screenshots and videos ([0a5e7b7](https://github.com/you54f/cypress-slack-reporter/commit/0a5e7b7ac5b803d14b9fbad6ec6834042d79a8fd))
+
 ### [1.0.3](https://github.com/you54f/cypress-slack-reporter/compare/v1.0.2...v1.0.3) (2020-08-12)
 
 
