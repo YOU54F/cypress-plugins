@@ -51,7 +51,7 @@
     "@types/pino": "^6.0.1",
     "commander": "^5.0.0",
     "del": "^5.1.0",
-    "dotenv": "8.2.0",
+    "dotenv": "8.6.0",
     "pino": "^6.2.1"
   },
   "peerDependencies": {
@@ -73,7 +73,7 @@
     "cypress": "4.12.1",
     "cypress-cucumber-preprocessor": "4.1.0",
     "cypress-multi-reporters": "1.5.0",
-    "dotenv": "8.2.0",
+    "dotenv": "8.6.0",
     "globby": "11.0.3",
     "husky": "4.3.8",
     "jest": "26.6.3",
