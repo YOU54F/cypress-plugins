@@ -318,7 +318,7 @@ And will return a Slack IncomingWebhookResult.
 
 ## Contributors
 
-![Repo Contributors](https://contrib.rocks/image?repo=YOU54F/awesome-stars)
+![Repo Contributors](https://contrib.rocks/image?repo=YOU54F/cypress-slack-reporter)
 
 - With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
 - With thanks to [samswartz13](https://github.com/samswartz13) for bug fixes
