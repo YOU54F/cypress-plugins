@@ -6,6 +6,7 @@
 [![TravisCI](https://travis-ci.org/YOU54F/cypress-slack-reporter.svg?branch=master)](https://travis-ci.org/YOU54F/cypress-slack-reporter)
 [![Maintainability](https://api.codeclimate.com/v1/badges/4ad6c94892c6704253ca/maintainability)](https://codeclimate.com/github/YOU54F/cypress-slack-reporter/maintainability)
 [![Coverage Status](https://coveralls.io/repos/github/YOU54F/cypress-slack-reporter/badge.svg)](https://coveralls.io/github/YOU54F/cypress-slack-reporter)
+![Repo Views](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https://github.com/YOU54F/awesome-stars)
 
 A Slack Reporting tool built for Cypress but _should_ work with any mocha based framework that is using [mochawesome](https://github.com/adamgruber/mochawesome/)
 
@@ -316,6 +317,8 @@ And will return a Slack IncomingWebhookResult.
   - [x] Jenkins
 
 ## Contributors
+
+![Repo Contributors](https://contrib.rocks/image?repo=YOU54F/awesome-stars)
 
 - With thanks to [mikepsinn](https://github.com/mikepsinn) for Jenkins support.
 - With thanks to [samswartz13](https://github.com/samswartz13) for bug fixes
