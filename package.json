@@ -62,7 +62,7 @@
   "devDependencies": {
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.1",
-    "@cypress/webpack-preprocessor": "5.7.0",
+    "@cypress/webpack-preprocessor": "5.11.1",
     "@types/bluebird": "3.5.34",
     "@types/dotenv": "6.1.1",
     "@types/jest": "26.0.23",
