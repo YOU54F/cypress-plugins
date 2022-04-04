@@ -8,7 +8,7 @@
     "baseUrl": "../node_modules" // needed if your tests import npm modules
   },
   "include": [
-    "**/*.ts", "../untyped.d.ts"
+    "**/*.ts"
   ]
 ,
   "exclude": [

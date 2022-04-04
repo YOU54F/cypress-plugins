@@ -1,29 +1,20 @@
+const path = require('path')
+
 module.exports = {
-  resolve: {
-    extensions: [".ts", ".js"]
-  },
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: "ts-loader",
-            options: {
-              transpileOnly: true
-            }
-          }
-        ]
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
-      {
-        test: /\.feature$/,
-        use: [
-          {
-            loader: "cypress-cucumber-preprocessor/loader"
-          }
-        ]
-      }
-    ]
-  }
-};
+    ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+}
