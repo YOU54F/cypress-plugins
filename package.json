@@ -67,7 +67,7 @@
     "@cypress/webpack-preprocessor": "5.11.1",
     "@types/bluebird": "3.5.36",
     "@types/dotenv": "6.1.1",
-    "@types/jest": "26.0.23",
+    "@types/jest": "26.0.24",
     "@types/node": "10.17.60",
     "aws-sdk": "2.901.0",
     "aws-sdk-mock": "5.1.0",
