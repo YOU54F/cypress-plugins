@@ -62,8 +62,8 @@
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
-    "@commitlint/cli": "12.1.1",
-    "@commitlint/config-conventional": "12.1.1",
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
     "@cypress/webpack-preprocessor": "5.11.1",
     "@types/bluebird": "3.5.34",
     "@types/dotenv": "6.1.1",
