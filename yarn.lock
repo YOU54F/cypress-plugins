@@ -6187,14 +6187,13 @@ mocha@8.3.2:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-mochawesome-merge@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/mochawesome-merge/-/mochawesome-merge-4.2.0.tgz#970ea141165039bfdd6772b1232a1ef6ba99af1a"
-  integrity sha512-FSMzagh+8hTShhFXdBLE4/zS2WALcDruoD0bmtiwHEjfyQszR/iEGFTgbuM5ewA5At3qeSGwGsT0k2Stt64NdQ==
+mochawesome-merge@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/mochawesome-merge/-/mochawesome-merge-4.2.1.tgz#484e5c500dd5d88b33adb440e6dfef80d9109a18"
+  integrity sha512-G7+LqIKgixShKG4FyWDn1PIrzpKEwCofrJip/VzdqghNGqZl4S5MNoXx5YDfk9KLe+pr4qGa1TOzCc/oVw/8Kw==
   dependencies:
     fs-extra "^7.0.1"
     glob "^7.1.6"
-    uuid "^3.3.2"
     yargs "^15.3.1"
 
 mochawesome-report-generator@5.2.0, mochawesome-report-generator@^5.2.0:
