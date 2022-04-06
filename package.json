@@ -60,7 +60,7 @@
     "mochawesome-report-generator": ">= 3.1.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/core": "7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
