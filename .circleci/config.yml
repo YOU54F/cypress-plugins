@@ -1,9 +1,5 @@
 version: 2.1
 
-env:
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  ENV_SUT: ${{ secrets.ENV_SUT }}
-
 jobs:
   test:
     docker:

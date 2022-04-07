@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  ENV_SUT: ${{ secrets.ENV_SUT }}
+
 jobs:
   build:
 
