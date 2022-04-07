@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.3.0...v1.4.0) (2022-04-07)
+
+
+### Bug Fixes
+
+* add envs to release flow ([d1b3afb](https://github.com/you54f/cypress-slack-reporter/commit/d1b3afbebc94e825f061ad8648902e46a2668958))
+* drop verison ([597a6ef](https://github.com/you54f/cypress-slack-reporter/commit/597a6ef9abb4ba62c6b223ca4ad717f094808167))
+* release work ([e9a9fef](https://github.com/you54f/cypress-slack-reporter/commit/e9a9fef73c982c09d0afcfe2e5473c044a96d7f1))
+* releasing ([78c3b75](https://github.com/you54f/cypress-slack-reporter/commit/78c3b757b9ade570b3c2c55739c53b84de0aec2a))
+* update npm ignore ([6d03f11](https://github.com/you54f/cypress-slack-reporter/commit/6d03f1176f1238dab9f38bee3ba6460da547026a))
+* y u no find cypress-slack-reporter in npm ([9df8e6f](https://github.com/you54f/cypress-slack-reporter/commit/9df8e6fef0e3fe0c5a4be178657433a2f79200bf))
+
 ## [1.4.0-alpha](https://github.com/you54f/cypress-slack-reporter/compare/v1.3.0...v1.4.0-alpha) (2022-04-07)
 
 
