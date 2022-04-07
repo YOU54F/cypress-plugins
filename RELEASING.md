@@ -5,7 +5,7 @@ We've moved to GitHub Actions for releases.
 ## How a release works
 
 Releases trigger when the repository recieves the custom repository_dispatch event
-`release-triggered`.
+`release-triggered`. 
 
 This triggers the `publish.yml` workflow, which in turn
 triggers the `release.sh` script in `scripts/ci`.
