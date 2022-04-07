@@ -8,6 +8,7 @@ on:
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ENV_SUT: ${{ secrets.ENV_SUT }}
+  CI_PROVIDER_TO_TEST: 'github'
 
 jobs:
   build:
