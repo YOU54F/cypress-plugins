@@ -14,7 +14,7 @@ webpack.config.js
 yarn.lock
 .DS_STORE
 config.env.test
-.travis.yml
+*.travis.yml
 .codeclimate.yml
 commitlint.config.js
 cypress-slack-reporter.tar.gz
@@ -33,4 +33,5 @@ scripts
 .scannerwork
 src
 samples
+config.env.*
 
