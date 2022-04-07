@@ -6,7 +6,7 @@ import * as slacker from "../slack-alert";
 
 const base = process.env.PWD || ".";
 const vcsRoot: string = "github";
-const ciProvider: string = "circleci";
+const ciProvider: string = "github";
 const reportDir: string = base + "/src/slack/test/jsonTestPass";
 const videoDir: string = base + "/src/slack/test/videosDirPopulated";
 const screenshotDir: string = base + "/src/slack/test/screenshotDirPopulated";
