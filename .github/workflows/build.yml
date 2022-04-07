@@ -1,0 +1,60 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  ENV_SUT: ${{ secrets.ENV_SUT }}
+  CI_PROVIDER_TO_TEST: 'github'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - run: yarn install
+    - run: npm run lint
+    - run: npm run compile
+    - run: npm run test
+    - run: npm test
+    - run: make test
+    - run: make combine-reports && make generate-report
+    - name: get artifacts 1 
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-output-1
+        path: |
+          cypress/reports
+          cypress/videos
+          cypress/screenshots
+          mochareports
+    - run: npm run slack-ts 
+    - run: npm run slack-js 
+    - run: npm run slack-ts-opts 
+    - run: npm run slack-js-opts
+    - run: npm run slack-js-opts-test-passed
+    - run: npm run slack-js-opts-test-failed
+    - run: npm run slack-js-opts-build-failed
+    - run: npm run cli
+    - name: get artifacts 2 
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-output-2
+        path: |
+          src/slack/test
+          cypress/reports/mocha

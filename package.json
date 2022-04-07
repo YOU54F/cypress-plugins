@@ -25,7 +25,7 @@
   "license": "MIT",
   "scripts": {
     "cli": "rimraf cypress/reports && ts-node src/cli/spec.ts",
-    "circle": "npm run lint && npm run test:ci && make test && npm run pre-publish",
+    "ci": "npm run lint && npm run compile && npm run test:ci && make test && npm run pre-publish",
     "lint": "tslint --project .",
     "lint-fix": "tslint --project . --fix",
     "test": "jest --coverage",
@@ -39,7 +39,6 @@
     "slack-js-opts": "node bin/index.js --report-dir src/slack/test/reportSingle --video-dir src/slack/test/videosDirPopulated --screenshot-dir src/slack/test/screenshotDirPopulated --verbose",
     "slack-ts": "ts-node src/index.ts --verbose",
     "slack-ts-opts": "ts-node src/index.ts --report-dir src/slack/test/reportSingle --video-dir src/slack/test/videosDirPopulated --screenshot-dir src/slack/test/screenshotsDirPopulated --verbose",
-    "ci": "npm run test:ci && rimraf ./bin && npm run compile",
     "ship-it": "npm run pre-publish && npm publish",
     "deploy:prepare": "./scripts/create_npmrc_file.sh",
     "release": "standard-version --release-as 1.3.0"
