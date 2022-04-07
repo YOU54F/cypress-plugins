@@ -22,13 +22,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        cache: 'yarn'
     - run: npm run lint
     - run: npm run compile
     - run: npm run test
     - run: npm test
     - run: make test
     - run: make combine-reports && make generate-report
+      uses: actions/upload-artifact@v3
       with:
         name: test-output
         path: |
@@ -44,6 +45,7 @@ jobs:
     - run: npm run slack-js-opts-test-failed
     - run: npm run slack-js-opts-build-passed
     - run: npm run cli
+      uses: actions/upload-artifact@v3
       with:
         name: test-output
         path: |
