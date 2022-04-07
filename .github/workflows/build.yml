@@ -48,7 +48,7 @@ jobs:
     - run: npm run slack-js-opts
     - run: npm run slack-js-opts-test-passed
     - run: npm run slack-js-opts-test-failed
-    - run: npm run slack-js-opts-build-passed
+    - run: npm run slack-js-opts-build-failed
     - run: npm run cli
     - name: get artifacts 2 
       uses: actions/upload-artifact@v3
