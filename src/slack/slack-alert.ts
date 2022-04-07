@@ -111,12 +111,16 @@ export const slackRunner = async ({
         ciEnvVars,
         customText,
       });
-      const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL as string;
+      const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
+
+      if (!SLACK_WEBHOOK_URL){
+        throw new Error('no SLACK_WEBHOOK_URL env var set')
+      }
 
       switch (reportStatistics.status) {
         case "failed": {
           const slackWebhookFailedUrl = process.env
-            .SLACK_WEBHOOK_FAILED_URL as string;
+            .SLACK_WEBHOOK_FAILED_URL;
           const slackWebhookUrls = slackWebhookFailedUrl
             ? slackWebhookFailedUrl.split(",")
             : SLACK_WEBHOOK_URL.split(",");
@@ -217,7 +221,7 @@ export const slackRunner = async ({
         }
         default: {
           const slackWebhookErrorUrl = process.env
-            .SLACK_WEBHOOK_ERROR_URL as string;
+            .SLACK_WEBHOOK_ERROR_URL;
           const slackWebhookUrls = slackWebhookErrorUrl
             ? slackWebhookErrorUrl.split(",")
             : SLACK_WEBHOOK_URL.split(",");
