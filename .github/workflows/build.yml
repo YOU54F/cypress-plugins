@@ -29,9 +29,10 @@ jobs:
     - run: npm test
     - run: make test
     - run: make combine-reports && make generate-report
+    - name: get artifacts 1 
       uses: actions/upload-artifact@v3
       with:
-        name: test-output
+        name: test-output-1
         path: |
           cypress/reports
           cypress/videos
@@ -45,9 +46,10 @@ jobs:
     - run: npm run slack-js-opts-test-failed
     - run: npm run slack-js-opts-build-passed
     - run: npm run cli
+    - name: get artifacts 2 
       uses: actions/upload-artifact@v3
       with:
-        name: test-output
+        name: test-output-2
         path: |
           src/slack/test
           cypress/reports/mocha
