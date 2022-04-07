@@ -14,6 +14,6 @@ echo "--> Preparing npmrc file"
 echo "--> Releasing version ${VERSION}"
 
 echo "--> Releasing artifacts"
-echo "    Publishing jest-pact@${VERSION}..."
+echo "    Publishing cypress-slack-reporter@${VERSION}..."
 npm publish --tag latest
 echo "    done!"

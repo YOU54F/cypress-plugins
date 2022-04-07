@@ -52,5 +52,5 @@ Please update your editor to enable Prettier, and things should be easy 👌. If
 - For bigger changes, make sure you start a discussion first by creating an issue and explaining the intended change
 
 [stackoverflow]: https://stackoverflow.com/questions/tagged/pact
-[examples]: https://github.com/YOU54F/jest-pact-typescript/tree/master/examples
+[examples]: https://github.com/YOU54F/cypress-slack-reporter-typescript/tree/master/examples
 [slack]: https://slack.pact.io
