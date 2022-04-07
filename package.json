@@ -42,7 +42,7 @@
     "slack-ts-opts": "ts-node src/index.ts --report-dir src/slack/test/reportSingle --video-dir src/slack/test/videosDirPopulated --screenshot-dir src/slack/test/screenshotsDirPopulated --verbose",
     "ship-it": "npm run pre-publish && npm publish",
     "deploy:prepare": "./scripts/create_npmrc_file.sh",
-    "dist": "npm run lint && npm run test && npm run build",
+    "dist": "npm run lint && npm run build",
     "release": "standard-version --release-as 1.3.0",
     "release:trigger": "./scripts/trigger-release.sh"
   },
