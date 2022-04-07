@@ -742,13 +742,13 @@ const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
         (CI_SHA1 = process.env.GITHUB_SHA),
           (CI_BRANCH = process.env.GITHUB_BASE_REF||process.env.GITHUB_HEAD_REF),
           (CI_USERNAME = process.env.GITHUB_ACTOR),
-          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL),
-          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM),
-          (CI_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST),
+          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL|| 'CI_BUILD_URL'),
+          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM|| 'CIRCLE_BUILD_NUM'),
+          (CI_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST|| 'CIRCLE_PULL_REQUEST'),
           (CI_PROJECT_REPONAME = process.env.GITHUB_REPOSITORY), // The owner and repository name. For example, octocat/Hello-World.
           (CI_PROJECT_USERNAME = process.env.GITHUB_REPOSITORY_OWNER),
           (JOB_NAME = process.env.GITHUB_ACTION);
-        CIRCLE_PROJECT_ID = process.env.GITHUB_RUN_ID;
+        CIRCLE_PROJECT_ID = process.env.CIRCLE_PROJECT_ID|| 'CIRCLE_PROJECT_ID';
       }
       break;
     case "jenkins":
