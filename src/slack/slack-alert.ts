@@ -11,6 +11,8 @@ import * as fs from "fs";
 import * as globby from "globby";
 import * as path from "path";
 import * as pino from "pino";
+import * as HttpsProxyAgent from 'proxy-agent'
+
 const log = pino({
   level: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info",
 });
@@ -47,6 +49,7 @@ export interface CiEnvVars {
   CI_PROJECT_REPONAME: string | undefined;
   CI_PROJECT_USERNAME: string | undefined;
   JOB_NAME: string | undefined;
+  http_proxy: string | undefined;
   CIRCLE_PROJECT_ID: string | undefined;
 }
 
@@ -324,9 +327,14 @@ const webhookInitialArgs = async ({
   } else {
     projectName = `${ciEnvVars.CI_PROJECT_REPONAME}`;
   }
-  return {
-    text: `${projectName} ${statusText}\n${triggerText}${prText}`,
-  };
+  const text  = `${projectName} ${statusText}\n${triggerText}${prText}`;
+  if (ciEnvVars.http_proxy) {
+    return {
+      text,
+      agent: new HttpsProxyAgent(ciEnvVars.http_proxy)
+    }
+  }
+  return { text };
 };
 
 const webhookSendArgs = async ({
@@ -716,6 +724,7 @@ const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
     CI_PROJECT_REPONAME,
     CI_PROJECT_USERNAME,
     JOB_NAME,
+    http_proxy,
     CIRCLE_PROJECT_ID,
   } = process.env;
 
@@ -798,6 +807,7 @@ const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
     CI_PROJECT_REPONAME,
     CI_PROJECT_USERNAME,
     JOB_NAME,
+    http_proxy,
     CIRCLE_PROJECT_ID,
   };
 };
