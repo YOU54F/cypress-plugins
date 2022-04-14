@@ -3,6 +3,7 @@
 import { MessageAttachment } from "@slack/types";
 import "jest";
 import * as path from "path";
+import { env } from "process";
 import { testables } from "../slack-alert";
 const {
   buildHTMLReportURL,
@@ -33,6 +34,7 @@ const envVars = {
   CIRCLE_WORKFLOW_JOB_ID: "123",
   ENV_SUT: "123",
 };
+process.env.ENV_SUT = env.ENV_SUT;
 describe("webhookInitialArgs tester", () => {
   test("it returns the test status in the title", async () => {
     const s = await webhookInitialArgs({
@@ -104,7 +106,7 @@ describe("Video Link Checker", () => {
       videosDir: dir,
     });
     expect(s).toContain(
-      `<http://sometesturl.com/${dir}/small.mp4|Video:- small.mp4>`
+      `<http://sometesturl.com${dir}/small.mp4|Video:- small.mp4>`
     );
   });
 

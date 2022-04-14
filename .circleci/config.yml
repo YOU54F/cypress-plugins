@@ -54,38 +54,38 @@ jobs:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
-      - run:
-          when: always
-          name: Slack Custom Reporting via typeScript source File
-          command: yarn run slack-ts
-      - run:
-          when: always
-          name: Slack Custom Reporting via JavaScript Compiled File
-          command: yarn run slack-js
-      - run:
-          when: always
-          name: Slack Custom Reporting via typeScript source File with opts
-          command: yarn run slack-ts-opts
-      - run:
-          when: always
-          name: Slack Custom Reporting via JavaScript Compiled File with opts
-          command: yarn run slack-js-opts
-      - run:
-          when: always
-          name: Generate Test Passing Slack Alert
-          command: yarn run slack-js-opts-test-passed
-      - run:
-          when: always
-          name: Generate Test Failing Slack Alert
-          command: yarn run slack-js-opts-test-failed
-      - run:
-          when: always
-          name: Generate Build Failure Slack Alert
-          command: yarn run slack-js-opts-build-failed
-      - run:
-          when: always
-          name: Run the CLI Cypress Runner
-          command: yarn run cli
+    #   - run:
+    #       when: always
+    #       name: Slack Custom Reporting via typeScript source File
+    #       command: yarn run slack-ts
+    #   - run:
+    #       when: always
+    #       name: Slack Custom Reporting via JavaScript Compiled File
+    #       command: yarn run slack-js
+    #   - run:
+    #       when: always
+    #       name: Slack Custom Reporting via typeScript source File with opts
+    #       command: yarn run slack-ts-opts
+    #   - run:
+    #       when: always
+    #       name: Slack Custom Reporting via JavaScript Compiled File with opts
+    #       command: yarn run slack-js-opts
+    #   - run:
+    #       when: always
+    #       name: Generate Test Passing Slack Alert
+    #       command: yarn run slack-js-opts-test-passed
+    #   - run:
+    #       when: always
+    #       name: Generate Test Failing Slack Alert
+    #       command: yarn run slack-js-opts-test-failed
+    #   - run:
+    #       when: always
+    #       name: Generate Build Failure Slack Alert
+    #       command: yarn run slack-js-opts-build-failed
+    #   - run:
+    #       when: always
+    #       name: Run the CLI Cypress Runner
+    #       command: yarn run cli
       - store_artifacts:
           path: src/slack/test
       - store_artifacts:
