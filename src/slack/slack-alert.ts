@@ -672,9 +672,11 @@ const getArtefactUrl = async ({
   ciProvider: string;
   customUrl: string;
 }) => {
-  if (customUrl) return customUrl;
-  else if (ciProvider === "circleci")
+  if (customUrl) {
+    return customUrl;
+  } else if (ciProvider === "circleci") {
     return `https://output.circle-artifacts.com/output/job/${ciEnvVars.CIRCLE_WORKFLOW_JOB_ID}/artifacts/`;
+  }
   return "";
 };
 
