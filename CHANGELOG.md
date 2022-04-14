@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.4.0...v1.5.0) (2022-04-14)
+
+
+### Bug Fixes
+
+* Circle url update ([#1089](https://github.com/you54f/cypress-slack-reporter/issues/1089)) ([ba059bb](https://github.com/you54f/cypress-slack-reporter/commit/ba059bb0a65d326598cdfcccfb20036365a2b2e3))
+
 ## [1.4.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.3.0...v1.4.0) (2022-04-07)
 
 
