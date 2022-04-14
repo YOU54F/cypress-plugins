@@ -147,7 +147,7 @@ export const slackRunner = async ({
                   "Slack message sent successfully"
                 );
                 return result;
-              } catch (e) {
+              } catch (e:any) {
                 e.code
                   ? log.error(
                       {
@@ -198,7 +198,7 @@ export const slackRunner = async ({
                   "Slack message sent successfully"
                 );
                 return result;
-              } catch (e) {
+              } catch (e:any) {
                 e.code
                   ? log.error(
                       {
@@ -243,7 +243,7 @@ export const slackRunner = async ({
                 );
 
                 return result;
-              } catch (e) {
+              } catch (e:any) {
                 e.code
                   ? log.error(
                       {
@@ -266,7 +266,7 @@ export const slackRunner = async ({
         }
       }
     }
-  } catch (e) {
+  } catch (e:any) {
     throw new Error(e);
   }
 };
@@ -675,7 +675,7 @@ const getArtefactUrl = async ({
   if (customUrl) {
     return customUrl;
   } else if (ciProvider === "circleci") {
-    return `https://output.circle-artifacts.com/output/job/${ciEnvVars.CIRCLE_WORKFLOW_JOB_ID}/artifacts/`;
+    return `https://output.circle-artifacts.com/output/job/${ciEnvVars.CIRCLE_WORKFLOW_JOB_ID}/artifacts/0/`;
   }
   return "";
 };
