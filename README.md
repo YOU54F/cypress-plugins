@@ -24,7 +24,9 @@ A Slack Reporting tool built for Cypress but _should_ work with any mocha based 
 For users who are not using CircleCi, you can get a simple report
 
 - pass `--ci-provider none` provider flag to provide a simple slack message based on the mochawesome report status
-- Pass `--custom-url` along with `--ci-provider custom` to set custom report page url. that will be sent to slack.
+- Pass `--custom-url` along with `--ci-provider custom --custom-url=http://example.com` to set custom report page url. that will be sent to slack.
+
+_NOTE_: Custom URL's do not have trailing forward slashes
 
 For jenkins users
 
