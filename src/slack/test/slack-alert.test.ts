@@ -32,9 +32,7 @@ const envVars = {
   JOB_NAME: "123",
   CIRCLE_PROJECT_ID: "123",
   CIRCLE_WORKFLOW_JOB_ID: "123",
-  ENV_SUT: "123",
 };
-process.env.ENV_SUT = env.ENV_SUT;
 describe("webhookInitialArgs tester", () => {
   test("it returns the test status in the title", async () => {
     const s = await webhookInitialArgs({
@@ -292,7 +290,7 @@ describe("attachmentReports tester", () => {
         "fallback": "Report available at test",
         "text": "Branch: 123
       Job: 123
-      SUT: circle
+      SUT: envsut
       Total Passed:  1",
       }
     `);
@@ -331,7 +329,7 @@ describe("attachmentReports tester", () => {
         "fallback": "Report available at test",
         "text": "Branch: 123
       Job: 123
-      SUT: circle
+      SUT: envsut
       Total Tests: 1
       Total Passed:  0 ",
         "title": "Total Failed: 1",
@@ -366,7 +364,7 @@ describe("attachmentReports tester", () => {
         "fallback": "Build Log available at 123",
         "text": "Branch: 123
       Job: 123
-      SUT: circle
+      SUT: envsut
       Total Passed:  0 ",
       }
     `);
