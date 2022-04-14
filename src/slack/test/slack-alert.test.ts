@@ -30,6 +30,7 @@ const envVars = {
   CI_PROJECT_USERNAME: "123",
   JOB_NAME: "123",
   CIRCLE_PROJECT_ID: "123",
+  CIRCLE_WORKFLOW_JOB_ID: "123",
 };
 describe("webhookInitialArgs tester", () => {
   test("it returns the test status in the title", async () => {

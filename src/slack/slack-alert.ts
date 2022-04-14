@@ -48,6 +48,7 @@ export interface CiEnvVars {
   CI_PROJECT_USERNAME: string | undefined;
   JOB_NAME: string | undefined;
   CIRCLE_PROJECT_ID: string | undefined;
+  CIRCLE_WORKFLOW_JOB_ID: string | undefined;
 }
 
 interface ReportStatistics {
@@ -113,14 +114,13 @@ export const slackRunner = async ({
       });
       const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 
-      if (!SLACK_WEBHOOK_URL){
-        throw new Error('no SLACK_WEBHOOK_URL env var set')
+      if (!SLACK_WEBHOOK_URL) {
+        throw new Error("no SLACK_WEBHOOK_URL env var set");
       }
 
       switch (reportStatistics.status) {
         case "failed": {
-          const slackWebhookFailedUrl = process.env
-            .SLACK_WEBHOOK_FAILED_URL;
+          const slackWebhookFailedUrl = process.env.SLACK_WEBHOOK_FAILED_URL;
           const slackWebhookUrls = slackWebhookFailedUrl
             ? slackWebhookFailedUrl.split(",")
             : SLACK_WEBHOOK_URL.split(",");
@@ -220,8 +220,7 @@ export const slackRunner = async ({
           );
         }
         default: {
-          const slackWebhookErrorUrl = process.env
-            .SLACK_WEBHOOK_ERROR_URL;
+          const slackWebhookErrorUrl = process.env.SLACK_WEBHOOK_ERROR_URL;
           const slackWebhookUrls = slackWebhookErrorUrl
             ? slackWebhookErrorUrl.split(",")
             : SLACK_WEBHOOK_URL.split(",");
@@ -673,19 +672,9 @@ const getArtefactUrl = async ({
   ciProvider: string;
   customUrl: string;
 }) => {
-  if (customUrl) {
-    return customUrl;
-  } else if (ciProvider === "circleci") {
-    switch (vcsRoot) {
-      case "github":
-        return `https://${ciEnvVars.CI_BUILD_NUM}-${ciEnvVars.CIRCLE_PROJECT_ID}-gh.circle-artifacts.com/0/`;
-      case "bitbucket":
-        return `https://${ciEnvVars.CI_BUILD_NUM}-${ciEnvVars.CIRCLE_PROJECT_ID}-bb.circle-artifacts.com/0/`;
-      default: {
-        return "";
-      }
-    }
-  }
+  if (customUrl) return customUrl;
+  else if (ciProvider === "circleci")
+    return `https://output.circle-artifacts.com/output/job/${ciEnvVars.CIRCLE_WORKFLOW_JOB_ID}/artifacts/`;
   return "";
 };
 
@@ -717,6 +706,7 @@ const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
     CI_PROJECT_USERNAME,
     JOB_NAME,
     CIRCLE_PROJECT_ID,
+    CIRCLE_WORKFLOW_JOB_ID,
   } = process.env;
 
   if (!ciProvider && process.env.CIRCLE_SHA1) {
@@ -739,20 +729,24 @@ const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
           (CI_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME),
           (JOB_NAME = process.env.CIRCLE_JOB);
         CIRCLE_PROJECT_ID = process.env.CIRCLE_PROJECT_ID;
+        CIRCLE_WORKFLOW_JOB_ID = process.env.CIRCLE_WORKFLOW_JOB_ID;
       }
       break;
     case "github":
       {
         (CI_SHA1 = process.env.GITHUB_SHA),
-          (CI_BRANCH = process.env.GITHUB_BASE_REF||process.env.GITHUB_HEAD_REF),
+          (CI_BRANCH =
+            process.env.GITHUB_BASE_REF || process.env.GITHUB_HEAD_REF),
           (CI_USERNAME = process.env.GITHUB_ACTOR),
-          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL|| 'CI_BUILD_URL'),
-          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM|| 'CIRCLE_BUILD_NUM'),
-          (CI_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST|| 'CIRCLE_PULL_REQUEST'),
+          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL || "CI_BUILD_URL"),
+          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM || "CIRCLE_BUILD_NUM"),
+          (CI_PULL_REQUEST =
+            process.env.CIRCLE_PULL_REQUEST || "CIRCLE_PULL_REQUEST"),
           (CI_PROJECT_REPONAME = process.env.GITHUB_REPOSITORY), // The owner and repository name. For example, octocat/Hello-World.
           (CI_PROJECT_USERNAME = process.env.GITHUB_REPOSITORY_OWNER),
           (JOB_NAME = process.env.GITHUB_ACTION);
-        CIRCLE_PROJECT_ID = process.env.CIRCLE_PROJECT_ID|| 'CIRCLE_PROJECT_ID';
+        CIRCLE_PROJECT_ID =
+          process.env.CIRCLE_PROJECT_ID || "CIRCLE_PROJECT_ID";
       }
       break;
     case "jenkins":
@@ -799,6 +793,7 @@ const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
     CI_PROJECT_USERNAME,
     JOB_NAME,
     CIRCLE_PROJECT_ID,
+    CIRCLE_WORKFLOW_JOB_ID,
   };
 };
 
