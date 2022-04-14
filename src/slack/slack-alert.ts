@@ -599,7 +599,7 @@ const getVideoLinks = async ({
       const videoLinks = await Promise.all(
         videos.map((videoObject) => {
           const trimmedVideoFilename = path.basename(videoObject);
-          return `<${videosURL}/${videosDir}/${path.relative(
+          return `<${videosURL}${videosDir}/${path.relative(
             videosDir,
             videoObject
           )}|Video:- ${trimmedVideoFilename}>\n`;
