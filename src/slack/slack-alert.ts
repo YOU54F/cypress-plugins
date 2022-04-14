@@ -147,7 +147,7 @@ export const slackRunner = async ({
                   "Slack message sent successfully"
                 );
                 return result;
-              } catch (e:any) {
+              } catch (e: any) {
                 e.code
                   ? log.error(
                       {
@@ -198,7 +198,7 @@ export const slackRunner = async ({
                   "Slack message sent successfully"
                 );
                 return result;
-              } catch (e:any) {
+              } catch (e: any) {
                 e.code
                   ? log.error(
                       {
@@ -243,7 +243,7 @@ export const slackRunner = async ({
                 );
 
                 return result;
-              } catch (e:any) {
+              } catch (e: any) {
                 e.code
                   ? log.error(
                       {
@@ -266,7 +266,7 @@ export const slackRunner = async ({
         }
       }
     }
-  } catch (e:any) {
+  } catch (e: any) {
     throw new Error(e);
   }
 };
@@ -599,9 +599,11 @@ const getVideoLinks = async ({
       const videoLinks = await Promise.all(
         videos.map((videoObject) => {
           const trimmedVideoFilename = path.basename(videoObject);
-          return `<${videosURL}${videosDir}/${path.relative(
+
+          return `<${buildUrl(
+            videosURL,
             videosDir,
-            videoObject
+            path.relative(videosDir, videoObject)
           )}|Video:- ${trimmedVideoFilename}>\n`;
         })
       );
@@ -639,9 +641,11 @@ const getScreenshotLinks = async ({
       const screenshotLinks = await Promise.all(
         screenshots.map((screenshotObject) => {
           const trimmedScreenshotFilename = path.basename(screenshotObject);
-          return `<${screenshotURL}/${screenshotDir}/${path.relative(
+
+          return `<${buildUrl(
+            screenshotURL,
             screenshotDir,
-            screenshotObject
+            path.relative(screenshotDir, screenshotObject)
           )}|Screenshot:- ${trimmedScreenshotFilename}>\n`;
         })
       );

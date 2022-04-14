@@ -155,7 +155,7 @@ describe("Screenshot Link Checker", () => {
       screenshotDir: dir,
     });
     expect(s).toContain(
-      `<http://sometesturl.com/${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
+      `<http://sometesturl.com${dir}/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>`
     );
   });
 });
