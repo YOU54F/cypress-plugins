@@ -73,7 +73,7 @@
     "@types/node": "10.17.60",
     "aws-sdk": "2.1116.0",
     "aws-sdk-mock": "5.6.2",
-    "babel-loader": "^8.2.4",
+    "babel-loader": "8.2.5",
     "coveralls": "3.1.1",
     "cypress": "9.5.4",
     "cypress-multi-reporters": "1.5.0",
