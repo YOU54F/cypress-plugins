@@ -82,7 +82,7 @@
     "husky": "7.0.4",
     "jest": "27.5.1",
     "jest-junit": "12.3.0",
-    "jest-stare": "2.3.0",
+    "jest-stare": "2.4.1",
     "lint-staged": "10.5.4",
     "mocha": "8.4.0",
     "mocha-junit-reporter": "2.0.2",

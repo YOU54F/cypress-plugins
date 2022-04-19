@@ -5197,10 +5197,10 @@ jest-snapshot@^27.5.1:
     pretty-format "^27.5.1"
     semver "^7.3.2"
 
-jest-stare@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-2.3.0.tgz#6fda723228e94fabf7bcd39a65b8dd5c6c94c0c8"
-  integrity sha512-Rxk6okN+aH3jrmpFct0SjrpBR3vhUNSEnK6ROP/B9iIoaX4FRF38qMfBKGKw6m9sPE5ms07CCW1jIOlcQafgJQ==
+jest-stare@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/jest-stare/-/jest-stare-2.4.1.tgz#0262b84e36570a49af7f3f2656186483cd6ca5a3"
+  integrity sha512-07zo5HP93H3SPOEAmr9WNg0Z/C5HCJsU9bkz3pRK0Vd/HltVuMjWU7a1/aK9EgrBlEZJTFv5G/1Hp82GNv1dWA==
   dependencies:
     "@jest/reporters" "^27.0.0"
     "@jest/test-result" "^27.0.0"
