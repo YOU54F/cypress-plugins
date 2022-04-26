@@ -1,5 +1,5 @@
 {
-  "name": "cypress-plugins",
+  "name": "cypress-dynamic-data",
   "version": "0.0.1",
   "description": "A collection of plugins for cypress",
   "main": "./bin/index.js",

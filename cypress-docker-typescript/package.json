@@ -1,6 +1,6 @@
 {
-  "name": "cypress-plugins",
-  "version": "0.0.1",
+  "name": "cypress-docker-typescript",  
+    "version": "0.0.1",
   "description": "A collection of plugins for cypress",
   "main": "./bin/index.js",
   "bin": {
