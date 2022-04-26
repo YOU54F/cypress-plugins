@@ -1,0 +1,7 @@
+{
+  "projectId": "mxy9ve",
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporterOpts.json"
+  }
+}

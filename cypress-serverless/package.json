@@ -1,25 +1,34 @@
 {
-  "name": "cypress-serverless",
-  "version": "0.0.1",
-  "description": "A collection of plugins for cypress",
-  "main": "./bin/index.js",
-  "bin": {
-    "cypress-plugins": "./bin/index.js"
+  "name": "cypress-lambda",
+  "version": "1.0.0",
+  "description": "This repo demonstrates how to jump through a bunch of hoops to run [Cypress](https://cypress.io) on AWS Lambda.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run clean-reports && node index.js",
+    "report": "mkdir mochawesome-report && npm run merge-reports && npm run generate-html-report && npm run slack",
+    "merge-reports": "npx mochawesome-merge --reportDir reports > mochawesome-report/mochawesome.json",
+    "generate-html-report": "npx mochawesome-report-generator mochawesome-report/mochawesome.json",
+    "clean-reports": "rm -rf reports && mkdir reports",
+    "slack": "npx cypress-slack-reporter --report-dir mochawesome-report"
   },
-  "keywords": [
-    "cypress",
-    "slack",
-    "circleci",
-    "reporter",
-    "mocha",
-    "mochawesome",
-    "mochawesome-merge",
-    "marge"
-  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/cypress-plugins.git"
+    "url": "git+https://github.com/stuartsan/cypress-lambda.git"
   },
-  "author": "Yousaf Nabi",
-  "license": "MIT"
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stuartsan/cypress-lambda/issues"
+  },
+  "homepage": "https://github.com/stuartsan/cypress-lambda#readme",
+  "devDependencies": {
+    "aws-sdk": "^2.437.0"
+  },
+  "dependencies": {
+    "cypress-slack-reporter": "0.0.2",
+    "glob": "^7.1.3",
+    "mochawesome-merge": "^1.0.7",
+    "mochawesome-report-generator": "^3.1.5",
+    "serverless": "^1.41.1"
+  }
 }

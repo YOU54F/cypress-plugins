@@ -1,0 +1,13 @@
+lambda/node_modules/*
+lambda/lib/*
+lambda/lib.tar.gz
+lambda/foo
+lambda/Xvfb
+lambda.zip
+lambda/.serverless
+deployed_lambda_arn
+node_modules/*
+reports/*
+mochawesome-report/*
+mochawesome.json
+.env

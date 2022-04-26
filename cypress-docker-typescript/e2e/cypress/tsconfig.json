@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "types": ["node","@slack/types","cypress","cypress-testing-library"],
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es5",
+    "baseUrl": "../node_modules" // needed if your tests import npm modules
+  },
+  "include": [
+    "../node_modules/cypress/types",
+    "../node_modules/@testing-library/cypress/typings",
+    "**/*.ts", "../untyped.d.ts"
+  ]
+,
+  "exclude": [
+    "../node_modules/@types/jest/*",
+  ]
+}

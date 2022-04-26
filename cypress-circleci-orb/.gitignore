@@ -1,0 +1,8 @@
+node_modules
+**/.DS_Store
+.scannerwork/
+logs
+cypress/.env
+cypress/videos
+cypress/screenshots
+cypress/reports

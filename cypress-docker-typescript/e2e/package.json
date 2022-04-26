@@ -1,0 +1,96 @@
+{
+  "name": "cypressio-docker-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Yousaf Nabi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/you54f/cypress-docker-typescript.git"
+  },
+  "scripts": {
+    "combine-reports": "mochawesome-merge cypress/reports/mocha/*.json > mochareports/report-$$(date +'%Y%m%d-%H%M%S').json",
+    "generate-report": "marge mochareports/*.json -f report-$$(date +'%Y%m%d-%H%M%S') -o mochareports",
+    "slack": "cypress-slack-reporter --logger",
+    "lint": "tslint --project .",
+    "lint-fix": "tslint --project . --fix",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:record": "cypress run --record",
+    "test:cypress:serve": "serve --listen 13370 ./cypress/fixtures/test-app",
+    "test:cypress:run": "wait-port --timeout 10000 localhost:13370 && cypress run",
+    "test:cypress:run:record": "wait-port --timeout 10000 localhost:13370 && cypress run --record",
+    "test:cypress:open": "wait-port --timeout 10000 localhost:13370 && cypress open",
+    "test:cypress:dev": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:open",
+    "test:cypress": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:run",
+    "test:cypress:record": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:run:record"
+  },
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "5.7.0",
+    "@slack/types": "2.0.0",
+    "@slack/webhook": "6.0.0",
+    "@types/jest": "26.0.23",
+    "@types/node": "10.17.59",
+    "commander": "7.2.0",
+    "cypress": "7.2.0",
+    "cypress-cucumber-preprocessor": "4.1.0",
+    "cypress-failed-log": "2.9.1",
+    "@testing-library/cypress": "7.0.6",
+    "husky": "6.0.0",
+    "jest": "26.6.3",
+    "jest-junit": "12.0.0",
+    "jest-stare": "2.2.2",
+    "lint-staged": "10.5.4",
+    "mocha": "8.3.2",
+    "mocha-junit-reporter": "2.0.0",
+    "cypress-multi-reporters": "1.5.0",
+    "mochawesome": "6.2.2",
+    "mochawesome-merge": "4.2.0",
+    "mochawesome-report-generator": "5.2.0",
+    "cypress-slack-reporter": "1.2.1",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.2.1",
+    "serve": "11.3.2",
+    "shelljs": "0.8.4",
+    "sonarqube-scanner": "2.8.0",
+    "ts-jest": "26.5.6",
+    "ts-loader": "9.1.1",
+    "ts-node": "9.1.1",
+    "tslint": "5.20.1",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-no-focused-test": "0.5.0",
+    "typescript": "4.2.4",
+    "uuid": "8.3.2",
+    "wait-port": "0.2.9",
+    "webpack": "5.36.2"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false
+  },
+  "lint-staged": {
+    "cypress/**/*.ts": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ],
+    "scripts/**/*.ts": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest-stare": {
+    "coverageLink": "../lcov-report/index.html",
+    "resultDir": "coverage/html"
+  },
+  "jest-junit": {
+    "outputDirectory": "./testReports/",
+    "reportDir": "testReports/unit"
+  }
+}

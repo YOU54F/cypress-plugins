@@ -1,0 +1,7 @@
+{
+  "automerge": true,
+  "major": {
+    "automerge": false
+  },
+  "extends": ["config:base"]
+}

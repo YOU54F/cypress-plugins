@@ -1,0 +1,37 @@
+language: node_js
+node_js:
+- '8'
+- '9'
+- '10'
+os:
+- linux
+matrix:
+  fast_finish: true
+cache: yarn
+env:
+  global:
+  - secure: LdjiJXpcxlI1pluCnW6a0HBn8ilQq+kl/HI5nKsL9HWR2befW3+s2VLo1Ow9iCI0Z/uZU2qKUnpH78YUViuCFVkmLS51xjav1Mqq9TErO9GtpruuG57BTEoqveSve6TTq41VZLmdVQpj4xIYVUTBk5ncnXsJNHm+loflsIuv4OP8vp4HUpsI75r7Qp9RUaP+NhRyXRRajfwjsUC9fVdIW/L/AsRzydewtr8CIsVmDaKu64XjUKX8djQ3iWDlM1w5bbi6d6Pm8V37kQe3ISyeKFTBagTyD0Cc02gzA5fiZPwX0BCq8W53yVBPdVA+fQHjSwEIHDkKsnAWxKKXtYHkoTzDLLdRa2nXRFtdaPnroX3cewQjOLpw6eRPBLmPZCgfnQ16X90f3Ww2cAPEPsZ1N2lycCogVX/4E+2SKiErCyLekuUTlhk8jJqz42tJYrOR2KespgBo8JfSWWW9S57b7OQ98eND87V+jJvgDYDb4kcZ0mkeLA2YyBgIJgvPAXjkdaxxXAow8DhoWpTQUZTOOMkSW15cZfoDyFfvIJuP+UwCvopZighrtP4q56r8YpamkXbTVHYXhMdWksk/N/sSiGmYhOIyzBGVaug69YKKqIN2ud0w/pJswekvoJq76TwexVueafF5YfmqT25hJP9fUYWoeUU2Uf+fcvaUW0V+tpE=
+install: yarn install --ignore-engines
+script: ./scripts/build.sh
+before_deploy:
+- npm prune --production
+- tar -czvf cypress-circleci.tar.gz package.json lib/* LICENSE README.md CHANGELOG.md
+- npm run deploy:prepare
+deploy:
+  - provider: releases
+    api_key:
+      secure: 0uQNEfvsYkQJe9xwPMim+UlgLx41QVTGeDzm8ZSvDmX1P3D84Cug2NA9y793Xb4ffygkzDrPpeeGdboKbMBBoCihaRWvBD4o7tHxOG4bYbWYFgAt4uuCBU5EwAuT1NX7ELvd6eP+9vjyKhvTH7vv4KRwQOg0m8OMEgntCeY2EiHJMsGuwiAW0IysxQTg8rJMqmMxdBO9HSKs9IeZbrN9san/oq4wXDIwGFW1DgMGcDwgoD9xO2QrRztTcHd/pT51ebo7LYe5w1ItAMSjST4tyBIRyCwB5PE7NRCkpSA2mu66oWMkCn1r3FBNIvhtgB8QCuiU2D0PBsUDzJIltbksIksJQoQ20Uwj8ILNHBa2+m/lVpNa+8yJm6+3mUYHGXNDT9xkEJM5JR+5CJN6tRMFEtlY5kGYLlM1VFMkbivOoTVGvGYy4hNJO/baOSzCA5SATZXVtHsIFJ9xGteA7KerElHe47B5xCyQo/6y1blHiYDzrTjLiPDoUU2oO3slkf+Y9DMofkLc3rHoYLXj+af85B+Ms+/YAeO2GhXLUHaeKNE8WSmCoQXvWaJaXOd64z/GPKcYMI3qL4U5Q/BGCNleVUD6YVSt7viZzwuLV/0GipJmxBzJyV2jv8wluH+PZxE6Souq8THmAmUiUA1JxhitncQIyXU4mkb9DrlTzLcCLz8=
+    file: cypress-circleci.tar.gz
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: YOU54F/cypress-jest
+      branch: master
+      node: "8"
+  - provider: script
+    skip_cleanup: true
+    script: ./scripts/publish.sh
+    on:
+      tags: true
+      branch: master
+      node: "8"

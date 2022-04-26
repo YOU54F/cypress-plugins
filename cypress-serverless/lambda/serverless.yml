@@ -1,0 +1,14 @@
+service: cypress-serverless
+
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-2
+  environment:
+    CYPRESS_RECORD_KEY: ${env:CYPRESS_RECORD_KEY}
+functions:
+  cypress-runner:
+    timeout: 300
+    handler: index.handler
+    memory_size: 3008
