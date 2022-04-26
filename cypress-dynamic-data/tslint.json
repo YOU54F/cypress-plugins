@@ -1,0 +1,18 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["node_modules/**/*.ts"]
+  },
+  "rulesDirectory": [
+    "tslint-no-focused-test"
+  ],
+  "rules": {
+    "interface-name": [true, "never-prefix"],
+    "jsx-boolean-value": false,
+    "jsx-no-lambda": false,
+    "object-literal-sort-keys": false,
+    "no-switch-case-fall-through": true,
+    "switch-default": true,
+    "no-focused-test": true
+  }
+}

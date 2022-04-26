@@ -1,0 +1,62 @@
+version: "2.1"
+
+jobs:
+  build:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: cypress/browsers:node8.15.1-chrome73
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v4-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v4-deps-{{ .Branch }}-
+            - v4-deps-
+      - run: yarn install
+      - save_cache:
+          key: v4-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run: 
+          name: Run TS Linter
+          command: yarn run lint
+      - run:
+          name: Running E2E tests with recording
+          when: on_success
+          command: |
+
+            if [ -z ${COMPASS_ENV+x} ]; then
+                export COMPASS_ENV="test"
+            fi
+
+            api_key_varname="TEST_DATA_SERVICE_API_KEY_$COMPASS_ENV"
+
+            export TEST_DATA_SERVICE_API_KEY=${!api_key_varname}
+
+            if [ -z ${ENV_SUT+x} ]; then
+                make circle-ci-qa
+            else
+                make $ENV_SUT
+            fi
+      - run:
+          name: Generate Test Reports
+          when: always
+          command: make combine-reports && make generate-report   
+      - store_test_results:
+          path: cypress/reports
+      - store_artifacts:
+          path: cypress/reports/junit          
+      - store_artifacts:
+          path: mochareports
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - run:
+          name: Slack Custom Reporting
+          when: always
+          command: make slack-alert

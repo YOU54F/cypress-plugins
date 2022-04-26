@@ -1,25 +1,64 @@
 {
   "name": "cypress-pact",
-  "version": "0.0.1",
-  "description": "A collection of plugins for cypress",
-  "main": "./bin/index.js",
-  "bin": {
-    "cypress-plugins": "./bin/index.js"
-  },
-  "keywords": [
-    "cypress",
-    "slack",
-    "circleci",
-    "reporter",
-    "mocha",
-    "mochawesome",
-    "mochawesome-merge",
-    "marge"
-  ],
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Yousaf Nabi",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/cypress-plugins.git"
+    "url": "git+https://github.com/you54f/cypress-pact.git"
   },
-  "author": "Yousaf Nabi",
-  "license": "MIT"
+  "scripts": {
+    "lint": "tslint --project .",
+    "lint-fix": "tslint --project . --fix",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:cypress:serve": "serve --listen 13370 ./cypress/fixtures/test-app",
+    "test:cypress:run": "wait-port --timeout 10000 localhost:13370 && cypress run",
+    "test:cypress:open": "wait-port --timeout 10000 localhost:13370 && cypress open",
+    "test:cypress:dev": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:open",
+    "test:cypress": "npm-run-all --silent --parallel --race test:cypress:serve test:cypress:run"
+  },
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "5.11.1",
+    "@pact-foundation/pact": "9.17.2",
+    "@pact-foundation/pact-web": "9.17.2",
+    "@testing-library/cypress": "7.0.7",
+    "@types/node": "10.17.60",
+    "cypress": "7.7.0",
+    "cypress-multi-reporters": "1.5.0",
+    "husky": "6.0.0",
+    "lint-staged": "10.5.4",
+    "mocha": "8.4.0",
+    "mocha-junit-reporter": "2.0.2",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.5.1",
+    "serve": "11.3.2",
+    "ts-loader": "9.2.8",
+    "ts-node": "9.1.1",
+    "tslint": "5.20.1",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-no-focused-test": "0.5.0",
+    "typescript": "4.6.2",
+    "wait-port": "0.2.9",
+    "webpack": "5.70.0"
+  },
+  "lint-staged": {
+    "cypress/**/*.ts": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ],
+    "scripts/**/*.ts": [
+      "prettier --write",
+      "tslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }

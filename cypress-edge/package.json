@@ -1,0 +1,33 @@
+{
+  "name": "cypress-edge",
+  "version": "3.5.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [
+    "cypress",
+    "edge",
+    "microsoft",
+    "chromium",
+    "chrome",
+    "e2e",
+    "testing",
+    "beta"
+  ],
+  "scripts": {
+    "install:set-path-windows": "set CYPRESS_INSTALL_BINARY=https://github.com/YOU54F/cypress/releases/download/v3.5.0/cypress_win.zip",
+    "install:set-path": "export CYPRESS_INSTALL_BINARY=https://github.com/YOU54F/cypress/releases/download/v3.5.0/cypress_mac.zip",
+    "install:cypress-edge": "npm install @you54f/cypress --save",
+    "cypress:open": "cypress open --browser edge",
+    "cypress:run": "cypress run --browser edge",
+    "start": "npm run install:set-path && install:cypress-edge && cypress:open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/you54f/cypress-edge.git"
+  },
+  "author": "Yousaf Nabi",
+  "license": "MIT",
+  "dependencies": {
+    "@you54f/cypress": "^3.5.0"
+  }
+}

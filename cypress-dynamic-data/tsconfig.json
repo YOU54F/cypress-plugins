@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es6",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "types": ["cypress", "node","cypress-axe"],
+    "resolveJsonModule": true
+  }
+}

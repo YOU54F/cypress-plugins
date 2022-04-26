@@ -1,0 +1,12 @@
+{
+   "background": {
+      "scripts": [ "background.js" ]
+   },
+   "description": "Drops X-Frame-Options and Content-Security-Policy HTTP response headers, allowing all pages to be iframed.",
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDysh7qP/8H9qUMb0R9BZbk2NDirtNgRyo9AEh9C5HFcoMELEzJ/M/sCqn/yDM/Z7GK3t+w02zCeTBknLEUwgFL9kRxVV4s1kfgbijVHTSJkII6OjqiWDPkDeyMJ1oOr156Rct2bp2MAwOf0Tk1bm2UdwNbJxoE5sQFd2Hbu+WFxQIDAQAB",
+   "manifest_version": 2,
+   "name": "Ignore X-Frame headers",
+   "permissions": [ "webRequest", "webRequestBlocking", "\u003Call_urls>" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.1"
+}
