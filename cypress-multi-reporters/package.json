@@ -1,25 +1,70 @@
 {
   "name": "cypress-multi-reporters",
-  "version": "0.0.1",
-  "description": "A collection of plugins for cypress",
-  "main": "./bin/index.js",
-  "bin": {
-    "cypress-plugins": "./bin/index.js"
+  "version": "1.6.0",
+  "description": "Generate multiple mocha reports in a single mocha execution.",
+  "main": "index.js",
+  "nyc": {
+    "reporter": [
+      "html",
+      "text"
+    ]
   },
-  "keywords": [
-    "cypress",
-    "slack",
-    "circleci",
-    "reporter",
-    "mocha",
-    "mochawesome",
-    "mochawesome-merge",
-    "marge"
+  "scripts": {
+    "devtest": "nyc mocha --require node_modules/chai/register-expect --no-coverage --timeout 5000 tests/**/*.test.js*",
+    "lint": "eslint .",
+    "test": "nyc mocha --require node_modules/chai/register-expect --timeout 5000 tests/**/*.test.js*",
+    "deploy:prepare": "./scripts/create_npmrc_file.sh",
+    "release": "standard-version --release-as 1.6.1",
+    "release:trigger": "./scripts/trigger-release.sh"
+  },
+  "author": "Stanley Ng <stanleyhlng77-dev@yahoo.com.hk",
+  "contributors": [
+    "Yousaf Nabi <yousafn@gmail.com>",
+    "Brett Zamir"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/cypress-plugins.git"
+    "url": "https://github.com/you54f/cypress-multi-reporters"
   },
-  "author": "Yousaf Nabi",
-  "license": "MIT"
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "bugs": "https://github.com/you54f/cypress-multi-reporters/issues",
+  "homepage": "https://github.com/you54f/cypress-multi-reporters",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
+    "chai": "4.3.6",
+    "coveralls": "3.1.1",
+    "eslint": "7.32.0",
+    "eslint-config-defaults": "9.0.0",
+    "husky": "6.0.0",
+    "mocha": "8.4.0",
+    "mocha-lcov-reporter": "1.3.0",
+    "nyc": "15.1.0",
+    "sinon": "13.0.2",
+    "standard-version": "9.3.2"
+  },
+  "peerDependencies": {
+    "mocha": ">=3.1.2"
+  },
+  "keywords": [
+    "mocha",
+    "reporter"
+  ],
+  "eslintConfig": {
+    "extends": "defaults"
+  },
+  "husky": {
+    "hooks": {
+      "lint": "lint",
+      "test": "test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
 }

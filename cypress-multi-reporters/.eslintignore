@@ -1,0 +1,7 @@
+.editorconfig
+artifacts/
+coverage/
+node_modules/
+lcov-*
+xunit*
+!.eslintrc.js

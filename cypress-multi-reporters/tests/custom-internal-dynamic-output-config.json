@@ -1,0 +1,17 @@
+{
+    "reporterEnabled": "dot, tests/custom-internal-reporter",
+
+    "testsCustomInternalReporterReporterOptions": {
+        "id": "customID",
+        "output": "artifacts/test/custom-internal-{id}.xml"
+    },
+
+    "xunitReporterOptions": {
+        "output": "artifacts/test/custom-xunit.xml"
+    },
+
+    "mochaJunitReporterReporterOptions": {
+      "id": "mocha-junit-reporter",
+      "mochaFile": "junit.xml"
+    }
+}
