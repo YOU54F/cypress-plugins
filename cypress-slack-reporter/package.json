@@ -21,5 +21,14 @@
     "url": "git+https://github.com/you54f/cypress-plugins.git"
   },
   "author": "Yousaf Nabi",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@slack/web-api": "^6.7.1",
+    "@slack/webhook": "^6.1.0",
+    "slack-block-builder": "^2.5.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
 }
