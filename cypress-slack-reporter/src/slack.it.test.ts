@@ -1,6 +1,4 @@
-// import { WebClient } from '@slack/web-api';
-// import { WebClient } from '@slack/web-api';
-import { cypressRunStatus } from './slack';
+import { cypressRunStatus, CypressSlackReporterWebhookOpts } from './slack';
 import {
   getChatBotClient,
   getIncomingWebHookClient,
@@ -8,13 +6,23 @@ import {
   sendViaWebhook
 } from './slackClient';
 
-// jest.mock('@slack/web-api')
-// const mockSlackWebClient = require('@slack/web-api')
+const setupMockWebhookClient = (result?: any) =>
+  jest.doMock('@slack/webhook', () => {
+    const mSlack = {
+      send: result ?? jest.fn().mockResolvedValue({ text: 'ok' })
+    };
+    return { IncomingWebhook: jest.fn(() => mSlack) };
+  });
 
+const testWebhookClient =  async (
+  opts: CypressSlackReporterWebhookOpts,
+  webhookUrl: string
+) => {
+  return import('@slack/webhook').then(async (module) => {
+    return await sendViaWebhook(opts, new module.IncomingWebhook(webhookUrl));
+  });
+};
 describe('sends a slack message', () => {
-  // beforeAll(() => {
-
-  // });
   describe('with valid auth credentials ', () => {
     it('should send a message via an IncomingWebHook', async () => {
       // arrange
@@ -22,33 +30,17 @@ describe('sends a slack message', () => {
         headingText: 'sent via webhook',
         status: cypressRunStatus['build:failed']
       };
-      const webhookUrl = 'foo'
+      const webhookUrl = 'foo';
+      setupMockWebhookClient();
 
-      jest.doMock('@slack/webhook', () => {
-        const mSlack = {
-        
-            send: jest.fn().mockResolvedValue({ text: 'ok' })
-       
-        };
-        return { IncomingWebhook: jest.fn(() => mSlack) };
-      });
-
-      return import('@slack/webhook').then(async (moduleName) => {
       // act
-      const res = await sendViaWebhook(
-        testWebhookMessage,
-        new moduleName.IncomingWebhook(webhookUrl)
-      );
-
-      // assert
-      expect(res).toEqual({ text: 'ok' });
+      await testWebhookClient(testWebhookMessage, webhookUrl).then((res) => {
+        // assert
+        expect(res).toEqual({ text: 'ok' });
       });
-
-
     });
     it('should mock a ChatBot', async () => {
       // arrange
-
 
       const testChatBotMessage = {
         channel: 'CESHQPXJ6',
@@ -65,10 +57,10 @@ describe('sends a slack message', () => {
         return { WebClient: jest.fn(() => mSlack) };
       });
 
-      return import('@slack/web-api').then(async (moduleName) => {
+      return import('@slack/web-api').then(async (module) => {
         const res = await sendViaBot(
           testChatBotMessage,
-          new moduleName.WebClient()
+          new module.WebClient()
         );
         expect(res).toEqual({
           ok: true
