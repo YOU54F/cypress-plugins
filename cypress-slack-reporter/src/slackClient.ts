@@ -4,8 +4,9 @@ import {
   CypressSlackReporterChatBotOpts,
   CypressSlackReporterWebhookOpts
 } from './slack';
-import { SlackMessageDto } from 'slack-block-builder';
+import { BlockBuilder, SlackMessageDto } from 'slack-block-builder';
 import { messageConstructor } from './messageConstructor';
+import { Appendable } from 'slack-block-builder/dist/internal/index';
 
 export const getChatBotClient = (token: string) => new WebClient(token);
 export const getIncomingWebHookClient = (url: string) =>
@@ -13,14 +14,16 @@ export const getIncomingWebHookClient = (url: string) =>
 
 export const sendViaWebhook = async (
   opts: CypressSlackReporterWebhookOpts,
-  client: IncomingWebhook
+  client: IncomingWebhook,
+  customBlocks?: Appendable<BlockBuilder>
 ) => {
   const { status, headingText } = opts;
   return await client
     .send(
       messageConstructor({
         headingText,
-        status
+        status,
+        customBlocks
       })
     )
     .then((response) => response)
@@ -29,7 +32,8 @@ export const sendViaWebhook = async (
 
 export const sendViaBot = async (
   opts: CypressSlackReporterChatBotOpts,
-  client: WebClient
+  client: WebClient,
+  customBlocks?: Appendable<BlockBuilder>
 ) => {
   const { status, headingText, channel } = opts;
   return await client.chat
@@ -37,7 +41,8 @@ export const sendViaBot = async (
       messageConstructor({
         channel,
         headingText,
-        status
+        status,
+        customBlocks
       }) as Readonly<SlackMessageDto>
     )
     .then((response) => response)

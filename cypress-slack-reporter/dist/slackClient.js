@@ -17,24 +17,26 @@ const getChatBotClient = (token) => new web_api_1.WebClient(token);
 exports.getChatBotClient = getChatBotClient;
 const getIncomingWebHookClient = (url) => new webhook_1.IncomingWebhook(url);
 exports.getIncomingWebHookClient = getIncomingWebHookClient;
-const sendViaWebhook = (opts, client) => __awaiter(void 0, void 0, void 0, function* () {
+const sendViaWebhook = (opts, client, customBlocks) => __awaiter(void 0, void 0, void 0, function* () {
     const { status, headingText } = opts;
     return yield client
         .send((0, messageConstructor_1.messageConstructor)({
         headingText,
-        status
+        status,
+        customBlocks
     }))
         .then((response) => response)
         .catch((err) => err);
 });
 exports.sendViaWebhook = sendViaWebhook;
-const sendViaBot = (opts, client) => __awaiter(void 0, void 0, void 0, function* () {
+const sendViaBot = (opts, client, customBlocks) => __awaiter(void 0, void 0, void 0, function* () {
     const { status, headingText, channel } = opts;
     return yield client.chat
         .postMessage((0, messageConstructor_1.messageConstructor)({
         channel,
         headingText,
-        status
+        status,
+        customBlocks
     }))
         .then((response) => response)
         .catch((err) => err);

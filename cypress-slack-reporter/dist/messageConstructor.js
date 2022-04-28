@@ -5,7 +5,7 @@ const slack_1 = require("./slack");
 const slack_block_builder_1 = require("slack-block-builder");
 const messageConstructor = ({ headingText, channel, status, customBlocks }) => {
     const messageBuilder = (0, slack_block_builder_1.Message)({ channel, text: headingText }).blocks(slack_block_builder_1.Blocks.Section({
-        text: headingText
+        text: headingText !== null && headingText !== void 0 ? headingText : 'Cypress Slack Reporter'
     }), slack_block_builder_1.Blocks.Divider(), slack_block_builder_1.Blocks.Actions().elements(status !== slack_1.cypressRunStatus['build:failed']
         ? slack_block_builder_1.Elements.Button({
             text: 'Test Report'

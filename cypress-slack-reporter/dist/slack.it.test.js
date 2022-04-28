@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -11,106 +34,69 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const slack_1 = require("./slack");
 const slackClient_1 = require("./slackClient");
-describe('sends a slack message', () => {
+const setupMockWebhookClient = (result) => jest.doMock('@slack/webhook', () => {
+    const mSlack = {
+        send: result !== null && result !== void 0 ? result : jest.fn().mockResolvedValue({ text: 'ok' })
+    };
+    return { IncomingWebhook: jest.fn(() => mSlack) };
+});
+const testSendViaWebhook = (opts, webhookUrl) => __awaiter(void 0, void 0, void 0, function* () {
+    return Promise.resolve().then(() => __importStar(require('@slack/webhook'))).then((module) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield (0, slackClient_1.sendViaWebhook)(opts, new module.IncomingWebhook(webhookUrl));
+    }));
+});
+const setupMockWebApiClient = (result) => jest.doMock('@slack/web-api', () => {
+    const mSlack = {
+        chat: {
+            postMessage: result !== null && result !== void 0 ? result : jest.fn().mockResolvedValue({ ok: true })
+        }
+    };
+    return { WebClient: jest.fn(() => mSlack) };
+});
+const testSendViaWebApi = (opts) => __awaiter(void 0, void 0, void 0, function* () {
+    return Promise.resolve().then(() => __importStar(require('@slack/web-api'))).then((module) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield (0, slackClient_1.sendViaBot)(opts, new module.WebClient());
+    }));
+});
+describe('sends a slack message via a webhook', () => {
     describe('with valid auth credentials ', () => {
+        beforeEach(() => {
+            jest.resetModules();
+        });
         it('should send a message via an IncomingWebHook', () => __awaiter(void 0, void 0, void 0, function* () {
-            var _a;
             // arrange
             const testWebhookMessage = {
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const incomingWebHookClient = (0, slackClient_1.getIncomingWebHookClient)((_a = process.env.SLACK_WEBHOOK_URL) !== null && _a !== void 0 ? _a : '');
+            const webhookUrl = 'https://hooks.slack.com/services/realworkspace/realchannel/realtoken';
+            setupMockWebhookClient();
             // act
-            const res = yield (0, slackClient_1.sendViaWebhook)(testWebhookMessage, incomingWebHookClient);
-            // assert
-            expect(res).toEqual({ text: 'ok' });
-        }));
-        it('should send a message via a ChatBot', () => __awaiter(void 0, void 0, void 0, function* () {
-            // arrange
-            const testChatBotMessage = {
-                channel: 'CESHQPXJ6',
-                headingText: 'sent via webhook',
-                status: slack_1.cypressRunStatus['build:failed']
-            };
-            const chatBotClientMock = jest.mock('@slack/web-api', () => {
-                let WebClient = jest.requireActual('@slack/web-api');
-                WebClient.mockImplementation(() => {
-                    return {
-                        chat: {
-                            postMessage: jest.fn(() => {
-                                return Promise.resolve({ text: 'foo' });
-                            })
-                        },
-                    };
-                });
-            });
-            // const chatBotClient = jest.fn();
-            // act
-            const res = yield (0, slackClient_1.sendViaBot)(testChatBotMessage, chatBotClientMock);
-            expect(res).toEqual({
-                ok: true,
-                channel: 'CESHQPXJ6',
-                ts: expect.any(String),
-                message: {
-                    type: 'message',
-                    subtype: 'bot_message',
-                    text: testChatBotMessage.headingText,
-                    ts: expect.any(String),
-                    username: 'Cypress.io Test Reporter',
-                    bot_id: 'BEATVCAQZ',
-                    app_id: 'AEATV8VUZ',
-                    blocks: [
-                        {
-                            block_id: expect.any(String),
-                            text: {
-                                text: 'sent via webhook',
-                                type: 'mrkdwn',
-                                verbatim: false
-                            },
-                            type: 'section'
-                        },
-                        {
-                            block_id: expect.any(String),
-                            type: 'divider'
-                        },
-                        {
-                            block_id: expect.any(String),
-                            elements: [
-                                {
-                                    action_id: expect.any(String),
-                                    style: 'danger',
-                                    text: {
-                                        emoji: true,
-                                        text: 'Build Logs',
-                                        type: 'plain_text'
-                                    },
-                                    type: 'button'
-                                }
-                            ],
-                            type: 'actions'
-                        }
-                    ]
-                },
-                response_metadata: {
-                    scopes: ['identify', 'incoming-webhook', 'chat:write:bot'],
-                    acceptedScopes: ['chat:write:bot']
-                }
+            yield testSendViaWebhook(testWebhookMessage, webhookUrl).then((res) => {
+                // assert
+                expect(res).toEqual({ text: 'ok' });
             });
         }));
     });
     describe('with invalid auth credentials ', () => {
+        beforeEach(() => {
+            jest.resetModules();
+        });
         it('should fail when a blank webhook is provided', () => __awaiter(void 0, void 0, void 0, function* () {
             // arrange
             const testWebhookMessage = {
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const incomingWebHookClient = (0, slackClient_1.getIncomingWebHookClient)('');
+            const webhookUrl = '';
+            setupMockWebhookClient(jest
+                .fn()
+                .mockRejectedValue(new TypeError("Cannot read properties of null (reading 'replace')")));
             // act
-            const res = yield (0, slackClient_1.sendViaWebhook)(testWebhookMessage, incomingWebHookClient);
-            // assert
-            expect(res).toEqual(new TypeError("Cannot read properties of null (reading 'replace')"));
+            yield testSendViaWebhook(testWebhookMessage, webhookUrl).then((res) => {
+                // assert
+                expect(res).toEqual(new TypeError("Cannot read properties of null (reading 'replace')"));
+            });
         }));
         it('should fail when a bad url is provided', () => __awaiter(void 0, void 0, void 0, function* () {
             // arrange
@@ -118,11 +104,15 @@ describe('sends a slack message', () => {
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const incomingWebHookClient = (0, slackClient_1.getIncomingWebHookClient)('http://foo');
+            const webhookUrl = 'http://foo';
+            setupMockWebhookClient(jest
+                .fn()
+                .mockRejectedValue(new Error('A request error occurred: getaddrinfo ENOTFOUND foo')));
             // act
-            const res = yield (0, slackClient_1.sendViaWebhook)(testWebhookMessage, incomingWebHookClient);
-            // assert
-            expect(res).toEqual(new Error('A request error occurred: getaddrinfo ENOTFOUND foo'));
+            yield testSendViaWebhook(testWebhookMessage, webhookUrl).then((res) => {
+                // assert
+                expect(res).toEqual(new Error('A request error occurred: getaddrinfo ENOTFOUND foo'));
+            });
         }));
         it('should fail when hooks url is missing the token', () => __awaiter(void 0, void 0, void 0, function* () {
             // arrange
@@ -130,11 +120,15 @@ describe('sends a slack message', () => {
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const incomingWebHookClient = (0, slackClient_1.getIncomingWebHookClient)('https://hooks.slack.com/services/TEA926DBJ/B03DFKG8QEM/');
+            const webhookUrl = 'https://hooks.slack.com/services/TEA926DBJ/B03DFKG8QEM/';
+            setupMockWebhookClient(jest
+                .fn()
+                .mockRejectedValue(new Error('An HTTP protocol error occurred: statusCode = 403')));
             // act
-            const res = yield (0, slackClient_1.sendViaWebhook)(testWebhookMessage, incomingWebHookClient);
-            // assert
-            expect(res).toEqual(new Error('An HTTP protocol error occurred: statusCode = 403'));
+            yield testSendViaWebhook(testWebhookMessage, webhookUrl).then((res) => {
+                // assert
+                expect(res).toEqual(new Error('An HTTP protocol error occurred: statusCode = 403'));
+            });
         }));
         it('should fail when hooks url is missing the workspace', () => __awaiter(void 0, void 0, void 0, function* () {
             // arrange
@@ -142,11 +136,15 @@ describe('sends a slack message', () => {
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const incomingWebHookClient = (0, slackClient_1.getIncomingWebHookClient)('https://hooks.slack.com/services/foo/B03DFKG8QEM/');
+            const webhookUrl = 'https://hooks.slack.com/services/foo/B03DFKG8QEM/';
+            setupMockWebhookClient(jest
+                .fn()
+                .mockRejectedValue(new Error('An HTTP protocol error occurred: statusCode = 404')));
             // act
-            const res = yield (0, slackClient_1.sendViaWebhook)(testWebhookMessage, incomingWebHookClient);
-            // assert
-            expect(res).toEqual(new Error('An HTTP protocol error occurred: statusCode = 404'));
+            yield testSendViaWebhook(testWebhookMessage, webhookUrl).then((res) => {
+                // assert
+                expect(res).toEqual(new Error('An HTTP protocol error occurred: statusCode = 404'));
+            });
         }));
         it('should fail when hooks url is missing the channel', () => __awaiter(void 0, void 0, void 0, function* () {
             // arrange
@@ -154,23 +152,33 @@ describe('sends a slack message', () => {
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const incomingWebHookClient = (0, slackClient_1.getIncomingWebHookClient)('https://hooks.slack.com/services/TEA926DBJ/');
+            const webhookUrl = 'https://hooks.slack.com/services/TEA926DBJ/';
+            setupMockWebhookClient(jest
+                .fn()
+                .mockRejectedValue(new Error('An HTTP protocol error occurred: statusCode = 301')));
             // act
-            const res = yield (0, slackClient_1.sendViaWebhook)(testWebhookMessage, incomingWebHookClient);
-            // assert
-            expect(res).toEqual(new Error('An HTTP protocol error occurred: statusCode = 301'));
+            yield testSendViaWebhook(testWebhookMessage, webhookUrl).then((res) => {
+                // assert
+                expect(res).toEqual(new Error('An HTTP protocol error occurred: statusCode = 301'));
+            });
         }));
-        it('should send a message via a ChatBot', () => __awaiter(void 0, void 0, void 0, function* () {
+    });
+});
+describe('sends a slack message via the web-api', () => {
+    describe('with valid auth credentials ', () => {
+        it('should send a message via the web-api', () => __awaiter(void 0, void 0, void 0, function* () {
             // arrange
             const testChatBotMessage = {
                 channel: 'CESHQPXJ6',
                 headingText: 'sent via webhook',
                 status: slack_1.cypressRunStatus['build:failed']
             };
-            const chatBotClient = (0, slackClient_1.getChatBotClient)('fgdgf');
+            setupMockWebApiClient();
             // act
-            const res = yield (0, slackClient_1.sendViaBot)(testChatBotMessage, chatBotClient);
-            expect(res).toEqual(new Error('An API error occurred: invalid_auth'));
+            yield testSendViaWebApi(testChatBotMessage).then((res) => {
+                // assert
+                expect(res).toEqual({ ok: true });
+            });
         }));
     });
 });

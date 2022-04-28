@@ -1,4 +1,3 @@
-import { WebClient } from '@slack/web-api';
 import { cypressRunStatus } from './slack';
 import {
   getChatBotClient,
@@ -7,22 +6,7 @@ import {
   sendViaWebhook
 } from './slackClient';
 
-
-jest.mock('@slack/web-api', () => {
-  const mSlack = {
-    chat: {
-      postMessage: jest.fn().mockResolvedValue({ text: 'ok' }),
-    },
-  };
-  return { WebClient: jest.fn(() => mSlack) };
-});
-
-
-describe('sends a slack message', () => {
-  let slack: WebClient;
-  beforeAll(() => {
-    slack = new WebClient();
-  });
+describe('sends a slack message via webhooks', () => {
   describe('with valid auth credentials ', () => {
     it('should send a message via an IncomingWebHook', async () => {
       // arrange
@@ -43,69 +27,6 @@ describe('sends a slack message', () => {
 
       // assert
       expect(res).toEqual({ text: 'ok' });
-    });
-    it('should mock a ChatBot', async () => {
-      // arrange
-      const testChatBotMessage = {
-        channel: 'CESHQPXJ6',
-        headingText: 'sent via webhook',
-        status: cypressRunStatus['build:failed']
-      };
-
-   
-
-      // act
-      const res = await sendViaBot(testChatBotMessage, slack);
-
-      expect(res).toEqual({
-        ok: true,
-        channel: 'CESHQPXJ6',
-        ts: expect.any(String),
-        message: {
-          type: 'message',
-          subtype: 'bot_message',
-          text: testChatBotMessage.headingText,
-          ts: expect.any(String),
-          username: 'Cypress.io Test Reporter',
-          bot_id: 'BEATVCAQZ',
-          app_id: 'AEATV8VUZ',
-          blocks: [
-            {
-              block_id: expect.any(String),
-              text: {
-                text: 'sent via webhook',
-                type: 'mrkdwn',
-                verbatim: false
-              },
-              type: 'section'
-            },
-            {
-              block_id: expect.any(String),
-              type: 'divider'
-            },
-            {
-              block_id: expect.any(String),
-              elements: [
-                {
-                  action_id: expect.any(String),
-                  style: 'danger',
-                  text: {
-                    emoji: true,
-                    text: 'Build Logs',
-                    type: 'plain_text'
-                  },
-                  type: 'button'
-                }
-              ],
-              type: 'actions'
-            }
-          ]
-        },
-        response_metadata: {
-          scopes: ['identify', 'incoming-webhook', 'chat:write:bot'],
-          acceptedScopes: ['chat:write:bot']
-        }
-      });
     });
   });
 
@@ -222,6 +143,74 @@ describe('sends a slack message', () => {
       const res = await sendViaBot(testChatBotMessage, chatBotClient);
 
       expect(res).toEqual(new Error('An API error occurred: invalid_auth'));
+    });
+  });
+});
+
+describe('sends a slack message via a chat bot', () => {
+  describe('with valid auth credentials ', () => {
+    it('should send a message via a chat bot', async () => {
+      // arrange
+      const testChatBotMessage = {
+        channel: 'CESHQPXJ6',
+        headingText: 'sent via webhook',
+        status: cypressRunStatus['build:failed']
+      };
+
+      const chatBotClient = getChatBotClient(process.env.SLACK_TOKEN ?? '');
+
+      // act
+      const res = await sendViaBot(testChatBotMessage, chatBotClient);
+
+      expect(res).toEqual({
+        ok: true,
+        channel: 'CESHQPXJ6',
+        ts: expect.any(String),
+        message: {
+          type: 'message',
+          subtype: 'bot_message',
+          text: testChatBotMessage.headingText,
+          ts: expect.any(String),
+          username: 'Cypress.io Test Reporter',
+          bot_id: 'BEATVCAQZ',
+          app_id: 'AEATV8VUZ',
+          blocks: [
+            {
+              block_id: expect.any(String),
+              text: {
+                text: 'sent via webhook',
+                type: 'mrkdwn',
+                verbatim: false
+              },
+              type: 'section'
+            },
+            {
+              block_id: expect.any(String),
+              type: 'divider'
+            },
+            {
+              block_id: expect.any(String),
+              elements: [
+                {
+                  action_id: expect.any(String),
+                  style: 'danger',
+                  text: {
+                    emoji: true,
+                    text: 'Build Logs',
+                    type: 'plain_text'
+                  },
+                  type: 'button'
+                }
+              ],
+              type: 'actions'
+            }
+          ]
+        },
+        response_metadata: {
+          scopes: ['identify', 'incoming-webhook', 'chat:write:bot'],
+          acceptedScopes: ['chat:write:bot']
+        }
+      });
     });
   });
 });

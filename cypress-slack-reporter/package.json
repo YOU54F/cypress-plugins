@@ -25,6 +25,9 @@
   "dependencies": {
     "@slack/web-api": "^6.7.1",
     "@slack/webhook": "^6.1.0",
+    "commander": "^9.2.0",
+    "dotenv": "^16.0.0",
+    "globby": "^11.0.4",
     "slack-block-builder": "^2.5.0"
   },
   "devDependencies": {
@@ -36,6 +39,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "run:ts": "ts-node ./src/index.ts",
+    "run:dist": "node ./dist/index.js"
   }
 }

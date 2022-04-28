@@ -1,6 +1,6 @@
 import { cypressRunStatus } from './slack';
 import { Blocks, Message, Elements } from 'slack-block-builder';
-import { Appendable, BlockBuilder } from 'slack-block-builder/dist/internal';
+import { Appendable, BlockBuilder } from 'slack-block-builder/dist/internal/index';
 
 export const messageConstructor = ({
   headingText,
@@ -15,7 +15,7 @@ export const messageConstructor = ({
 }) => {
   const messageBuilder = Message({ channel, text: headingText }).blocks(
     Blocks.Section({
-      text: headingText
+      text: headingText ?? 'Cypress Slack Reporter'
     }),
     Blocks.Divider(),
     Blocks.Actions().elements(
