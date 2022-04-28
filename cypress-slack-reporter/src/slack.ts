@@ -6,13 +6,6 @@
 // Add SLACK_TOKEN env var
 // provide channel name or id
 
-import {
-  getChatBotClient,
-  getIncomingWebHookClient,
-  sendViaBot,
-  sendViaWebhook
-} from './slackClient';
-
 // Webhooks require
 // add scope incoming-webhook
 // https://api.slack.com/scopes/incoming-webhook

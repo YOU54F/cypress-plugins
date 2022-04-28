@@ -23,14 +23,8 @@ export const sendViaWebhook = async (
         status
       })
     )
-    .then((text) => {
-      console.log('ok', text);
-      return text;
-    })
-    .catch((err) => {
-      console.error('!ok', err);
-      return new Error(`Error+ ${err}`);
-    });
+    .then((response) => response)
+    .catch((err) => err);
 };
 
 export const sendViaBot = async (
@@ -46,12 +40,6 @@ export const sendViaBot = async (
         status
       }) as Readonly<SlackMessageDto>
     )
-    .then((response) => {
-      console.log('ok', response);
-      return response;
-    })
-    .catch((err) => {
-      console.error('!ok', err);
-      return new Error(`Error+ ${err}`);
-    });
+    .then((response) => response)
+    .catch((err) => err);
 };
