@@ -105,6 +105,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const screenshotPaths = yield getScreenshots();
     const reports = yield getReports();
     console.log('files and ting', videoPaths, screenshotPaths, reports);
+    console.log(path_1.default.resolve(process.cwd(), 'cypress', 'videos'));
     if (!SLACK_WEBHOOK_URL && !SLACK_TOKEN) {
         throw new Error('Cant send message without one of, [SLACK_WEBHOOK_URL,SLACK_TOKEN]');
     }

@@ -17,7 +17,7 @@ const getVideos = async () => {
   return paths;
 };
 const getReports = async () => {
-  const paths = await globby(path.resolve(process.cwd(), 'mochareports'), {
+  const paths = await globby(path.resolve(process.cwd(),'cypress', 'reports'), {
     expandDirectories: {
       files: ['*'],
       extensions: ['html', 'json']
@@ -119,7 +119,6 @@ const main = async () => {
   const screenshotPaths = await getScreenshots();
   const reports = await getReports();
   console.log('files and ting',videoPaths, screenshotPaths, reports);
-
   if (!SLACK_WEBHOOK_URL && !SLACK_TOKEN) {
     throw new Error(
       'Cant send message without one of, [SLACK_WEBHOOK_URL,SLACK_TOKEN]'
