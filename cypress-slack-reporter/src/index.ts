@@ -2,10 +2,11 @@
 
 import { program } from 'commander';
 import { config } from 'dotenv';
-import globby = require("globby")
+import globby = require('globby');
 import { cypressRunStatus } from './slack';
 import * as SlackClient from './slackClient';
 import path from 'path';
+import { Blocks, Message, Elements } from 'slack-block-builder';
 
 const getVideos = async () => {
   const paths = await globby(path.resolve(process.cwd(), 'cypress', 'videos'), {
@@ -17,12 +18,15 @@ const getVideos = async () => {
   return paths;
 };
 const getReports = async () => {
-  const paths = await globby(path.resolve(process.cwd(),'cypress', 'reports'), {
-    expandDirectories: {
-      files: ['*'],
-      extensions: ['html', 'json']
+  const paths = await globby(
+    path.resolve(process.cwd(), 'cypress', 'reports'),
+    {
+      expandDirectories: {
+        files: ['*'],
+        extensions: ['html', 'json']
+      }
     }
-  });
+  );
 
   return paths;
 };
@@ -112,13 +116,40 @@ const main = async () => {
     );
   }
 
+  const buildUrl = (...urlComponents: Array<string | undefined>) => {
+    return (
+      urlComponents
+        // Trim leading & trailing slashes
+        .map((component) => String(component).replace(/^\/|\/$/g, ''))
+        .join('/')
+    );
+  };
   const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
   const SLACK_TOKEN = process.env.SLACK_TOKEN;
 
   const videoPaths = await getVideos();
   const screenshotPaths = await getScreenshots();
+  const artefactBasePath = 'http://screenshots.com';
+  const buildArtefactLinks = (
+    name: string,
+    paths: string[],
+    urlBase: string,
+    directory: string
+  ) =>
+    paths.map((filePath: string) => {
+      const fileName = path.basename(filePath);
+      return Blocks.Section({
+        text: `<${buildUrl(
+          urlBase,
+          directory,
+          path.relative(directory, filePath)
+        )}|${name}:- ${fileName}>`
+      });
+    });
+
+  // console.log(JSON.stringify(screenshotLinks.join('')));
   const reports = await getReports();
-  console.log('files and ting',videoPaths, screenshotPaths, reports);
+  console.log('files and ting', videoPaths, screenshotPaths, reports);
   if (!SLACK_WEBHOOK_URL && !SLACK_TOKEN) {
     throw new Error(
       'Cant send message without one of, [SLACK_WEBHOOK_URL,SLACK_TOKEN]'
@@ -129,7 +160,26 @@ const main = async () => {
     const client = SlackClient.getIncomingWebHookClient(SLACK_WEBHOOK_URL);
     SlackClient.sendViaWebhook(
       { status: 'test:failed' as cypressRunStatus },
-      client
+      client,
+      [
+        videoPaths.length > 0 ? Blocks.Header({ text: 'Videos' }) : undefined,
+        videoPaths.length > 0
+          ? buildArtefactLinks('Videos', videoPaths, artefactBasePath, videoDir)
+          : undefined,
+        videoPaths.length > 0 ? Blocks.Divider() : undefined,
+        screenshotPaths.length > 0
+          ? Blocks.Header({ text: 'Screenshots' })
+          : undefined,
+        screenshotPaths.length > 0
+          ? buildArtefactLinks(
+              'Screenshots',
+              screenshotPaths,
+              artefactBasePath,
+              screenshotDir
+            )
+          : undefined,
+        screenshotPaths.length > 0 ? Blocks.Divider() : undefined
+      ]
     )
       .then((res) => {
         if (res.text !== 'ok')
@@ -143,7 +193,12 @@ const main = async () => {
     const client = SlackClient.getChatBotClient(SLACK_TOKEN);
     SlackClient.sendViaBot(
       { status: 'test:failed' as cypressRunStatus, channel: 'github-test' },
-      client
+      client,
+      [
+        Blocks.Section({
+          text: '<http://sometesturl.com$/pnggrad16rgb.png|Screenshot:- pnggrad16rgb.png>'
+        })
+      ]
     )
       .then((res) => {
         if (!res.ok)

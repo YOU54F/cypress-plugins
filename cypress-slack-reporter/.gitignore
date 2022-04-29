@@ -1,0 +1,14 @@
+node_modules
+.env
+logs
+.DS_STORE
+.scannerwork
+reports
+videos
+screenshots
+coverage
+testReports
+bin
+yarn-error.log
+mochareports
+/.idea/
