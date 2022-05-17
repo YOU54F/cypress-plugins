@@ -72,7 +72,7 @@
     "@types/jest": "27.5.1",
     "@types/node": "10.17.60",
     "aws-sdk": "2.1136.0",
-    "aws-sdk-mock": "5.6.2",
+    "aws-sdk-mock": "5.7.0",
     "babel-loader": "8.2.5",
     "coveralls": "3.1.1",
     "cypress": "9.5.4",
