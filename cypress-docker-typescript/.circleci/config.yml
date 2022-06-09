@@ -1,0 +1,64 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: cypress/base:12.19.0
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-deps-{{ .Branch }}-{{ checksum "e2e/yarn.lock" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
+      - run: cd e2e && yarn install
+      - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "e2e/yarn.lock" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run:
+          name: Install jq
+          command: cd e2e && apt-get update && apt-get install -y jq xsel       
+      - run:
+          name: Running E2E tests
+          when: on_success
+          command: cd e2e && yarn run test:cypress:record
+      - run:
+          name: Generate MochaAwesome Reports
+          when: always
+          command: cd e2e && make combine-reports && make generate-report   
+      - store_test_results:
+          path: e2e/cypress/reports
+      - store_artifacts:
+          path: e2e/mochareports
+      - store_artifacts:
+          path: e2e/cypress/videos
+      - store_artifacts:
+          path: e2e/cypress/screenshots
+    #   - run:
+    #       name: Publish test artefacts s3 bucket
+    #       when: always
+    #       command: cd e2e && make publish-reports-s3
+      - run:
+          name: Slack Custom Reporting
+          when: always
+          command: cd e2e && make slack-alert 
+      - run:
+          name: Full cypress run with reporting via script
+          when: always
+          command: cd e2e && make run-script 
+      - run:
+          name: Full cypress run with cypress-slack-reporter-full
+          when: always
+          command: cd e2e && ./node_modules/.bin/cypress-slack-reporter-full 
+
+workflows:
+  build-test:
+    jobs:
+      - test

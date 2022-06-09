@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://cypress.prod.url",
+  "chromeWebSecurity": true
+}

@@ -1,0 +1,41 @@
+{
+  "name": "cypress-circleci",
+  "version": "0.1.3",
+  "description": "A CircleCI Parallel Workflow Project Bootstrap",
+  "author": "Yousaf Nabi",
+  "license": "MIT",
+  "bin": {
+    "cypress-circleci": "./lib/gen-circle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/you54f/cypress-circleci.git"
+  },
+  "scripts": {
+    "generate-circle-conf": "node lib/gen-circle.js",
+    "release": "standard-version",
+    "deploy:prepare": "./scripts/create_npmrc_file.sh"
+  },
+  "dependencies": {
+    "cypress": "7.2.0",
+    "mocha": "8.3.2",
+    "uuid": "8.3.2",
+    "mochawesome": "6.2.2",
+    "cypress-slack-reporter": "1.2.1",
+    "shelljs": "0.8.4",
+    "write-yaml": "1.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "12.1.1",
+    "@commitlint/config-conventional": "12.1.1",
+    "cypress-multi-reporters": "1.5.0",
+    "husky": "6.0.0",
+    "mocha-junit-reporter": "2.0.0",
+    "standard-version": "9.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

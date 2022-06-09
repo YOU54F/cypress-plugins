@@ -1,0 +1,42 @@
+language: node_js
+node_js:
+- '8'
+- '9'
+- '10'
+os:
+- linux
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
+matrix:
+  fast_finish: true
+cache: yarn
+env:
+  global:
+  - secure: dG7oQ/NTzm7mbbyRNLsxLfiInfjsVKdQPT7h4IADH8Z+c5rkd9QoKqT4JOSMn803NTMRv0mRMYve8feTD2W2LPZ0MBAgcAiGGU58YOccIpnpvSF8HyLg0zbiNBtT1tmOwlsstLB47k7vC1PBq016ZzKkLnl2+9ILAEuTLbvN+FYa3qeNvl1uXgx9uxedLAmZlypFC3fK6trK87a4xSsQ6CdoPnb/EPU9yDtv+C+o5geS9bx3lYEzEuqxCYSRw4yBxRMRw/nul6GUo9RHxNneTyv268w7bFVL2fDaI7vQ/mVDqEJzo4mZvC3Ac6AJLFBVg7i0QTpDF+Xjy+oIZSzSX7ZXN8qMs6bVZ8WXRfDrlbgEFmb+gqPVni0tUNcsfA5KsepCyIJPBHhvbFwKBrCI6G+ix2+0W5czhqsgkes/hT05evhKk0snHI9ODgGC+S05T0jNfddGhGogCVQ0mMDZpjDCZkkV3jMMG6jUEvideDfru7gL8GjKfot6nOgmrEMrbxobBhopWpmMldfc0nmgbAY/DwTqr+OjxF51qoLGifR91URBPX9Ke7vpph/AaKrwSNOUtVDW639LIcYbNjey7IxuoE4uHRa8YSrcvUfJjdTzqe9EKB20HycEWuwvjfhFyzipb60vj9CrtiRuDj/VBCu22JIV6tdMNmsdjFMjOMo=
+install: yarn install --ignore-engines
+script: ./scripts/build.sh
+before_deploy:
+- npm prune --production
+- tar -czvf cypress-jest.tar.gz package.json index.js run.js LICENSE README.md CHANGELOG.md
+- npm run deploy:prepare
+deploy:
+  - provider: releases
+    api_key:
+      secure: hHzzgVjLz/MrQzXBwjmJC8uEUKMswKEsQi8C09ZwgqhH6ZFZwdOo4+B4+5Dmpc58v6cDfgMBbLMqNmFb/z3/nZNDiWAWAwd6zTWJAvFR+aD6dkrkLjsi0g4gB/md46V7ZlgMyzIogLLvyPl2JDGlc0ypY2fFbHEBk+usTMj8cMHwaI30fL5XZhoSYXB699F+ddzEEYwxuseQlMU9gJolVh4i5JjtqjHdltERSoMEbvcxl61Ac4JXhfKW7+WNFEgAvzZQJ7Dst891pPMKIpufKXiP5cB4G47/fqPBl4BPsxYPjOzLtf2Jb2CTt85Nuta+R1ibcfCgsfaD/69aePX9MxZow41zkXCME4Pnacjln/2vfvzYfrCCDiP0z/0jLRvttfW4h2vrjkzRObah6UbSwjy8kR2kFUrBM1kyVXbqhOzC+137lGS7/zD+zj7AQkCp6im563fPzv2a+OP9U78X3BAX0+Ve7GYXh+ZZfK14Dg8/PB2OcocCH7nXzXQYowvx826e5jY/Il4YoQoD/NYFlW9EDouuTNRYL/0wJ0ZQEcJPmxjvoqxJ3AzU3Y3ic7aw3ztOFnkKyagPDHFFZ1K2w+JxD1Ykq1qbDKwnvuwQzbwjVQz2ipxNeYYHcemOoH5d87GU7bz+EOnQuxKY8NO3YlFCZGstLf39fp3wdArNGyc=
+    file: cypress-jest.tar.gz
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: YOU54F/cypress-jest
+      branch: master
+      node: "8"
+  - provider: script
+    skip_cleanup: true
+    script: ./scripts/publish.sh
+    on:
+      tags: true
+      branch: master
+      node: "8"

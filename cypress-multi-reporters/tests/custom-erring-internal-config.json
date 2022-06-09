@@ -1,0 +1,7 @@
+{
+    "reporterEnabled": "dot, ./tests/custom-erring-internal-reporter.js",
+
+    "xunitReporterOptions": {
+        "output": "artifacts/test/custom-xunit.xml"
+    }
+}

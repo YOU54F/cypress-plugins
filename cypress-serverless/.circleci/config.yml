@@ -1,0 +1,93 @@
+version: 2.1
+
+defaults: &defaults
+  machine:
+      docker_layer_caching: true
+  environment:
+    TERM: xterm
+
+jobs:
+  build_layer:
+    <<: *defaults      
+    steps:
+    - checkout
+    - run:
+        name: build lambda layer
+        command: cd lambda && make build
+    - run:
+        name: extract deps from image
+        command: cd lambda && make extract_deps
+    - persist_to_workspace:
+        root: ~/
+        paths:
+          - project
+
+  deploy_layer:
+    docker:
+    - image: circleci/node:8.15
+    environment:
+      TERM: xterm
+    steps: 
+    - attach_workspace:
+        at: ~/  
+    - run:
+        name: npm i
+        command: |
+            sudo npm i -g serverless
+            npm install
+    - run:
+        name: deploy lambda layer with terraform
+        command: cd lambda && sls deploy
+    - persist_to_workspace:
+        root: ~/
+        paths:
+          - project
+              
+  invoke_layer:
+    docker:
+    - image: circleci/node:8.15
+    environment:
+      TERM: xterm
+    steps: 
+    - checkout 
+    - run:
+        name: install deps
+        command: npm i
+    - run:
+        name: invoke function and run tests
+        command: npm test
+    - store_artifacts:
+        path: reports
+    - persist_to_workspace:
+        root: ~/
+        paths:
+          - project
+
+  report:
+    docker:
+    - image: circleci/node:8.15
+    environment:
+      TERM: xterm
+    steps:
+    - attach_workspace:
+        at: ~/   
+    - run:
+        name: report
+        command: npm run report
+    - store_artifacts:
+        path: mochawesome-report
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_layer
+      - deploy_layer:
+          requires:
+            - build_layer
+      - invoke_layer:
+          requires:
+            - deploy_layer
+      - report:
+          requires:
+            - invoke_layer

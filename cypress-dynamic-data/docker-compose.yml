@@ -1,0 +1,15 @@
+version: '3'
+services:
+    cypresstestdocker:
+        build: .
+        image: cypresstestdocker
+        environment:
+            - CYPRESS_SUT_URL=https://docker.for.mac.localhost
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./:/app
+            - node_modules:/app/node_modules
+
+volumes:
+  node_modules:

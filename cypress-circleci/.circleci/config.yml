@@ -1,0 +1,205 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - checkout
+      - run: pwd
+      - run: ls
+      - restore_cache:
+          keys:
+            - 'v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}'
+            - 'v2-deps-{{ .Branch }}-'
+            - v2-deps-
+      - run: npm ci
+      - save_cache:
+          key: 'v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}'
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .cache
+            - tmp
+  combine_reports:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: pwd
+      - run: ls
+      - run: ls ~/
+      - run: ls ./
+      - run: node ./lib/combine.js
+      - run: cd .. && npx cypress-slack-reporter --report-dir mochareports
+      - store_artifacts:
+          path: ../mochareports
+      - store_artifacts:
+          path: ../cypress/videos
+      - store_artifacts:
+          path: ../cypress/screenshots
+  test1:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
+      - run:
+          name: Setting mochawesome report filename to test1
+          command: echo 'export MOCHAWESOME_REPORTFILENAME=test1' >> $BASH_ENV
+      - run:
+          name: Running cypress tests 1
+          command: >-
+            if $(npm bin)/cypress run --spec
+            cypress/integration/sample1.spec.js; then echo 'pass'; else echo
+            'fail'; fi
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: mochawesome-report
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - mochawesome-report/test1.json
+            - mochawesome-report/test1.html
+            - cypress/screenshots
+            - cypress/videos
+  test2:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
+      - run:
+          name: Setting mochawesome report filename to test2
+          command: echo 'export MOCHAWESOME_REPORTFILENAME=test2' >> $BASH_ENV
+      - run:
+          name: Running cypress tests 2
+          command: >-
+            if $(npm bin)/cypress run --spec
+            cypress/integration/sample2.spec.js; then echo 'pass'; else echo
+            'fail'; fi
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: mochawesome-report
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - mochawesome-report/test2.json
+            - mochawesome-report/test2.html
+            - cypress/screenshots
+            - cypress/videos
+  test3:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
+      - run:
+          name: Setting mochawesome report filename to test3
+          command: echo 'export MOCHAWESOME_REPORTFILENAME=test3' >> $BASH_ENV
+      - run:
+          name: Running cypress tests 3
+          command: >-
+            if $(npm bin)/cypress run --spec
+            cypress/integration/sample3.spec.js; then echo 'pass'; else echo
+            'fail'; fi
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: mochawesome-report
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - mochawesome-report/test3.json
+            - mochawesome-report/test3.html
+            - cypress/screenshots
+            - cypress/videos
+  test4:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
+      - run:
+          name: Setting mochawesome report filename to test4
+          command: echo 'export MOCHAWESOME_REPORTFILENAME=test4' >> $BASH_ENV
+      - run:
+          name: Running cypress tests 4
+          command: >-
+            if $(npm bin)/cypress run --spec
+            cypress/integration/sample4.spec.js; then echo 'pass'; else echo
+            'fail'; fi
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: mochawesome-report
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - mochawesome-report/test4.json
+            - mochawesome-report/test4.html
+            - cypress/screenshots
+            - cypress/videos
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test1:
+          requires:
+            - build
+      - test2:
+          requires:
+            - build
+      - test3:
+          requires:
+            - build
+      - test4:
+          requires:
+            - build
+      - combine_reports:
+          requires:
+            - test1
+            - test2
+            - test3
+            - test4

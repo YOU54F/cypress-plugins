@@ -1,0 +1,70 @@
+version: 2.1
+
+jobs:
+  test_edge_canary:
+    macos:
+      xcode: 10.1.0
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Download on edge canary beta
+          command: |
+            curl -O https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/MicrosoftEdgeCanary-76.0.151.0.pkg  
+      - run:
+          name: Install on edge canary beta
+          command: |
+            sudo installer -pkg MicrosoftEdgeCanary-76.0.151.0.pkg -target /  
+      - run:
+          name: Get cypress-edge package
+          command: |
+            curl -O https://github.com/YOU54F/cypress-edge/releases/download/v3.3.0/cypress.zip
+      - run:
+          name: export env var - this is actually set in circle ci config at a project level
+          command: |
+            export CYPRESS_INSTALL_BINARY=https://github.com/YOU54F/cypress-edge/releases/download/v3.3.0/cypress.zip  
+      - run:
+          name: install cypress
+          command: |
+            npm install @you54f/cypress --save  
+      - run:
+
+          name: run cypress on edgeCanary
+          command: |
+            node_modules/.bin/cypress run --browser edgeCanary --record
+  test_edge_dev:
+    macos:
+      xcode: 10.1.0
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Download edge dev beta
+          command: |
+            curl -O https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/MicrosoftEdgeDev-76.0.151.0.pkg  
+      - run:
+          name: Install edge dev beta
+          command: |
+            sudo installer -pkg MicrosoftEdgeDev-76.0.151.0.pkg -target /  
+      - run:
+          name: Get cypress-edge package
+          command: |
+            curl -O https://github.com/YOU54F/cypress-edge/releases/download/v3.3.0/cypress.zip
+      - run:
+          name: export env var - this is actually set in circle ci config at a project level
+          command: |
+            export CYPRESS_INSTALL_BINARY=https://github.com/YOU54F/cypress-edge/releases/download/v3.3.0/cypress.zip  
+      - run:
+          name: install cypress
+          command: |
+            npm install @you54f/cypress --save  
+      - run:
+          name: run cypress on edgeDev
+          command: |
+            node_modules/.bin/cypress run --browser edgeDev --record
+            
+workflows:
+  build-test:
+    jobs:
+      - test_edge_canary
+      - test_edge_dev

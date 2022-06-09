@@ -1,0 +1,1 @@
+declare module "cypress-page-object";

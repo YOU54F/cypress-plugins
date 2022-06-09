@@ -1,0 +1,37 @@
+{
+  "consumer": {
+    "name": "test-app"
+  },
+  "provider": {
+    "name": "reqres"
+  },
+  "interactions": [
+    {
+      "description": "a request to retrieve users",
+      "providerState": "ok",
+      "request": {
+        "method": "GET",
+        "path": "/comments/1"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "response": {
+            "postId": 1,
+            "id": 1,
+            "name": "id labore ex et quam laborum",
+            "email": "Eliseo@gardner.biz",
+            "body": "dib dab dob"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

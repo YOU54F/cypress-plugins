@@ -1,0 +1,9 @@
+{
+  "supportFile": "cypress/support/index.ts",
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporterOpts.json"
+  },
+  "baseUrl": "https://the-internet.herokuapp.com",
+  "testFiles": "**/**/*.spec.ts"
+}

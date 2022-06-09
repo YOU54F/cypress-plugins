@@ -1,0 +1,42 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cypress/base:12.22.8
+        environment:
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
+      - run: yarn install
+      - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run:
+          name: Install jq
+          command: apt-get update && apt-get install -y jq xsel       
+      - run:
+          name: Running E2E tests
+          when: on_success
+          command: yarn run test:cypress
+      - store_test_results:
+          path: cypress/reports
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: pacts
+
+workflows:
+  build-test:
+    jobs:
+      - test

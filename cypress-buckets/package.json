@@ -1,0 +1,25 @@
+{
+  "name": "cypress-buckets",
+  "version": "0.0.1",
+  "description": "A collection of plugins for cypress",
+  "main": "./bin/index.js",
+  "bin": {
+    "cypress-plugins": "./bin/index.js"
+  },
+  "keywords": [
+    "cypress",
+    "slack",
+    "circleci",
+    "reporter",
+    "mocha",
+    "mochawesome",
+    "mochawesome-merge",
+    "marge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/you54f/cypress-plugins.git"
+  },
+  "author": "Yousaf Nabi",
+  "license": "MIT"
+}

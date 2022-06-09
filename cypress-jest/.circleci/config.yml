@@ -1,0 +1,86 @@
+version: 2.1
+
+jobs:
+  install:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
+      - run: npm i
+      - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+            - .npm
+            - .cache
+
+  test-jest-runinband:
+    docker:
+    - image: cypress/browsers:node11.13.0-chrome73
+    environment:
+      TERM: xterm
+    steps: 
+    - attach_workspace:
+        at: ~/  
+    - run:
+        name: jest in band
+        command: npx jest --runInBand
+    - store_test_results:
+          path: . 
+
+  test-jest-parallel:
+    docker:
+    - image: cypress/browsers:node11.13.0-chrome73
+    environment:
+      TERM: xterm
+    steps: 
+    - attach_workspace:
+        at: ~/ 
+    - run:
+        name: jest in parallel
+        command: npm test
+    - store_test_results:
+          path: . 
+
+  test-cypress-standard:
+    docker:
+    - image: cypress/browsers:node11.13.0-chrome73
+    environment:
+      TERM: xterm
+    steps: 
+    - attach_workspace:
+        at: ~/  
+    - run:
+        name: test-cypress-standard
+        command: ./node_modules/.bin/cypress run -s cypress/integration/examples/*
+    - store_test_results:
+          path: . 
+
+
+workflows:
+  build-test:
+    jobs:
+      - install
+      - test-jest-runinband:
+          requires:
+            - install
+      # - test-jest-parallel:
+      #     requires:
+      #       - install
+      - test-cypress-standard:
+          requires:
+            - install

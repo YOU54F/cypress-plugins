@@ -1,0 +1,7 @@
+{
+    "reporterEnabled": "dot, mocha/README.md",
+
+    "xunitReporterOptions": {
+        "output": "artifacts/test/custom-xunit.xml"
+    }
+}

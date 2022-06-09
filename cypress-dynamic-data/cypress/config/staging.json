@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://cypress.staging.url",
+  "chromeWebSecurity": true
+}

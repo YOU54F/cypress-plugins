@@ -1,0 +1,7 @@
+{
+    "reporterEnabled": "badname",
+
+    "badnameReporterOptions": {
+        "output": "artifacts/test/custom-xunit.xml"
+    }
+}

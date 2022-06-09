@@ -1,0 +1,41 @@
+language: node_js
+node_js:
+- node
+- lts/*
+- 14
+- 12
+- 10
+os:
+- linux
+matrix:
+  fast_finish: true
+cache: yarn
+env:
+  global:
+  - secure: GafZaP9uxJGukTI9UiKlMG5KbrJsin3xn3cRLXVjLLG4ctdPkXY+1w6RPJcRUm0ogCJS95p4HosltayyOQkb1Icve2nuaP4dqi79HKu+OgXqJ2VdNNT1XhK++QThmPrjq11sWank2m7LkbYm+rMj7PzxKUePAmloQUZLypSOQJk7jkQ5KAf0+nQv6K6Oj3xWJyDPFQkokQPc7EreaEV0iKi6RKoOhCed+Ju8KpbzBkj6ksRGwOaEVIkxFn7vNpQPO3X7JXQ/ZNQIB7Pbvolqi6JPuS3s/nnsFTA1Qiv4oQSV90yswH8ZlEZMN2hk8q/S7HzTMPXpZ/GGRNzBThbU+AUyCCiwQ8WzMwS5G0Ks+ICvhYdBc/stVvBpmYq7tQkib2Nj59hjG06AD9D+ZjU3QsmulBQ8jlZaD0zA334y+isQ35LLl6wkfIIzVQIU/dWj8V8x1clKjmhywDPMrTCgimQ9GT+Lk9BHAH0PbmOFQQc+h3ANfrZrypxHX8hhZxC7WxOto4ZGsFcf9nSikVSz9hgVxPlA3+Mkg220zBZEUe/MiBx9Q4ZdL465/NsTmqw6eRkcu28W0BAEVFh3+2GHDAHj4onW2f9PjX/Bdh3s6kXy8NzEFbbPr9wt5HK70x6U9H2rUbPpA2PIyp5UitnihGXXKC4ES1js/IHW0TjV9O4=
+install: yarn install --ignore-engines
+script: ./scripts/build.sh
+after_success:
+- cat artifacts/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+before_deploy:
+- npm prune --production
+- tar -czvf cypress-multi-reporters.tar.gz package.json index.js lib/* config.json LICENSE README.md CHANGELOG.md
+- npm run deploy:prepare
+deploy:
+  - provider: releases
+    api_key:
+      secure: YlZkFy8FBs7zzTbsRuP+rW4vpB5ui9prDvS/XqouDjdOb2k35z1z0pu3UBk298zCGklKqh4MGEt15jFRilEM4YogSGloswnlQKnviR92JyP8nqKN1yaO/BRTlW6+xyYhpjm5ZjJinMBtfwWKSPWe1SmHSLLxkaZo/MmuXLxTiNYqJs9jtrTCj/TDtFOCTDc0mprm97QaET+LuG+PmzG1JXEcbsNVBa+YW5MUqOD9BPAbbiGJb/r+BlCGreNUwyvvnMAnvefVUlRDw7l+hwbPwhRts3+nfAM2dH6vPcLFgb7VomsFUPTXAwOObX3thubptFtcxlNgPwpAbncIboqQkFUbeLc8I2hQyp9oxkxJnrN8KodB1vGTujWHzAn1+Xml1XZ6RgCLawdfwqDADaqpUT4zaBbKrGXrc0EZ3kF0c+QsCl+BZOa5AVKJOEm/KJX2/kRtatG8cI7RDjo5icOwhyXGKsrrnjMIrZWKhNDnbExPZxy17oevQYX7+YT489UqrSytmMZwmPVZ+uQJEmQiny3racJoT7VESL3UAMDhEdP+WBlmp5DRW7aLnOMLRO/d6SDkAUg2ykN1Pwjt6jfGTaNVfULSzGGtFFkna//kw01Bq3511W60A9Uafrae0SM7l6azTfw/tYGh3l/48W8eVq8pF5Sz06bLysyObDC5Xo8=
+    file: cypress-multi-reporters.tar.gz
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: YOU54F/cypress-multi-reporters
+      branch: automatedRelease
+      node: "10"
+  - provider: script
+    skip_cleanup: true
+    script: ./scripts/publish.sh
+    on:
+      tags: true
+      branch: automatedRelease
+      node: "12"

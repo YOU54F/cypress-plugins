@@ -1,0 +1,6 @@
+{
+  "reporter": "cypress-mochawesome-reporter",
+  "reporterOptions": {
+    "saveJson": true
+  }
+}
