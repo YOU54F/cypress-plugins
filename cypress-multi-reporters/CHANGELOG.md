@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.0...v1.6.1) (2022-06-09)
+
+
+### Features
+
+* start setting up mono repo ([c3eadfa](https://github.com/you54f/cypress-multi-reporters/commit/c3eadfa856e8c11814a0afdc76ca076d320ea039))
+
 ## [1.6.0](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.0...v1.6.0) (2022-04-19)
 
 
