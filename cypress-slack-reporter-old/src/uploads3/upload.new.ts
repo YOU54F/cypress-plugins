@@ -52,7 +52,7 @@ const getVideos = (async () => {
       extensions: ["mp4"]
     }
   });
-  return await paths;
+  return paths;
 })();
 const getReports = (async () => {
   const paths = await globby(path.resolve(process.cwd(), "mochareports"), {
@@ -62,7 +62,7 @@ const getReports = (async () => {
     }
   });
 
-  return await paths;
+  return  paths;
 })();
 const getScreenshots = (async () => {
   const paths = await globby(
@@ -75,5 +75,5 @@ const getScreenshots = (async () => {
     }
   );
 
-  return await paths;
+  return  paths;
 })();

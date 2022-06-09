@@ -1,16 +1,17 @@
 version: 2.1
 
 jobs:
-  test:
+  test-cypress-slack-reporter-old:
     docker:
       # the Docker image with Cypress dependencies
       - image: cypress/base:17.8.0
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/app
+    working_directory: ~/app/cypress-slack-reporter-old
     steps:
-      - checkout
+      - checkout:
+            path: ~/app
       - restore_cache:
           keys:
             - v7-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -94,4 +95,4 @@ jobs:
 workflows:
   build-test:
     jobs:
-      - test
+      - test-cypress-slack-reporter-old

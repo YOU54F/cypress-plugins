@@ -72,8 +72,8 @@ export const slackRunner = async ({
   customText = "",
 }: SlackRunnerOptions) => {
   try {
-    const ciEnvVars = await resolveCIProvider(ciProvider);
-    const artefactUrl = await getArtefactUrl({
+    const ciEnvVars = resolveCIProvider(ciProvider);
+    const artefactUrl = getArtefactUrl({
       vcsRoot,
       ciEnvVars,
       ciProvider,
@@ -91,7 +91,7 @@ export const slackRunner = async ({
       artefactUrl,
       screenshotDir,
     });
-    const prLink = await prChecker(ciEnvVars);
+    const prLink = prChecker(ciEnvVars);
     const reportStatistics = await getTestReportStatus(reportDir); // process the test report
     if (onlyFailed && reportStatistics.status !== "failed") {
       return `onlyFailed flag set, test run status was ${reportStatistics.status}, so not sending message`;
@@ -560,7 +560,7 @@ const getTestReportStatus = async (reportDir: string) => {
   };
 };
 
-const prChecker = async (ciEnvVars: CiEnvVars) => {
+const prChecker = (ciEnvVars: CiEnvVars) => {
   if (
     ciEnvVars.CI_PULL_REQUEST &&
     ciEnvVars.CI_PULL_REQUEST.indexOf("pull") > -1
@@ -665,7 +665,7 @@ const buildHTMLReportURL = async ({
   const reportHTMLFilename = await getHTMLReportFilename(reportDir);
   return buildUrl(artefactUrl, reportDir, reportHTMLFilename);
 };
-const getArtefactUrl = async ({
+const getArtefactUrl = ({
   vcsRoot,
   ciEnvVars,
   ciProvider,
@@ -700,7 +700,7 @@ const getCommitUrl = async ({
   }
 };
 
-const resolveCIProvider = async (ciProvider?: string): Promise<CiEnvVars> => {
+const resolveCIProvider = (ciProvider?: string): CiEnvVars => {
   let {
     CI_SHA1,
     CI_BRANCH,

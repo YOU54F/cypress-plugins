@@ -1,4 +1,4 @@
-name: Publish and release
+name: Publish and release cypress-slack-reporter-old
 
 on:
   repository_dispatch:
@@ -9,6 +9,10 @@ env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   ENV_SUT: ${{ secrets.ENV_SUT }}
   CI_PROVIDER_TO_TEST: 'github'
+
+defaults:
+  run:
+    working-directory: cypress-slack-reporter-old
 
 jobs:
   release:
@@ -21,6 +25,7 @@ jobs:
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: cypress-slack-reporter-old/yarn.lock
       - id: publish
         run: scripts/ci/release.sh
         env:

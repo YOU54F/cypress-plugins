@@ -1,9 +1,13 @@
-name: Build
+name: Build cypress-multi-reporters
 
 on:
   push:
   pull_request:
     branches: [master]
+
+defaults:
+  run:
+    working-directory: cypress-multi-reporters
 
 jobs:
   build:
@@ -21,5 +25,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+        cache-dependency-path: cypress-multi-reporters/yarn.lock
     - id: publish
       run: scripts/ci/build-and-test.sh

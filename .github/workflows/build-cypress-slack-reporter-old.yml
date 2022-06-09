@@ -1,4 +1,4 @@
-name: Build
+name: Build cypress-slack-reporter-old
 
 on:
   push:
@@ -10,14 +10,16 @@ env:
   ENV_SUT: ${{ secrets.ENV_SUT }}
   CI_PROVIDER_TO_TEST: 'github'
 
+defaults:
+  run:
+    working-directory: cypress-slack-reporter-old
+
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: cypress-slack-reporter-old
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
@@ -29,6 +31,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+        cache-dependency-path: cypress-slack-reporter-old/yarn.lock
     - run: yarn install
     - run: npm run lint
     - run: npm run compile

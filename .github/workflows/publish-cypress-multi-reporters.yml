@@ -1,20 +1,16 @@
-name: Publish and release
+name: Publish and release cypress-multi-reporters
 
 on:
   repository_dispatch:
     types:
       - release-triggered
 
-env:
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  ENV_SUT: ${{ secrets.ENV_SUT }}
-  CI_PROVIDER_TO_TEST: 'github'
+defaults:
+  run:
+    working-directory: cypress-multi-reporters
 
 jobs:
   release:
-    defaults:
-      run:
-        working-directory: cypress-slack-reporter-old
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,6 +20,7 @@ jobs:
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
+          cache-dependency-path: cypress-multi-reporters/yarn.lock
       - id: publish
         run: scripts/ci/release.sh
         env:
