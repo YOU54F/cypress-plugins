@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "cypress": "^3.1.5",
+    "cypress": "^10.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "5.2.0",
     "mochawesome": "3.1.1"
