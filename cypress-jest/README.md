@@ -21,9 +21,9 @@ Your `jest.config.js` should look like this:
 module.exports = {
   projects: [
     {
-      displayName: 'cypress'
+      displayName: 'cypress',
       runner: 'cypress-jest',
-      testMatch: ['<rootDir>/**/*-cy.js'],
+      testMatch: ['<rootDir>/**/*-cy.js']
     },
     {
       displayName: 'test' // Your other unit Tests with jest
