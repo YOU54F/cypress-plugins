@@ -161,7 +161,7 @@ MultiReporters.prototype.getCustomOptions = function (options) {
                 customOptions = require(customOptionsFile);
             }
             else {
-                customOptions = JSON.parse(fs.readFileSync(customOptionsFile).toString());
+                customOptions = JSON.parse(fs.readFileSync(customOptionsFile).toString().trim());
             }
 
             debug('options (custom)', customOptions);
