@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* trim reporter.json ([5a72ef8](https://github.com/you54f/cypress-multi-reporters/commit/5a72ef8034bb1e581e9597269ba6d8e4756c165c))
+* trim reporter.json ([5a72ef8](https://github.com/you54f/cypress-multi-reporters/commit/5a72ef8034bb1e581e9597269ba6d8e4756c165c)) 
 
 ### [1.6.1](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.0...v1.6.1) (2022-06-09)
 
