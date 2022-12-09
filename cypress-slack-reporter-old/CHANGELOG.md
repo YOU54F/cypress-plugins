@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.5.1](https://github.com/you54f/cypress-slack-reporter/compare/v1.6.1...v1.5.1) (2022-12-09)
 
+
+### Bug Fixes
+
+* trim reporter.json ([5a72ef8](https://github.com/you54f/cypress-slack-reporter/commit/5a72ef8034bb1e581e9597269ba6d8e4756c165c))
+
+### [1.5.1](https://github.com/you54f/cypress-slack-reporter/compare/v1.6.1...v1.5.1) (2022-12-09)
+
 ## [1.5.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.6.1...v1.5.0) (2022-12-09)
 
 ## [1.5.0](https://github.com/you54f/cypress-slack-reporter/compare/v1.4.0...v1.5.0) (2022-04-14)
