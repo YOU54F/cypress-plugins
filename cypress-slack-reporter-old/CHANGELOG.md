@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.2](https://github.com/you54f/cypress-slack-reporter/compare/v1.6.2...v1.5.2) (2022-12-09)
+
+
+### Bug Fixes
+
+* github alert url to not duplicate organisation ([a2daea1](https://github.com/you54f/cypress-slack-reporter/commit/a2daea12da3494966f6ccf00c9a18b33e5cf0dbe))
+* trim reporter.json ([5888c07](https://github.com/you54f/cypress-slack-reporter/commit/5888c07e032de4ff2162509200fadba7b0f153b8))
+
 ### [1.5.1](https://github.com/you54f/cypress-slack-reporter/compare/v1.6.1...v1.5.1) (2022-12-09)
 
 
