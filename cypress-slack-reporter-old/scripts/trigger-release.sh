@@ -22,3 +22,4 @@ if  ! echo "${output}" | grep "HTTP\/2 204" > /dev/null; then
 else
   echo "Release workflow triggered"
 fi
+ 
