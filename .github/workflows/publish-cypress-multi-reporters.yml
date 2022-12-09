@@ -4,7 +4,8 @@ on:
   repository_dispatch:
     types:
       - release-triggered
-
+  workflow_dispatch:
+  
 defaults:
   run:
     working-directory: cypress-multi-reporters
