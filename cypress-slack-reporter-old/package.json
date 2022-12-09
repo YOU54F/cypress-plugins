@@ -75,7 +75,7 @@
     "aws-sdk-mock": "5.6.2",
     "babel-loader": "8.2.5",
     "coveralls": "3.1.1",
-    "cypress": "9.5.4",
+    "cypress": "9.7.0",
     "cypress-multi-reporters": "1.6.0",
     "dotenv": "16.0.0",
     "globby": "11.1.0",
