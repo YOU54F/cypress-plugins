@@ -692,7 +692,7 @@ const getCommitUrl = async ({
   ciEnvVars: CiEnvVars;
 }) => {
   if (vcsRoot === "github") {
-    return `https://github.com/${ciEnvVars.CI_PROJECT_USERNAME}/${ciEnvVars.CI_PROJECT_REPONAME}/commit/${ciEnvVars.CI_SHA1}`;
+    return `https://github.com/${ciEnvVars.CI_PROJECT_REPONAME}/commit/${ciEnvVars.CI_SHA1}`;
   } else if (vcsRoot === "bitbucket") {
     return `https://bitbucket.org/${ciEnvVars.CI_PROJECT_USERNAME}/${ciEnvVars.CI_PROJECT_REPONAME}/commits/${ciEnvVars.CI_SHA1}`;
   } else {
