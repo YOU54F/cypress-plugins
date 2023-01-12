@@ -74,6 +74,11 @@ program
     "--custom-text [type]",
     "add additional text to message, wrap message in quotes"
   )
+  .option(
+    '--useOnlyCustomUrl',
+    'use only your custom url instead of reporting url',
+    'false'
+  )
   // .option("--s3", "upload artefacts to s3")
   .parse(process.argv);
 
@@ -86,6 +91,7 @@ const customUrl: string = options.customUrl;
 const screenshotDir: string = options.screenshotDir;
 const onlyFailed: boolean = options.onlyFailed;
 const customText: string = options.customText;
+const useOnlyCustomUrl: boolean = options.useOnlyCustomUrl;
 // const verbose: boolean = program.verbose;
 
 if (options.verbose) {
@@ -96,7 +102,8 @@ if (options.verbose) {
     "vcsProvider:- " + vcsProvider + "\n",
     "reportDirectory:- " + reportDir + "\n",
     "videoDirectory:- " + videoDir + "\n",
-    "screenshotDirectory:- " + screenshotDir + "\n"
+    "screenshotDirectory:- " + screenshotDir + "\n",
+    'useOnlyCustomUrl:- ' + useOnlyCustomUrl + '\n'
   );
 }
 
@@ -109,4 +116,5 @@ slackRunner({
   customUrl,
   onlyFailed,
   customText,
+  useOnlyCustomUrl,
 });
