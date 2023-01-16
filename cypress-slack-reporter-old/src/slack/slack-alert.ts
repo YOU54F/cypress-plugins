@@ -16,7 +16,7 @@ const log = pino({
 });
 
 const isWin = process.platform === "win32";
-const buildUrl = (...urlComponents: Array<string | undefined>) => {
+const buildUrl = (...urlComponents: (string | undefined)[]) => {
   return (
     urlComponents
       // Trim leading & trailing slashes
@@ -386,6 +386,7 @@ const attachmentReports = async ({
       return {
         color: "#36a64f",
         fallback: `Report available at ${reportHTMLUrl}`,
+        title: `Total Tests: ${reportStatistics.totalTests}`,
         text: `${branchText}${jobText}${envSut}${customText}Total Passed:  ${reportStatistics.totalPasses}`,
         actions: [
           {
