@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "cypress": "7.2.0",
-    "mocha": "8.3.2",
+    "mocha": "10.2.0",
     "uuid": "8.3.2",
     "mochawesome": "6.2.2",
     "cypress-slack-reporter": "1.2.1",
