@@ -16,7 +16,7 @@ const log = pino({
 });
 
 const isWin = process.platform === "win32";
-const buildUrl = (...urlComponents: Array<string | undefined>) => {
+const buildUrl = (...urlComponents: (string | undefined)[]) => {
   return (
     urlComponents
       // Trim leading & trailing slashes
@@ -35,6 +35,7 @@ export interface SlackRunnerOptions {
   onlyFailed?: boolean;
   verbose?: boolean;
   customText?: string;
+  useOnlyCustomUrl?: boolean;
 }
 
 export interface CiEnvVars {
@@ -62,15 +63,16 @@ interface ReportStatistics {
 }
 
 export const slackRunner = async ({
-  ciProvider,
-  vcsRoot,
-  reportDir,
-  videoDir,
-  screenshotDir,
-  customUrl = "",
-  onlyFailed = false,
-  customText = "",
-}: SlackRunnerOptions) => {
+                                    ciProvider,
+                                    vcsRoot,
+                                    reportDir,
+                                    videoDir,
+                                    screenshotDir,
+                                    customUrl = "",
+                                    onlyFailed = false,
+                                    customText = "",
+                                    useOnlyCustomUrl = false,
+                                  }: SlackRunnerOptions) => {
   try {
     const ciEnvVars = resolveCIProvider(ciProvider);
     const artefactUrl = getArtefactUrl({
@@ -82,6 +84,7 @@ export const slackRunner = async ({
     const reportHTMLUrl = await buildHTMLReportURL({
       reportDir,
       artefactUrl,
+      useOnlyCustomUrl,
     });
     const videoAttachmentsSlack = await getVideoLinks({
       artefactUrl,
@@ -150,17 +153,17 @@ export const slackRunner = async ({
               } catch (e: any) {
                 e.code
                   ? log.error(
-                      {
-                        code: e.code,
-                        message: e.message,
-                        data: e.original.config.data,
-                      },
-                      "Failed to send slack message"
-                    )
+                    {
+                      code: e.code,
+                      message: e.message,
+                      data: e.original.config.data,
+                    },
+                    "Failed to send slack message"
+                  )
                   : log.error(
-                      { e },
-                      "Unknown error occurred whilst sending slack message"
-                    );
+                    { e },
+                    "Unknown error occurred whilst sending slack message"
+                  );
                 throw new Error(
                   "An error occurred whilst sending slack message"
                 );
@@ -201,17 +204,17 @@ export const slackRunner = async ({
               } catch (e: any) {
                 e.code
                   ? log.error(
-                      {
-                        code: e.code,
-                        message: e.message,
-                        data: e.original.config.data,
-                      },
-                      "Failed to send slack message"
-                    )
+                    {
+                      code: e.code,
+                      message: e.message,
+                      data: e.original.config.data,
+                    },
+                    "Failed to send slack message"
+                  )
                   : log.error(
-                      { e },
-                      "Unknown error occurred whilst sending slack message"
-                    );
+                    { e },
+                    "Unknown error occurred whilst sending slack message"
+                  );
                 throw new Error(
                   "An error occurred whilst sending slack message"
                 );
@@ -246,17 +249,17 @@ export const slackRunner = async ({
               } catch (e: any) {
                 e.code
                   ? log.error(
-                      {
-                        code: e.code,
-                        message: e.message,
-                        data: e.original.config.data,
-                      },
-                      "Failed to send slack message"
-                    )
+                    {
+                      code: e.code,
+                      message: e.message,
+                      data: e.original.config.data,
+                    },
+                    "Failed to send slack message"
+                  )
                   : log.error(
-                      { e },
-                      "Unknown error occurred whilst sending slack message"
-                    );
+                    { e },
+                    "Unknown error occurred whilst sending slack message"
+                  );
                 throw new Error(
                   "An error occurred whilst sending slack message"
                 );
@@ -272,11 +275,11 @@ export const slackRunner = async ({
 };
 
 const webhookInitialArgs = async ({
-  status,
-  ciEnvVars,
-  commitUrl,
-  prLink,
-}: {
+                                    status,
+                                    ciEnvVars,
+                                    commitUrl,
+                                    prLink,
+                                  }: {
   status: string;
   ciEnvVars: CiEnvVars;
   commitUrl?: string;
@@ -329,9 +332,9 @@ const webhookInitialArgs = async ({
 };
 
 const webhookSendArgs = async ({
-  argsWebhookSend,
-  messageAttachments,
-}: {
+                                 argsWebhookSend,
+                                 messageAttachments,
+                               }: {
   argsWebhookSend: IncomingWebhookSendArguments;
   messageAttachments: MessageAttachment[];
 }) => {
@@ -344,11 +347,11 @@ const webhookSendArgs = async ({
 };
 
 const attachmentReports = async ({
-  reportStatistics,
-  reportHTMLUrl,
-  ciEnvVars,
-  customText,
-}: {
+                                   reportStatistics,
+                                   reportHTMLUrl,
+                                   ciEnvVars,
+                                   customText,
+                                 }: {
   reportStatistics: ReportStatistics;
   reportHTMLUrl: string;
   ciEnvVars: CiEnvVars;
@@ -383,6 +386,7 @@ const attachmentReports = async ({
       return {
         color: "#36a64f",
         fallback: `Report available at ${reportHTMLUrl}`,
+        title: `Total Tests: ${reportStatistics.totalTests}`,
         text: `${branchText}${jobText}${envSut}${customText}Total Passed:  ${reportStatistics.totalPasses}`,
         actions: [
           {
@@ -444,10 +448,10 @@ const attachmentReports = async ({
 };
 
 const attachmentsVideoAndScreenshots = async ({
-  status,
-  videoAttachmentsSlack,
-  screenshotAttachmentsSlack,
-}: {
+                                                status,
+                                                videoAttachmentsSlack,
+                                                screenshotAttachmentsSlack,
+                                              }: {
   status: string;
   videoAttachmentsSlack: string;
   screenshotAttachmentsSlack: string;
@@ -570,9 +574,9 @@ const prChecker = (ciEnvVars: CiEnvVars) => {
 };
 
 const getVideoLinks = async ({
-  artefactUrl,
-  videosDir,
-}: {
+                               artefactUrl,
+                               videosDir,
+                             }: {
   artefactUrl: string;
   videosDir: string;
 }) => {
@@ -613,9 +617,9 @@ const getVideoLinks = async ({
 };
 
 const getScreenshotLinks = async ({
-  artefactUrl,
-  screenshotDir,
-}: {
+                                    artefactUrl,
+                                    screenshotDir,
+                                  }: {
   artefactUrl: string;
   screenshotDir: string;
 }) => {
@@ -656,21 +660,27 @@ const getScreenshotLinks = async ({
 };
 
 const buildHTMLReportURL = async ({
-  reportDir,
-  artefactUrl,
-}: {
+                                    reportDir,
+                                    artefactUrl,
+                                    useOnlyCustomUrl,
+                                  }: {
   reportDir: string;
   artefactUrl: string;
+  useOnlyCustomUrl: boolean;
 }) => {
-  const reportHTMLFilename = await getHTMLReportFilename(reportDir);
-  return buildUrl(artefactUrl, reportDir, reportHTMLFilename);
+  if (!useOnlyCustomUrl) {
+    const reportHTMLFilename = await getHTMLReportFilename(reportDir);
+    return buildUrl(artefactUrl, reportDir, reportHTMLFilename);
+  } else {
+    return buildUrl(artefactUrl)
+  }
 };
 const getArtefactUrl = ({
-  vcsRoot,
-  ciEnvVars,
-  ciProvider,
-  customUrl,
-}: {
+                          vcsRoot,
+                          ciEnvVars,
+                          ciProvider,
+                          customUrl,
+                        }: {
   vcsRoot: string;
   ciEnvVars: CiEnvVars;
   ciProvider: string;
@@ -685,9 +695,9 @@ const getArtefactUrl = ({
 };
 
 const getCommitUrl = async ({
-  vcsRoot,
-  ciEnvVars,
-}: {
+                              vcsRoot,
+                              ciEnvVars,
+                            }: {
   vcsRoot: string;
   ciEnvVars: CiEnvVars;
 }) => {
@@ -724,57 +734,57 @@ const resolveCIProvider = (ciProvider?: string): CiEnvVars => {
 
   switch (ciProvider) {
     case "circleci":
-      {
-        (CI_SHA1 = process.env.CIRCLE_SHA1),
-          (CI_BRANCH = process.env.CIRCLE_BRANCH),
-          (CI_USERNAME = process.env.CIRCLE_USERNAME),
-          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL),
-          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM),
-          (CI_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST),
-          (CI_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME),
-          (CI_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME),
-          (JOB_NAME = process.env.CIRCLE_JOB);
-        CIRCLE_PROJECT_ID = process.env.CIRCLE_PROJECT_ID;
-        CIRCLE_WORKFLOW_JOB_ID = process.env.CIRCLE_WORKFLOW_JOB_ID;
-      }
+    {
+      (CI_SHA1 = process.env.CIRCLE_SHA1),
+        (CI_BRANCH = process.env.CIRCLE_BRANCH),
+        (CI_USERNAME = process.env.CIRCLE_USERNAME),
+        (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL),
+        (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM),
+        (CI_PULL_REQUEST = process.env.CIRCLE_PULL_REQUEST),
+        (CI_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME),
+        (CI_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME),
+        (JOB_NAME = process.env.CIRCLE_JOB);
+      CIRCLE_PROJECT_ID = process.env.CIRCLE_PROJECT_ID;
+      CIRCLE_WORKFLOW_JOB_ID = process.env.CIRCLE_WORKFLOW_JOB_ID;
+    }
       break;
     case "github":
-      {
-        (CI_SHA1 = process.env.GITHUB_SHA),
-          (CI_BRANCH =
-            process.env.GITHUB_BASE_REF || process.env.GITHUB_HEAD_REF),
-          (CI_USERNAME = process.env.GITHUB_ACTOR),
-          (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL || "CI_BUILD_URL"),
-          (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM || "CIRCLE_BUILD_NUM"),
-          (CI_PULL_REQUEST =
-            process.env.CIRCLE_PULL_REQUEST || "CIRCLE_PULL_REQUEST"),
-          (CI_PROJECT_REPONAME = process.env.GITHUB_REPOSITORY), // The owner and repository name. For example, octocat/Hello-World.
-          (CI_PROJECT_USERNAME = process.env.GITHUB_REPOSITORY_OWNER),
-          (JOB_NAME = process.env.GITHUB_ACTION);
-        CIRCLE_PROJECT_ID =
-          process.env.CIRCLE_PROJECT_ID || "CIRCLE_PROJECT_ID";
-      }
+    {
+      (CI_SHA1 = process.env.GITHUB_SHA),
+        (CI_BRANCH =
+          process.env.GITHUB_BASE_REF || process.env.GITHUB_HEAD_REF),
+        (CI_USERNAME = process.env.GITHUB_ACTOR),
+        (CI_BUILD_URL = process.env.CIRCLE_BUILD_URL || "CI_BUILD_URL"),
+        (CI_BUILD_NUM = process.env.CIRCLE_BUILD_NUM || "CIRCLE_BUILD_NUM"),
+        (CI_PULL_REQUEST =
+          process.env.CIRCLE_PULL_REQUEST || "CIRCLE_PULL_REQUEST"),
+        (CI_PROJECT_REPONAME = process.env.GITHUB_REPOSITORY), // The owner and repository name. For example, octocat/Hello-World.
+        (CI_PROJECT_USERNAME = process.env.GITHUB_REPOSITORY_OWNER),
+        (JOB_NAME = process.env.GITHUB_ACTION);
+      CIRCLE_PROJECT_ID =
+        process.env.CIRCLE_PROJECT_ID || "CIRCLE_PROJECT_ID";
+    }
       break;
     case "jenkins":
-      {
-        if (typeof process.env.GIT_URL === "undefined") {
-          throw new Error("GIT_URL not defined!");
-        }
-        const urlParts = process.env.GIT_URL.replace(
-          "https://github.com/",
-          ""
-        ).replace(".git", "");
-        const arr = urlParts.split("/");
-
-        (CI_SHA1 = process.env.GIT_COMMIT),
-          (CI_BRANCH = process.env.BRANCH_NAME),
-          (CI_USERNAME = process.env.CHANGE_AUTHOR),
-          (CI_BUILD_URL = process.env.BUILD_URL),
-          (CI_BUILD_NUM = process.env.BUILD_ID),
-          (CI_PULL_REQUEST = process.env.CHANGE_ID),
-          (CI_PROJECT_REPONAME = arr[1]),
-          (CI_PROJECT_USERNAME = arr[0]);
+    {
+      if (typeof process.env.GIT_URL === "undefined") {
+        throw new Error("GIT_URL not defined!");
       }
+      const urlParts = process.env.GIT_URL.replace(
+        "https://github.com/",
+        ""
+      ).replace(".git", "");
+      const arr = urlParts.split("/");
+
+      (CI_SHA1 = process.env.GIT_COMMIT),
+        (CI_BRANCH = process.env.BRANCH_NAME),
+        (CI_USERNAME = process.env.CHANGE_AUTHOR),
+        (CI_BUILD_URL = process.env.BUILD_URL),
+        (CI_BUILD_NUM = process.env.BUILD_ID),
+        (CI_PULL_REQUEST = process.env.CHANGE_ID),
+        (CI_PROJECT_REPONAME = arr[1]),
+        (CI_PROJECT_USERNAME = arr[0]);
+    }
       break;
     case "bitbucket": {
       (CI_SHA1 = process.env.BITBUCKET_COMMIT),
