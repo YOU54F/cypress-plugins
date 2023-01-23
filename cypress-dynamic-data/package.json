@@ -52,7 +52,7 @@
     "xlsx": "^0.16.0"
   },
   "devDependencies": {
-    "@types/node": "12.20.12",
+    "@types/node": "12.20.55",
     "papaparse": "5.3.0"
   },
   "lint-staged": {
