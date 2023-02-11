@@ -25,7 +25,7 @@
     "mochawesome-merge": "^4.0.0",
     "mochawesome-report-generator": "^5.0.0",
     "shelljs": "^0.8.5",
-    "sonarqube-scanner": "^2.1.2",
+    "sonarqube-scanner": "^2.9.1",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
