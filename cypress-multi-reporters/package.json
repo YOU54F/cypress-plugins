@@ -33,8 +33,8 @@
   "homepage": "https://github.com/you54f/cypress-multi-reporters",
   "license": "MIT",
   "dependencies": {
-    "debug": "^4.1.1",
-    "lodash": "^4.17.15"
+    "debug": "^4.3.4",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@commitlint/cli": "12.1.4",
