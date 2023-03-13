@@ -43,7 +43,7 @@
     "ship-it": "npm run pre-publish && npm publish",
     "deploy:prepare": "./scripts/create_npmrc_file.sh",
     "dist": "npm run lint && npm run build",
-    "release": "standard-version --release-as 1.5.2",
+    "release": "standard-version --release-as 1.5.3",
     "release:trigger": "./scripts/trigger-release.sh"
   },
   "dependencies": {
