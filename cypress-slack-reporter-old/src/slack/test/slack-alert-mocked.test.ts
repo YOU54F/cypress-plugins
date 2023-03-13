@@ -43,7 +43,7 @@ describe("tester", () => {
     });
     const body = await returnSlackWebhookCall();
 
-    expect(body).toContain("bitbucket");
+    expect(JSON.stringify(body)).toContain("bitbucket");
     expect(body).not.toContain("undefined");
   });
 });
@@ -61,7 +61,7 @@ describe("tester", () => {
     const body = await returnSlackWebhookCall();
 
     const buildNum = process.env.CI_BUILD_NUM;
-    expect(body).toContain(`"text":"Build Logs","url":"undefined"`);
+    expect(JSON.stringify(body)).toContain(`"text":"Build Logs","url":"undefined"`);
   });
 });
 
@@ -79,7 +79,7 @@ describe("tester", () => {
       customUrl: artifactUrl,
     });
     const body = await returnSlackWebhookCall();
-    expect(body).toContain(`"url":"${artifactUrl}`);
+    expect(JSON.stringify(body)).toContain(`"url":"${artifactUrl}`);
   });
 });
 
@@ -94,8 +94,8 @@ describe("tester", () => {
       screenshotDir,
     });
     const body = await returnSlackWebhookCall();
-    checkStatus(body, "passed");
-    expect(body).toContain("github");
+    checkStatus(JSON.stringify(body), "passed");
+    expect(JSON.stringify(body)).toContain("github");
     expect(body).not.toContain("undefined");
   });
 });
@@ -112,9 +112,9 @@ describe("tester", () => {
     });
     const body = await returnSlackWebhookCall();
 
-    checkStatus(body, "failed");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "failed");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
   });
 });
 
@@ -144,9 +144,9 @@ describe("test custom webhooks per test status", () => {
     });
     const body = await returnSlackWebhookCall(failedUrl);
 
-    checkStatus(body, "failed");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "failed");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
     process.env.SLACK_WEBHOOK_FAILED_URL = "";
   });
 
@@ -161,9 +161,9 @@ describe("test custom webhooks per test status", () => {
       screenshotDir,
     });
     const body = await returnSlackWebhookCall(passedUrl);
-    checkStatus(body, "passed");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "passed");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
     expect(mockedHooks.calls).toHaveLength(1);
     process.env.SLACK_WEBHOOK_PASSED_URL = "";
   });
@@ -179,9 +179,9 @@ describe("test custom webhooks per test status", () => {
       screenshotDir,
     });
     const body = await returnSlackWebhookCall(errorUrl);
-    checkStatus(body, "build");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "build");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
     expect(mockedHooks.calls).toHaveLength(1);
     process.env.SLACK_WEBHOOK_ERROR_URL = "";
   });
@@ -197,9 +197,9 @@ describe("test custom webhooks per test status", () => {
       screenshotDir,
     });
     const body = await returnSlackWebhookCall(passedUrlMultiple, 2);
-    checkStatus(body, "passed");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "passed");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
     expect(mockedHooks.calls).toHaveLength(2);
     process.env.SLACK_WEBHOOK_PASSED_URL = "";
   });
@@ -218,9 +218,9 @@ describe("test onlyFailed flag", () => {
     });
     const body = await returnSlackWebhookCall();
 
-    checkStatus(body, "failed");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "failed");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
   });
 
   it("does not call a mock slack instance with passing test report and onlyFailed flag set", async () => {
@@ -251,9 +251,9 @@ describe("tester", () => {
     });
     const body = await returnSlackWebhookCall();
 
-    checkStatus(body, "build");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "build");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
   });
 });
 
@@ -272,9 +272,9 @@ describe("Slack Reporter throws error if we cant find the test report", () => {
     const body = await returnSlackWebhookCall(
       process.env.SLACK_WEBHOOK_ERROR_URL
     );
-    checkStatus(body, "build");
-    expect(body).toContain("github");
-    expect(body).not.toContain("undefined");
+    checkStatus(JSON.stringify(body), "build");
+    expect(JSON.stringify(body)).toContain("github");
+    expect(JSON.stringify(body)).not.toContain("undefined");
     expect(mockedHooks.calls).toHaveLength(1);
     process.env.SLACK_WEBHOOK_ERROR_URL = "";
   });
@@ -292,8 +292,8 @@ describe("tester", () => {
     });
     const body = await returnSlackWebhookCall();
 
-    expect(body).not.toContain("commits");
-    expect(body).not.toContain("artefacts");
+    expect(JSON.stringify(body)).not.toContain("commits");
+    expect(JSON.stringify(body)).not.toContain("artefacts");
   });
 });
 

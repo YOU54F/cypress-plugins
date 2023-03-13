@@ -167,6 +167,7 @@ describe("HTML report link checker", () => {
     const s = await buildHTMLReportURL({
       reportDir: dir,
       artefactUrl: REPORT_ARTEFACT_URL,
+      useOnlyCustomUrl: false,
     });
     expect(s).toEqual(
       `http://sometesturl.com${dir}/report-20190403-233436.html`
@@ -178,6 +179,7 @@ describe("HTML report link checker", () => {
     const s = await buildHTMLReportURL({
       reportDir: dir,
       artefactUrl: REPORT_ARTEFACT_URL,
+      useOnlyCustomUrl: false,
     });
     expect(s).toEqual(
       `http://sometesturl.com${dir}/report-20190403-233436.html`
@@ -189,6 +191,7 @@ describe("HTML report link checker", () => {
     const s = await buildHTMLReportURL({
       reportDir: dir,
       artefactUrl: REPORT_ARTEFACT_URL,
+      useOnlyCustomUrl: false,
     });
     expect(s).toContain(`http://sometesturl.com/${dir}`);
   });
@@ -292,6 +295,7 @@ describe("attachmentReports tester", () => {
       Job: 123
       SUT: envsut
       Total Passed:  1",
+        "title": "Total Tests: 1",
       }
     `);
   });

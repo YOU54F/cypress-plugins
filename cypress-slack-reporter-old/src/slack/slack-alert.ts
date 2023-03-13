@@ -16,7 +16,7 @@ const log = pino({
 });
 
 const isWin = process.platform === "win32";
-const buildUrl = (...urlComponents: (string | undefined)[]) => {
+const buildUrl = (...urlComponents: Array<(string | undefined)>) => {
   return (
     urlComponents
       // Trim leading & trailing slashes
