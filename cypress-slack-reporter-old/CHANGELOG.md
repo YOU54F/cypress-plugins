@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 * add flag useOnlyCustomUrl ([37b0866](https://github.com/you54f/cypress-slack-reporter/commit/37b0866285bd56e9809a8b6423be060acb3e5231))
 
+### [1.5.3](https://github.com/you54f/cypress-slack-reporter/compare/v1.5.2...v1.5.3) (2023-03-13)
+
+
+### Features
+
+* add flag useOnlyCustomUrl ([37b0866](https://github.com/you54f/cypress-slack-reporter/commit/37b0866285bd56e9809a8b6423be060acb3e5231))
+
 ### [1.5.2](https://github.com/you54f/cypress-slack-reporter/compare/v1.6.2...v1.5.2) (2022-12-09)
 
 
