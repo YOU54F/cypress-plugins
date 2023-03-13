@@ -9,6 +9,6 @@
     "cypress": "^3.1.5",
     "mkdirp": "^0.5.1",
     "mocha": "5.2.0",
-    "mochawesome": "3.1.1"
+    "mochawesome": "7.1.3"
   }
 }
