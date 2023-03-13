@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.3](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.4...v1.6.3) (2023-03-13)
+
 ### [1.6.2](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.1...v1.6.2) (2022-12-09)
 
 
