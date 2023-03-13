@@ -26,8 +26,8 @@
     "write-yaml": "1.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "12.1.1",
-    "@commitlint/config-conventional": "12.1.1",
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
     "cypress-multi-reporters": "1.5.0",
     "husky": "6.0.0",
     "mocha-junit-reporter": "2.0.0",
