@@ -24,7 +24,7 @@
   "author": "Yousaf Nabi",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && npm run compile",
+    "build": "rimraf bin && npm run compile",
     "cli": "rimraf cypress/reports && ts-node src/cli/spec.ts",
     "ci": "npm run lint && npm run compile && npm run test:ci && make test && npm run pre-publish",
     "lint": "tslint --project .",
