@@ -93,7 +93,7 @@
     "rimraf": "3.0.2",
     "s3-batch-upload": "1.5.0",
     "slack-mock-typed": "2.4.0",
-    "standard-version": "9.3.2",
+    "standard-version": "9.5.0",
     "ts-jest": "27.1.4",
     "ts-loader": "9.2.8",
     "ts-node": "10.7.0",

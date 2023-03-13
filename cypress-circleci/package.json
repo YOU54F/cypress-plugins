@@ -31,7 +31,7 @@
     "cypress-multi-reporters": "1.5.0",
     "husky": "6.0.0",
     "mocha-junit-reporter": "2.0.0",
-    "standard-version": "9.3.0"
+    "standard-version": "9.5.0"
   },
   "husky": {
     "hooks": {
