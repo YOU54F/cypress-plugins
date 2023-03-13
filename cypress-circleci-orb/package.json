@@ -23,7 +23,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mochawesome": "^6.0.0",
     "mochawesome-merge": "^4.0.0",
-    "mochawesome-report-generator": "^5.0.0",
+    "mochawesome-report-generator": "^6.0.0",
     "shelljs": "^0.8.5",
     "sonarqube-scanner": "^2.1.2",
     "uuid": "^8.0.0"
