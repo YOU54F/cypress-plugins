@@ -50,7 +50,7 @@
     "@slack/types": "^2.8.0",
     "@slack/webhook": "^6.1.0",
     "@types/commander": "^2.12.2",
-    "@types/pino": "^6.3.12",
+    "@types/pino": "^7.0.0",
     "commander": "^7.2.0",
     "del": "^6.1.1",
     "dotenv": "16.0.0",
