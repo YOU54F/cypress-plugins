@@ -27,7 +27,7 @@
     "@slack/webhook": "^6.1.0",
     "commander": "^9.2.0",
     "dotenv": "^16.0.0",
-    "globby": "^11.0.4",
+    "globby": "^13.0.0",
     "slack-block-builder": "^2.5.0"
   },
   "devDependencies": {
