@@ -1,6 +1,6 @@
 {
   "name": "cypress-multi-reporters",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "Generate multiple mocha reports in a single mocha execution.",
   "main": "index.js",
   "nyc": {
