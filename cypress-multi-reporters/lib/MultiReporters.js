@@ -93,7 +93,8 @@ function MultiReporters(runner, options) {
                 if (Reporter !== null) {
                     return new Reporter(
                         runner, {
-                            reporterOptions
+                            reporterOptions,
+                            reporterOption: reporterOptions
                         }
                     );
                 }
