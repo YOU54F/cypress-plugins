@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.3](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.4...v1.6.3) (2023-10-24)
+
+
+### Bug Fixes
+
+* **cypress-multi-reporters:** passing `reportOption` as an alias of `reportOptions` to match expectations in mocha ([15ed727](https://github.com/you54f/cypress-multi-reporters/commit/15ed727aa2b773d7d9d5d5f021bb9babbe3da594))
+* **release:** 1.6.3 ([1a59355](https://github.com/you54f/cypress-multi-reporters/commit/1a5935558c70332fd559eb24927b66b6133dedfd))
+
 ### [1.6.3](https://github.com/you54f/cypress-multi-reporters/compare/v1.5.3...v1.6.3) (2023-03-13)
 
 
