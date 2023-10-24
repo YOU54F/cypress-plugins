@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "test": "nyc mocha --require node_modules/chai/register-expect --timeout 5000 tests/**/*.test.js*",
     "deploy:prepare": "./scripts/create_npmrc_file.sh",
-    "release": "standard-version --release-as 1.6.3",
+    "release": "standard-version",
     "release:trigger": "./scripts/trigger-release.sh"
   },
   "author": "Stanley Ng <stanleyhlng77-dev@yahoo.com.hk",
