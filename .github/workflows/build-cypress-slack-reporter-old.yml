@@ -44,10 +44,10 @@ jobs:
       with:
         name: test-output-1
         path: |
-          cypress/reports
-          cypress/videos
-          cypress/screenshots
-          mochareports
+          cypress-slack-reporter-old/cypress/reports
+          cypress-slack-reporter-old/cypress/videos
+          cypress-slack-reporter-old/cypress/screenshots
+          cypress-slack-reporter-old/mochareports
     - run: npm run slack-ts 
     - run: npm run slack-js 
     - run: npm run slack-ts-opts 
@@ -61,5 +61,5 @@ jobs:
       with:
         name: test-output-2
         path: |
-          src/slack/test
-          cypress/reports/mocha
+          cypress-slack-reporter-old/src/slack/test
+          cypress-slack-reporter-old/cypress/reports/mocha
