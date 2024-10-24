@@ -1,6 +1,6 @@
 {
   "name": "cypress-multi-reporters",
-  "version": "1.6.4",
+  "version": "2.0.2",
   "description": "Generate multiple mocha reports in a single mocha execution.",
   "main": "index.js",
   "nyc": {
@@ -44,7 +44,7 @@
     "eslint": "9.13.0",
     "eslint-config-defaults": "9.0.0",
     "husky": "9.1.6",
-    "mocha": "9.2.2",
+    "mocha": "8.4.0",
     "mocha-lcov-reporter": "1.3.0",
     "nyc": "17.1.0",
     "sinon": "19.0.2",
