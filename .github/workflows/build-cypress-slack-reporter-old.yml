@@ -42,7 +42,7 @@ jobs:
     - name: get artifacts 1 
       uses: actions/upload-artifact@v4
       with:
-        name: test-output-1
+        name: test-output-1-${{matrix.node-version}}
         path: |
           cypress-slack-reporter-old/cypress/reports
           cypress-slack-reporter-old/cypress/videos
@@ -59,7 +59,7 @@ jobs:
     - name: get artifacts 2 
       uses: actions/upload-artifact@v4
       with:
-        name: test-output-2
+        name: test-output-2-${{matrix.node-version}}
         path: |
           cypress-slack-reporter-old/src/slack/test
           cypress-slack-reporter-old/cypress/reports/mocha
