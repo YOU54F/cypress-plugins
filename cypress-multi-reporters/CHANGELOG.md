@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/you54f/cypress-multi-reporters/compare/v1.6.4...v2.0.3) (2024-10-24)
+
+
+### Bug Fixes
+
+* **cypress-multi-reporters:** bump version to 2.0.2 ([950e9c6](https://github.com/you54f/cypress-multi-reporters/commit/950e9c6486359c5456cc8a31ae3c114309502741))
+* **deps:** update cypress-multi-reporter deps ([e5d32d0](https://github.com/you54f/cypress-multi-reporters/commit/e5d32d0ff410c6f9d747089b8e50a31bca3e7a7f))
+* **deps:** update cypress-slack-reporter old deps ([f4414af](https://github.com/you54f/cypress-multi-reporters/commit/f4414af14089472930ee9b0a228f46d0d076e914))
+
 ### [1.6.4](https://github.com/you54f/cypress-multi-reporters/compare/v1.6.3...v1.6.4) (2023-10-24)
 
 
