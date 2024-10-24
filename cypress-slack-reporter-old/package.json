@@ -52,7 +52,7 @@
     "@types/commander": "^2.12.5",
     "@types/pino": "^7.0.5",
     "commander": "^12.1.0",
-    "del": "^8.0.0",
+    "del": "^6.1.1",
     "dotenv": "16.4.5",
     "pino": "^9.5.0"
   },
@@ -126,10 +126,5 @@
   "jest-junit": {
     "outputDirectory": "./testReports/",
     "reportDir": "testReports/unit"
-  },
-  "resolutions": {
-    "set-value": "4.1.0",
-    "braces": "3.0.2",
-    "handlebars": "4.7.7"
   }
 }

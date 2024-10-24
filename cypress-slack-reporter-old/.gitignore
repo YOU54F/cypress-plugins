@@ -12,3 +12,4 @@ bin
 yarn-error.log
 mochareports
 /.idea/
+mochawesome-report
