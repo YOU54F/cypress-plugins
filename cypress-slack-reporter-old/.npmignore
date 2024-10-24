@@ -34,4 +34,7 @@ scripts
 src
 samples
 config.env.*
-
+mochawesome-report/
+cypress.config.ts
+RELEASING.md
+CONTRIBUTING.md

@@ -17,4 +17,4 @@ cypress-multi-reporters.tar.gz
 renovate.json
 .editorconfig
 .ncurc.js
-eslint.config.js
+eslint.config.mjs
