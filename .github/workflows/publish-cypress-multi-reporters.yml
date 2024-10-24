@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: 'https://registry.npmjs.org'
           cache-dependency-path: cypress-multi-reporters/yarn.lock
       - id: publish
@@ -28,12 +28,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTOMATION_TOKEN}}
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: v${{ steps.publish.outputs.version }}
-          release_name: Release v${{ steps.publish.outputs.version }}
+          name: Release v${{ steps.publish.outputs.version }}
           body: ${{steps.publish.outputs.notes}}
           draft: false
           prerelease: false
