@@ -274,15 +274,15 @@ describe("attachmentReports tester", () => {
       ciEnvVars: envVars,
     });
     expect(s).toMatchInlineSnapshot(`
-      Object {
-        "actions": Array [
-          Object {
+      {
+        "actions": [
+          {
             "style": "primary",
             "text": "Test Report",
             "type": "button",
             "url": "test",
           },
-          Object {
+          {
             "style": "primary",
             "text": "Build Logs",
             "type": "button",
@@ -314,15 +314,15 @@ describe("attachmentReports tester", () => {
       ciEnvVars: envVars,
     });
     expect(s).toMatchInlineSnapshot(`
-      Object {
-        "actions": Array [
-          Object {
+      {
+        "actions": [
+          {
             "style": "primary",
             "text": "Test Report",
             "type": "button",
             "url": "test",
           },
-          Object {
+          {
             "style": "primary",
             "text": "Build Logs",
             "type": "button",
@@ -355,9 +355,9 @@ describe("attachmentReports tester", () => {
       ciEnvVars: envVars,
     });
     expect(s).toMatchInlineSnapshot(`
-      Object {
-        "actions": Array [
-          Object {
+      {
+        "actions": [
+          {
             "style": "danger",
             "text": "Build Logs",
             "type": "button",

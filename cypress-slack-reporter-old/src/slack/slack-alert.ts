@@ -10,7 +10,7 @@ import {
 import * as fs from "fs";
 import * as globby from "globby";
 import * as path from "path";
-import * as pino from "pino";
+import { pino } from "pino";
 const log = pino({
   level: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info",
 });
@@ -601,7 +601,7 @@ const getVideoLinks = async ({
       return "";
     } else {
       const videoLinks = await Promise.all(
-        videos.map((videoObject) => {
+        videos.map((videoObject:string) => {
           const trimmedVideoFilename = path.basename(videoObject);
 
           return `<${buildUrl(
@@ -643,7 +643,7 @@ const getScreenshotLinks = async ({
       return "";
     } else {
       const screenshotLinks = await Promise.all(
-        screenshots.map((screenshotObject) => {
+        screenshots.map((screenshotObject:string) => {
           const trimmedScreenshotFilename = path.basename(screenshotObject);
 
           return `<${buildUrl(
