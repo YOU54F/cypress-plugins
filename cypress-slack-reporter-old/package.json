@@ -88,7 +88,7 @@
     "mochawesome-merge": "4.3.0",
     "mochawesome-report-generator": "6.2.0",
     "prettier": "3.3.3",
-    "rimraf": "6.0.1",
+    "rimraf": "5.0.10",
     "s3-batch-upload": "1.5.2",
     "slack-mock-typed": "2.4.0",
     "standard-version": "9.5.0",

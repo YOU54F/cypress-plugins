@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import js from "@eslint/js";
 import globals from "globals";
 
@@ -12,8 +12,7 @@ export default [
                 ...globals.node,
                 ...globals.mocha,
                 ...globals.mocha,
-                expect: true
-
+                expect: true,
             },
         },
         ignores: [
@@ -23,15 +22,13 @@ export default [
             "node_modules/",
             "lcov-*",
             "xunit*",
-            "eslint.config.js",
+            "eslint.config.mjs",
         ],
-
         rules: {
             "brace-style": [2, "stroustrup", { allowSingleLine: true }],
             "no-console": 0,
             strict: [2],
             indent: [2, 4],
-
             semi: ["error"],
             "prefer-const": ["error"],
             "no-var": ["error"],
@@ -41,12 +38,5 @@ export default [
             "quote-props": ["error", "as-needed"],
             "prefer-template": ["error"],
         },
-        // files: 'tests/**',
-        // env: {
-        //     mocha: true
-        // // },
-        // globals: {
-        //     expect: true
-        // }
     },
 ];
