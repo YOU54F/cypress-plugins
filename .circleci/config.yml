@@ -24,6 +24,9 @@ jobs:
             - ~/.npm
             - ~/.cache  
       - run:
+          name: deps
+          command: apt-get update && apt-get install -y make
+      - run:
           when: always
           name: Lint project
           command: yarn run lint
