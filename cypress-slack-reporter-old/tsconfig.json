@@ -21,7 +21,7 @@
       "commander/typings",
       "aws-sdk-mock",
       "cypress",
-      "@types/dotenv",
+      "dotenv",
       "slack-mock-typed"
     ]
   },

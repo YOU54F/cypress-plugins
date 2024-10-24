@@ -40,7 +40,7 @@ jobs:
     - run: make test
     - run: make combine-reports && make generate-report
     - name: get artifacts 1 
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-output-1
         path: |
@@ -57,7 +57,7 @@ jobs:
     - run: npm run slack-js-opts-build-failed
     - run: npm run cli
     - name: get artifacts 2 
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-output-2
         path: |

@@ -68,7 +68,6 @@
     "@commitlint/config-conventional": "19.5.0",
     "@cypress/webpack-preprocessor": "6.0.2",
     "@types/bluebird": "3.5.42",
-    "@types/dotenv": "8.2.3",
     "@types/jest": "29.5.14",
     "@types/node": "22.7.9",
     "aws-sdk": "2.1691.0",
