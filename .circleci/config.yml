@@ -4,7 +4,7 @@ jobs:
   test-cypress-slack-reporter-old:
     docker:
       # the Docker image with Cypress dependencies
-      - image: cypress/base:17.8.0
+      - image: cypress/base:20.18.0
         environment:
           ## this enables colors in the output
           TERM: xterm
