@@ -116,7 +116,7 @@ eg. `export SLACK_WEBHOOK_URL=your1stWebhookUrlHere,your2ndWebhookUrlHere`
 - [mochawesome](https://github.com/adamgruber/mochawesome/) for json test result generation
 - [mochawesome-merge](https://github.com/Antontelesh/mochawesome-merge) to combine multiple mochawesome reports
 - [mochawesome-report-generator](https://github.com/Antonteleshmochawesome-report-generator) to generate a HTML report, from your mochawesome json test results
-- [cypress-multi-reporters](https://github.com/you54f/cypress-multi-reporters) to allow you to use multple reporters, in case you require other outputs (junit/spec etc)
+- [cypress-multi-reporters](https://github.com/YOU54F/cypress-plugins/tree/master/cypress-multi-reporters) to allow you to use multiple reporters, in case you require other outputs (junit/spec etc)
 
 Yarn installation Instructions
 

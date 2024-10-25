@@ -24,13 +24,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/you54f/cypress-multi-reporters"
+    "url": "https://github.com/YOU54F/cypress-plugins"
   },
   "engines": {
     "node": ">=6.0.0"
   },
-  "bugs": "https://github.com/you54f/cypress-multi-reporters/issues",
-  "homepage": "https://github.com/you54f/cypress-multi-reporters",
+  "bugs": "https://github.com/YOU54F/cypress-plugins/issues",
+  "homepage": "https://github.com/YOU54F/cypress-plugins/tree/master/cypress-multi-reporters",
   "license": "MIT",
   "dependencies": {
     "debug": "^4.3.7",
