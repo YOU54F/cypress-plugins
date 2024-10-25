@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.4](https://github.com/YOU54F/cypress-plugins/compare/v1.5.4...v2.0.4) (2024-10-25)
+
+
+### Bug Fixes
+
+* update cypress-multi-reporters repository and homepage URLs ([#1252](https://github.com/YOU54F/cypress-plugins/issues/1252)) ([2193ec7](https://github.com/YOU54F/cypress-plugins/commit/2193ec7dd03d959cf3e1a335ceb2329c5c4bd47c))
+
 ### [2.0.3](https://github.com/you54f/cypress-multi-reporters/compare/v1.6.4...v2.0.3) (2024-10-24)
 
 
