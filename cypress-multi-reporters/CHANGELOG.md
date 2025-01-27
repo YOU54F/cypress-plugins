@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.5](https://github.com/YOU54F/cypress-plugins/compare/v2.0.4...v2.0.5) (2025-01-27)
+
+
+### Bug Fixes
+
+* Mocha version comparison fix ([18f9c50](https://github.com/YOU54F/cypress-plugins/commit/18f9c505bba38ce11f97d692b1c6148e4d95f2a9))
+
 ### [2.0.4](https://github.com/YOU54F/cypress-plugins/compare/v1.5.4...v2.0.4) (2024-10-25)
 
 
