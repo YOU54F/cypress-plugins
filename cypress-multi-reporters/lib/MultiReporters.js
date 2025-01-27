@@ -13,6 +13,7 @@ const util = require('util');
 const mocha = require('mocha');
 const {Base} = mocha.reporters;
 const path = require('path');
+const semver = require('semver');
 
 let createStatsCollector;
 let mocha6plus;
@@ -23,7 +24,7 @@ try {
     );
     const {version} = json;
     // istanbul ignore else
-    if (version >= '6') {
+    if (semver.gte(version, '6.0.0')) {
         createStatsCollector = require('mocha/lib/stats-collector');
         mocha6plus = true;
     }
