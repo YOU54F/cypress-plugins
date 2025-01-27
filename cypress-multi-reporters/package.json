@@ -33,18 +33,19 @@
   "homepage": "https://github.com/YOU54F/cypress-plugins/tree/master/cypress-multi-reporters",
   "license": "MIT",
   "dependencies": {
-    "debug": "^4.3.7",
-    "lodash": "^4.17.21"
+    "debug": "^4.4.0",
+    "lodash": "^4.17.21",
+    "semver": "^7.6.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "19.5.0",
-    "@commitlint/config-conventional": "19.5.0",
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
     "chai": "5.1.2",
     "coveralls": "3.1.1",
-    "eslint": "9.13.0",
+    "eslint": "9.19.0",
     "eslint-config-defaults": "9.0.0",
-    "husky": "9.1.6",
-    "mocha": "8.4.0",
+    "husky": "9.1.7",
+    "mocha": "11.1.0",
     "mocha-lcov-reporter": "1.3.0",
     "nyc": "17.1.0",
     "sinon": "19.0.2",
