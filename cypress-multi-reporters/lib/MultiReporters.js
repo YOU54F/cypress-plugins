@@ -160,7 +160,7 @@ MultiReporters.prototype.getCustomOptions = function (options) {
         debug('options file (custom)', customOptionsFile);
 
         try {
-            if ('.js' === path.extname(customOptionsFile)) {
+            if (['.js', '.cjs'].includes(path.extname(customOptionsFile))) {
                 customOptions = require(customOptionsFile);
             }
             else {
