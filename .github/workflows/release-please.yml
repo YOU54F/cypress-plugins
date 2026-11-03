@@ -21,6 +21,8 @@ jobs:
         with:
           repo-url: you54f/cypress-plugins
           target-branch: master
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
   publish:
     needs: release-please
     if: needs.release-please.outputs.releases_created == 'true'
