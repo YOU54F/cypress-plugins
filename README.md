@@ -4,11 +4,7 @@ Various cypress plugins, some of which I've created, some I've adopted.
 
 It's easier for me to have them all in one place.
 
-- `cypress-slack-reporter` - send rich test results to slack
 - `cypress-multi-reporters` - Use multiple reporters in your tests
-
-For users upgrading from the published Slack reporter, see the
-[cypress-slack-reporter migration guide](./cypress-slack-reporter/README.md#migrating-from-1x).
 
 ## Archived projects
 
@@ -27,8 +23,9 @@ commits on `master` produce a release PR with a package-specific version and
 `CHANGELOG.md`. Merging that PR creates package-prefixed GitHub releases and
 publishes only the packages included in that release.
 
-The current release manifest includes `cypress-multi-reporters` and
-`cypress-slack-reporter`. Archived projects are not released by this workflow.
+The current release manifest includes `cypress-multi-reporters`. The replacement
+Slack reporter will be added to the release manifest with its v2 source.
+Archived projects are not released by this workflow.
 
 ## Example
 
