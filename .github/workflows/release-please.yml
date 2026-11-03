@@ -51,7 +51,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.org
       - name: Install legacy reporter dependencies
         if: matrix.package == 'cypress-slack-reporter-old'
         working-directory: cypress-slack-reporter-old
@@ -75,7 +74,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
       - name: Upgrade npm for staged trusted publishing
         run: npm install -g npm@^11.15.0
       - name: Stage package for approval
