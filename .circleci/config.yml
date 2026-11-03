@@ -15,15 +15,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            corepack enable
-            corepack prepare yarn@1.22.22 --activate
             cd cypress-multi-reporters
             yarn install --frozen-lockfile
       - run:
           name: Lint and test
           command: |
-            corepack enable
-            corepack prepare yarn@1.22.22 --activate
             cd cypress-multi-reporters
             yarn run lint
             yarn run devtest
