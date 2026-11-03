@@ -71,8 +71,12 @@ jobs:
         if: matrix.package == 'cypress-multi-reporters'
         working-directory: cypress-multi-reporters
         run: npm test
-      - name: Upgrade npm for trusted publishing
-        run: npm install -g npm@^11.5.1
-      - name: Publish package
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Upgrade npm for staged trusted publishing
+        run: npm install -g npm@^11.15.0
+      - name: Stage package for approval
         working-directory: ${{ matrix.package }}
-        run: npm publish --access public
+        run: npm stage publish --access public
