@@ -5,7 +5,13 @@ jobs:
     docker:
       - image: cimg/node:22.13
     steps:
-      - checkout
+      - run:
+          name: Fetch public repository revision
+          command: |
+            git init .
+            git remote add origin https://github.com/YOU54F/cypress-plugins.git
+            git fetch --depth=1 origin "$CIRCLE_SHA1"
+            git checkout --detach FETCH_HEAD
       - run:
           name: Install dependencies
           command: cd cypress-slack-reporter && npm ci
