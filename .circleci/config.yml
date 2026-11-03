@@ -1,6 +1,30 @@
 version: 2.1
 
 jobs:
+  build-multi-reporters:
+    docker:
+      - image: cimg/node:22.13
+    steps:
+      - run:
+          name: Fetch public repository revision
+          command: |
+            git init .
+            git remote add origin https://github.com/YOU54F/cypress-plugins.git
+            git fetch --depth=1 origin "$CIRCLE_SHA1"
+            git checkout --detach FETCH_HEAD
+      - run:
+          name: Install dependencies
+          command: |
+            cd cypress-multi-reporters
+            yarn install --frozen-lockfile
+      - run:
+          name: Lint and test
+          command: |
+            cd cypress-multi-reporters
+            yarn run lint
+            yarn run devtest
+            yarn run test
+
   build-slack-reporter:
     docker:
       - image: cimg/node:22.13
@@ -26,4 +50,5 @@ jobs:
 workflows:
   build:
     jobs:
+      - build-multi-reporters
       - build-slack-reporter
