@@ -78,4 +78,4 @@ jobs:
         run: npm install -g npm@^11.15.0
       - name: Stage package for approval
         working-directory: ${{ matrix.package }}
-        run: npm stage publish --access public
+        run: npm stage publish --access public --loglevel verbose
