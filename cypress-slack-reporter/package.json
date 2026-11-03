@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/cypress-plugins.git",
+    "url": "git+https://github.com/YOU54F/cypress-plugins.git",
     "directory": "cypress-slack-reporter"
   },
   "author": "Yousaf Nabi",
