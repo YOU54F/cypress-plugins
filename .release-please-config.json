@@ -4,6 +4,9 @@
   "packages": {
     "cypress-multi-reporters": {
       "component": "cypress-multi-reporters"
+    },
+    "cypress-slack-reporter": {
+      "component": "cypress-slack-reporter"
     }
   }
 }
