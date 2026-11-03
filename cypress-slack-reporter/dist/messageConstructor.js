@@ -1,24 +1,70 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.messageConstructor = void 0;
-const slack_1 = require("./slack");
-const slack_block_builder_1 = require("slack-block-builder");
-const messageConstructor = ({ headingText, channel, status, customBlocks }) => {
-    const messageBuilder = (0, slack_block_builder_1.Message)({ channel, text: headingText }).blocks(slack_block_builder_1.Blocks.Section({
-        text: headingText !== null && headingText !== void 0 ? headingText : 'Cypress Slack Reporter'
-    }), slack_block_builder_1.Blocks.Divider(), slack_block_builder_1.Blocks.Actions().elements(status !== slack_1.cypressRunStatus['build:failed']
-        ? slack_block_builder_1.Elements.Button({
-            text: 'Test Report'
-        })
-            .danger(status === slack_1.cypressRunStatus['test:failed'])
-            .primary(status !== slack_1.cypressRunStatus['test:failed'])
-        : undefined, slack_block_builder_1.Elements.Button({
-        text: 'Build Logs'
-    })
-        .danger(status === slack_1.cypressRunStatus['build:failed'])
-        .primary(status !== slack_1.cypressRunStatus['build:failed'])));
-    return customBlocks
-        ? messageBuilder.blocks(...customBlocks).buildToObject()
-        : messageBuilder.buildToObject();
+const messageConstructor = (options) => {
+    const { status, projectName = 'Cypress', branch, actor, commitUrl, pullRequestUrl, buildUrl, reportUrl, totalTests, totalPasses, totalFailures, totalSkipped, customText = '', artifactLinks = [], customBlocks = [] } = options;
+    const title = status === 'build:failed'
+        ? `${projectName} test build failed`
+        : `${projectName} test run ${status === 'test:failed' ? 'failed' : 'passed'}`;
+    const blocks = [
+        {
+            type: 'section',
+            text: { type: 'mrkdwn', text: `*${title}*` }
+        },
+        {
+            type: 'section',
+            fields: [
+                { type: 'mrkdwn', text: `*Total tests:*\n${totalTests}` },
+                { type: 'mrkdwn', text: `*Passed:*\n${totalPasses}` },
+                { type: 'mrkdwn', text: `*Failed:*\n${totalFailures}` },
+                { type: 'mrkdwn', text: `*Skipped:*\n${totalSkipped}` }
+            ]
+        }
+    ];
+    const details = [
+        branch ? `Branch: ${branch}` : undefined,
+        actor && commitUrl
+            ? `Triggered by <${commitUrl}|${actor}>`
+            : commitUrl
+                ? `Triggered by <${commitUrl}|commit>`
+                : undefined,
+        pullRequestUrl ? `<${pullRequestUrl}|Pull request>` : undefined,
+        customText || undefined
+    ].filter((line) => Boolean(line));
+    if (details.length) {
+        blocks.push({
+            type: 'section',
+            text: { type: 'mrkdwn', text: details.join('\n') }
+        });
+    }
+    const actions = [];
+    if (reportUrl) {
+        actions.push({
+            type: 'button',
+            text: { type: 'plain_text', text: 'Test Report' },
+            url: reportUrl,
+            style: status === 'test:failed' ? 'danger' : 'primary'
+        });
+    }
+    if (buildUrl) {
+        actions.push({
+            type: 'button',
+            text: { type: 'plain_text', text: 'Build Logs' },
+            url: buildUrl
+        });
+    }
+    if (actions.length)
+        blocks.push({ type: 'actions', elements: actions });
+    if (artifactLinks.length) {
+        blocks.push({
+            type: 'section',
+            text: { type: 'mrkdwn', text: artifactLinks.join('\n') }
+        });
+    }
+    const allBlocks = [...blocks, ...customBlocks];
+    if (allBlocks.length > 50) {
+        throw new RangeError(`Slack messages support at most 50 blocks; received ${allBlocks.length}`);
+    }
+    return { text: title, blocks: allBlocks };
 };
 exports.messageConstructor = messageConstructor;

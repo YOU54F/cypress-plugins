@@ -1,4 +1,5 @@
 node_modules
+dist
 .env
 logs
 .DS_STORE

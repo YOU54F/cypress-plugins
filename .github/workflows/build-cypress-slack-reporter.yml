@@ -1,0 +1,36 @@
+name: Build cypress-slack-reporter
+
+on:
+  push:
+    paths:
+      - cypress-slack-reporter/**
+      - .github/workflows/build-cypress-slack-reporter.yml
+  pull_request:
+    branches:
+      - master
+    paths:
+      - cypress-slack-reporter/**
+      - .github/workflows/build-cypress-slack-reporter.yml
+
+defaults:
+  run:
+    working-directory: cypress-slack-reporter
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: cypress-slack-reporter/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: npm pack --dry-run

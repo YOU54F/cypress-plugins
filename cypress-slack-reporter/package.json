@@ -1,49 +1,52 @@
 {
-  "name": "cypress-circleci",
-  "version": "0.0.1",
-  "description": "A collection of plugins for cypress",
-  "main": "./bin/index.js",
+  "name": "cypress-slack-reporter",
+  "version": "1.5.4",
+  "description": "Send Cypress and Mocha test results to Slack",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
-    "cypress-plugins": "./bin/index.js"
+    "cypress-slack-reporter": "./dist/index.js"
   },
   "keywords": [
     "cypress",
     "slack",
-    "circleci",
     "reporter",
     "mocha",
-    "mochawesome",
-    "mochawesome-merge",
-    "marge"
+    "mochawesome"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/cypress-plugins.git"
+    "url": "git+https://github.com/you54f/cypress-plugins.git",
+    "directory": "cypress-slack-reporter"
   },
   "author": "Yousaf Nabi",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
-    "@slack/web-api": "^6.7.1",
-    "@slack/webhook": "^6.1.0",
-    "commander": "^9.2.0",
-    "dotenv": "^16.0.0",
-    "globby": "^11.0.4",
-    "slack-block-builder": "^2.5.0"
+    "@slack/web-api": "^8.3.0",
+    "@slack/webhook": "^8.0.2",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "globby": "^11.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.30",
-    "cypress": "^9.6.0",
-    "cypress-mochawesome-reporter": "^3.0.1",
-    "jest": "^27.1.4",
-    "ts-jest": "^27.1.4",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.7.9",
+    "jest": "^30.5.2",
+    "ts-jest": "^29.4.15",
+    "typescript": "^5.6.3"
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "run:ts": "ts-node ./src/index.ts",
-    "run:dist": "node ./dist/index.js"
+    "test": "jest --runInBand",
+    "prepublishOnly": "npm run build"
   }
 }
