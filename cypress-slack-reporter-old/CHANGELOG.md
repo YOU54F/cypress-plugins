@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/you54f/cypress-plugins/compare/cypress-slack-reporter-v1.5.4...cypress-slack-reporter-v1.6.0) (2026-11-03)
+
+
+### Features
+
+* add flag useOnlyCustomUrl ([37b0866](https://github.com/you54f/cypress-plugins/commit/37b0866285bd56e9809a8b6423be060acb3e5231))
+* start setting up mono repo ([c3eadfa](https://github.com/you54f/cypress-plugins/commit/c3eadfa856e8c11814a0afdc76ca076d320ea039))
+
+
+### Bug Fixes
+
+* **deps:** update cypress-slack-reporter old deps ([f4414af](https://github.com/you54f/cypress-plugins/commit/f4414af14089472930ee9b0a228f46d0d076e914))
+* github alert url to not duplicate organisation ([a2daea1](https://github.com/you54f/cypress-plugins/commit/a2daea12da3494966f6ccf00c9a18b33e5cf0dbe))
+* trim reporter.json ([5a72ef8](https://github.com/you54f/cypress-plugins/commit/5a72ef8034bb1e581e9597269ba6d8e4756c165c))
+* update cypress-multi-reporters repository and homepage URLs ([#1252](https://github.com/you54f/cypress-plugins/issues/1252)) ([2193ec7](https://github.com/you54f/cypress-plugins/commit/2193ec7dd03d959cf3e1a335ceb2329c5c4bd47c))
+
 ### [1.5.4](https://github.com/you54f/cypress-slack-reporter/compare/v2.0.3...v1.5.4) (2024-10-24)
 
 ### [1.5.4](https://github.com/you54f/cypress-slack-reporter/compare/v1.5.3...v1.5.4) (2023-03-13)

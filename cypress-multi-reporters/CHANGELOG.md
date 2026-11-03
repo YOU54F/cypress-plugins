@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/you54f/cypress-plugins/compare/cypress-multi-reporters-v2.0.5...cypress-multi-reporters-v2.1.0) (2026-11-03)
+
+
+### Features
+
+* start setting up mono repo ([c3eadfa](https://github.com/you54f/cypress-plugins/commit/c3eadfa856e8c11814a0afdc76ca076d320ea039))
+
+
+### Bug Fixes
+
+* **cypress-multi-reporters:** bump version to 2.0.2 ([950e9c6](https://github.com/you54f/cypress-plugins/commit/950e9c6486359c5456cc8a31ae3c114309502741))
+* **cypress-multi-reporters:** passing `reportOption` as an alias of `reportOptions` to match expectations in mocha ([569cb63](https://github.com/you54f/cypress-plugins/commit/569cb63f48c010e80b67bbd9fe79f6f3ca9b24bf))
+* **cypress-multi-reporters:** passing `reportOption` as an alias of `reportOptions` to match expectations in mocha ([15ed727](https://github.com/you54f/cypress-plugins/commit/15ed727aa2b773d7d9d5d5f021bb9babbe3da594))
+* **deps:** update cypress-multi-reporter deps ([e5d32d0](https://github.com/you54f/cypress-plugins/commit/e5d32d0ff410c6f9d747089b8e50a31bca3e7a7f))
+* Mocha version comparison fix ([18f9c50](https://github.com/you54f/cypress-plugins/commit/18f9c505bba38ce11f97d692b1c6148e4d95f2a9))
+* **release:** 1.6.3 ([1a59355](https://github.com/you54f/cypress-plugins/commit/1a5935558c70332fd559eb24927b66b6133dedfd))
+* trim reporter.json ([5888c07](https://github.com/you54f/cypress-plugins/commit/5888c07e032de4ff2162509200fadba7b0f153b8))
+* update cypress-multi-reporters repository and homepage URLs ([#1252](https://github.com/you54f/cypress-plugins/issues/1252)) ([2193ec7](https://github.com/you54f/cypress-plugins/commit/2193ec7dd03d959cf3e1a335ceb2329c5c4bd47c))
+
 ### [2.0.5](https://github.com/YOU54F/cypress-plugins/compare/v2.0.4...v2.0.5) (2025-01-27)
 
 
