@@ -2,10 +2,10 @@
   "name": "cypress-slack-reporter",
   "version": "1.5.4",
   "description": "Send Cypress and Mocha test results to Slack",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "cypress-slack-reporter": "./dist/index.js"
+    "cypress-slack-reporter": "dist/index.js"
   },
   "keywords": [
     "cypress",
