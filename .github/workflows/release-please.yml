@@ -1,0 +1,58 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      paths_released: ${{ steps.release.outputs.paths_released }}
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          repo-url: you54f/cypress-plugins
+          target-branch: master
+  publish:
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - name: Install legacy reporter dependencies
+        if: matrix.package == 'cypress-slack-reporter-old'
+        working-directory: cypress-slack-reporter-old
+        run: yarn install --frozen-lockfile
+      - name: Build and test legacy reporter
+        if: matrix.package == 'cypress-slack-reporter-old'
+        working-directory: cypress-slack-reporter-old
+        run: npm run lint && npm run compile && npm test
+      - name: Install multi-reporter dependencies
+        if: matrix.package == 'cypress-multi-reporters'
+        working-directory: cypress-multi-reporters
+        run: yarn install --frozen-lockfile
+      - name: Build and test multi-reporters
+        if: matrix.package == 'cypress-multi-reporters'
+        working-directory: cypress-multi-reporters
+        run: npm test
+      - name: Publish package
+        working-directory: ${{ matrix.package }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}
