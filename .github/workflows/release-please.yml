@@ -35,6 +35,9 @@ jobs:
           manifest-file: .release-please-manifest.json
   publish:
     needs: release-please
+    permissions:
+      contents: read
+      id-token: write
     if: github.event_name == 'workflow_dispatch' || needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
     strategy:
@@ -68,8 +71,8 @@ jobs:
         if: matrix.package == 'cypress-multi-reporters'
         working-directory: cypress-multi-reporters
         run: npm test
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@^11.5.1
       - name: Publish package
         working-directory: ${{ matrix.package }}
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}

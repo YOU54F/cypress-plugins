@@ -24,7 +24,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOU54F/cypress-plugins"
+    "url": "git+https://github.com/YOU54F/cypress-plugins.git",
+    "directory": "cypress-multi-reporters"
   },
   "engines": {
     "node": ">=6.0.0"
