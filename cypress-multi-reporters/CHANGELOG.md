@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/YOU54F/cypress-plugins/compare/cypress-multi-reporters-v2.0.5...cypress-multi-reporters-v2.1.0) (2026-11-03)
+
+
+### Features
+
+* **cypress-multi-reporters:** support .cjs config files ([#1257](https://github.com/YOU54F/cypress-plugins/issues/1257)) ([44cd7de](https://github.com/YOU54F/cypress-plugins/commit/44cd7deda1947cc4f129f528628fe215aacbfa0f))
+
 ### [2.0.5](https://github.com/YOU54F/cypress-plugins/compare/v2.0.4...v2.0.5) (2025-01-27)
 
 
