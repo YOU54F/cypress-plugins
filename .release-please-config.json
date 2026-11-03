@@ -6,7 +6,8 @@
       "component": "cypress-multi-reporters"
     },
     "cypress-slack-reporter-old": {
-      "component": "cypress-slack-reporter"
+      "component": "cypress-slack-reporter",
+      "release-as": "1.5.5"
     }
   }
 }
