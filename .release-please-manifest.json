@@ -1,0 +1,4 @@
+{
+  "cypress-multi-reporters": "2.0.5",
+  "cypress-slack-reporter-old": "1.5.4"
+}
