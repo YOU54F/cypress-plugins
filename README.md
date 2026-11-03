@@ -4,29 +4,35 @@ Various cypress plugins, some of which I've created, some I've adopted.
 
 It's easier for me to have them all in one place.
 
-- `cypress-jest` - A jest test runner to execute Cypress tests
-- `cypress-openapi` - Generate cypress tests from OpenAPI specs
-- `cypress-buckets` - split your cypress test files into multiple circleci workflows
-- `cypress-circleci` - split your cypress test files into multiple circleci workflows
-- `cypress-cognito-srp` - login via cognito for `USER_SRP_AUTH` auth flow, via name and password
-- `cypress-dynamic-data` - generate test data from Excel or CSV files.
 - `cypress-slack-reporter` - send rich test results to slack
 - `cypress-multi-reporters` - Use multiple reporters in your tests
 
-## Templates
+For users upgrading from the published Slack reporter, see the
+[cypress-slack-reporter migration guide](./cypress-slack-reporter/README.md#migrating-from-1x).
 
-- `cypress-pact` - generate a scaffold project utilising @pactflow/pact-cypress-adapter
-- `cypress-msw-pact` - generate a scaffold project utilising @pactflow/pact-msw-adapter
-- `cypress-serverless` - run cypress in a lambda with serverless
-- `cypress-docker-typescript` - Will scaffold the example repository used to showcase the plugins, in a location of the users choice.  
+## Archived projects
+
+Projects not currently being maintained are in [archive/](./archive/). They
+remain in the repository for reference and may be revisited later.
 
 ## Documentation
 
 - `cypress-plugins-site` - The website, built with Docusaurus V2 and deployed via Vercel
 
+## Releases
+
+Maintained npm packages are versioned independently with
+[Release Please](https://github.com/googleapis/release-please). Conventional
+commits on `master` produce a release PR with a package-specific version and
+`CHANGELOG.md`. Merging that PR creates package-prefixed GitHub releases and
+publishes only the packages included in that release.
+
+The current release manifest includes `cypress-multi-reporters` and
+`cypress-slack-reporter`. Archived projects are not released by this workflow.
+
 ## Example
 
-The `cypress-docker-typescript` scaffolded example will generate a project with the following.
+The archived `cypress-docker-typescript` scaffolded example generated a project with the following.
 
 It contains
 
