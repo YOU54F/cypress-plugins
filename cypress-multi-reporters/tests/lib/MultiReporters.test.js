@@ -330,6 +330,29 @@ describe('lib/MultiReporters', function () {
                 });
             });
 
+            describe('cjs', function() {
+                beforeEach(function () {
+                    mocha = new Mocha({
+                        reporter: MultiReporters
+                    });
+                    suite = new Suite('#external-multi-reporter', 'root');
+                    runner = new Runner(suite);
+                    options = {
+                        execute: false,
+                        reporterOptions: {
+                            configFile: 'tests/custom-external-config.cjs'
+                        }
+                    };
+                    reporter = new mocha._reporter(runner, options);
+                });
+
+                describe('#options (external reporters w/ cjs - single)', function () {
+                    it('cjs: return reporter options: "dot"', function () {
+                        checkReporterOptions(options);
+                    });
+                });
+            });
+
             describe('erring (json)', function() {
                 beforeEach(function () {
                     mocha = new Mocha({
