@@ -43,6 +43,14 @@ jobs:
         if: matrix.package == 'cypress-slack-reporter-old'
         working-directory: cypress-slack-reporter-old
         run: npm run lint && npm run compile && npm test
+      - name: Install replacement reporter dependencies
+        if: matrix.package == 'cypress-slack-reporter'
+        working-directory: cypress-slack-reporter
+        run: npm ci
+      - name: Build and test replacement reporter
+        if: matrix.package == 'cypress-slack-reporter'
+        working-directory: cypress-slack-reporter
+        run: npm run build && npm test
       - name: Install multi-reporter dependencies
         if: matrix.package == 'cypress-multi-reporters'
         working-directory: cypress-multi-reporters

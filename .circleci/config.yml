@@ -1,0 +1,23 @@
+version: 2.1
+
+jobs:
+  build-slack-reporter:
+    docker:
+      - image: cimg/node:22.13
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: cd cypress-slack-reporter && npm ci
+      - run:
+          name: Build, test, and verify package
+          command: |
+            cd cypress-slack-reporter
+            npm run build
+            npm test
+            npm pack --dry-run
+
+workflows:
+  build:
+    jobs:
+      - build-slack-reporter
