@@ -13,6 +13,15 @@ const util = require('util');
 const mocha = require('mocha');
 const {Base} = mocha.reporters;
 const path = require('path');
+const {createRequire} = require('module');
+
+function requireFromProject(name) {
+    // createRequire is unavailable before Node 12.2, so behave as "not found"
+    if (typeof createRequire !== 'function') {
+        throw new Error(`Cannot find module '${name}'`);
+    }
+    return createRequire(path.join(process.cwd(), 'noop.js'))(name);
+}
 const semver = require('semver');
 
 let createStatsCollector;
@@ -77,13 +86,25 @@ function MultiReporters(runner, options) {
                     }
                     catch (err) {
                         if (err.message.indexOf('Cannot find module') !== -1) {
-                            // Try to load reporters from a path (absolute or relative)
+                            // Strict package managers (pnpm, Yarn PnP) only expose declared dependencies
+                            // to this package, so also resolve from the project that is running the tests,
+                            // then fall back to a path (absolute or relative)
                             try {
-                                Reporter = require(path.resolve(process.cwd(), name));
+                                Reporter = requireFromProject(name);
                             }
                             catch (_err) {
-                                _err.message.indexOf('Cannot find module') !== -1 ? console.warn(`"${  name  }" reporter not found`)
-                                    : console.warn(`"${  name  }" reporter blew up with error:\n${  _err.stack}`);
+                                if (_err.message.indexOf('Cannot find module') === -1) {
+                                    console.warn(`"${  name  }" reporter blew up with error:\n${  _err.stack}`);
+                                }
+                                else {
+                                    try {
+                                        Reporter = require(path.resolve(process.cwd(), name));
+                                    }
+                                    catch (_err2) {
+                                        _err2.message.indexOf('Cannot find module') !== -1 ? console.warn(`"${  name  }" reporter not found`)
+                                            : console.warn(`"${  name  }" reporter blew up with error:\n${  _err2.stack}`);
+                                    }
+                                }
                             }
                         }
                         else {
