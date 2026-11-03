@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/YOU54F/cypress-plugins/compare/cypress-multi-reporters-v2.1.0...cypress-multi-reporters-v2.2.0) (2026-11-03)
+
+
+### Features
+
+* **cypress-multi-reporters:** resolve reporters from project root for pnpm and Yarn PnP ([#1280](https://github.com/YOU54F/cypress-plugins/issues/1280)) ([c036725](https://github.com/YOU54F/cypress-plugins/commit/c036725a09e0edf436ef60a4c3ec01bc12075cd5))
+* **cypress-multi-reporters:** support .cjs config files ([#1257](https://github.com/YOU54F/cypress-plugins/issues/1257)) ([44cd7de](https://github.com/YOU54F/cypress-plugins/commit/44cd7deda1947cc4f129f528628fe215aacbfa0f))
+
 ## [2.1.0](https://github.com/YOU54F/cypress-plugins/compare/cypress-multi-reporters-v2.0.5...cypress-multi-reporters-v2.1.0) (2026-11-03)
 
 
