@@ -29,7 +29,7 @@ jobs:
       - id: release
         uses: googleapis/release-please-action@v4
         with:
-          repo-url: you54f/cypress-plugins
+          repo-url: ${{ github.repository }}
           target-branch: master
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
