@@ -19,7 +19,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/you54f/cypress-slack-reporter.git"
+    "url": "git+https://github.com/YOU54F/cypress-plugins.git",
+    "directory": "cypress-slack-reporter-old"
   },
   "author": "Yousaf Nabi",
   "license": "MIT",
