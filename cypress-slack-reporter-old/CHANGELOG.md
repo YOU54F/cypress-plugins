@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.5](https://github.com/you54f/cypress-plugins/compare/cypress-slack-reporter-v1.5.4...cypress-slack-reporter-v1.5.5) (2026-11-03)
+
+
+### Bug Fixes
+
+* **deps:** update legacy slack reporter dependencies ([#1266](https://github.com/you54f/cypress-plugins/issues/1266)) ([fbfbeba](https://github.com/you54f/cypress-plugins/commit/fbfbeba8c46d876e78eb6b3af08a0c57bfbc3ac0))
+
 ### [1.5.4](https://github.com/you54f/cypress-slack-reporter/compare/v2.0.3...v1.5.4) (2024-10-24)
 
 ### [1.5.4](https://github.com/you54f/cypress-slack-reporter/compare/v1.5.3...v1.5.4) (2023-03-13)
