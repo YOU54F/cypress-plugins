@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/YOU54F/cypress-plugins/compare/cypress-slack-reporter-v2.0.0...cypress-slack-reporter-v2.0.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* **cypress-slack-reporter:** match repository url casing for npm provenance ([be34fac](https://github.com/YOU54F/cypress-plugins/commit/be34fac55ab7e9b9d653a4c04031e265971173d3))
+
 ## [2.0.0](https://github.com/YOU54F/cypress-plugins/compare/cypress-slack-reporter-v1.5.5...cypress-slack-reporter-v2.0.0) (2026-11-03)
 
 
