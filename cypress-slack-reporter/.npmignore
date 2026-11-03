@@ -1,0 +1,7 @@
+src/
+cypress/
+coverage/
+jest.config.js
+tsconfig.json
+*.test.js
+dist/**/*.test.js

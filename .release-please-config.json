@@ -6,7 +6,7 @@
     "cypress-multi-reporters": {
       "component": "cypress-multi-reporters"
     },
-    "cypress-slack-reporter-old": {
+    "cypress-slack-reporter": {
       "component": "cypress-slack-reporter"
     }
   }

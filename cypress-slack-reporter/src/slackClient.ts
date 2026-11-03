@@ -1,50 +1,53 @@
-import { IncomingWebhook } from '@slack/webhook';
 import { WebClient } from '@slack/web-api';
-import {
-  CypressSlackReporterChatBotOpts,
-  CypressSlackReporterWebhookOpts
-} from './slack';
-import { BlockBuilder, SlackMessageDto } from 'slack-block-builder';
-import { messageConstructor } from './messageConstructor';
-import { Appendable } from 'slack-block-builder/dist/internal/index';
+import { IncomingWebhook, IncomingWebhookSendArguments } from '@slack/webhook';
+import { RunStatus } from './slack';
 
-export const getChatBotClient = (token: string) => new WebClient(token);
-export const getIncomingWebHookClient = (url: string) =>
-  new IncomingWebhook(url);
-
-export const sendViaWebhook = async (
-  opts: CypressSlackReporterWebhookOpts,
-  client: IncomingWebhook,
-  customBlocks?: Appendable<BlockBuilder>
+export const resolveWebhookUrls = (
+  status: RunStatus,
+  env: Record<string, string | undefined>
 ) => {
-  const { status, headingText } = opts;
-  return await client
-    .send(
-      messageConstructor({
-        headingText,
-        status,
-        customBlocks
-      })
-    )
-    .then((response) => response)
-    .catch((err) => err);
+  const statusUrl =
+    status === 'build:failed'
+      ? env.SLACK_WEBHOOK_ERROR_URL
+      : status === 'test:failed'
+        ? env.SLACK_WEBHOOK_FAILED_URL
+        : env.SLACK_WEBHOOK_PASSED_URL;
+  return (statusUrl || env.SLACK_WEBHOOK_URL)
+    ?.split(',')
+    .map((url) => url.trim())
+    .filter(Boolean);
 };
 
-export const sendViaBot = async (
-  opts: CypressSlackReporterChatBotOpts,
-  client: WebClient,
-  customBlocks?: Appendable<BlockBuilder>
+export const sendSlackMessage = async (
+  message: IncomingWebhookSendArguments,
+  status: RunStatus,
+  env: Record<string, string | undefined> = process.env
 ) => {
-  const { status, headingText, channel } = opts;
-  return await client.chat
-    .postMessage(
-      messageConstructor({
-        channel,
-        headingText,
-        status,
-        customBlocks
-      }) as Readonly<SlackMessageDto>
-    )
-    .then((response) => response)
-    .catch((err) => err);
+  const webhookUrls = resolveWebhookUrls(status, env);
+  let sent = false;
+
+  if (webhookUrls?.length) {
+    await Promise.all(
+      webhookUrls.map((url) => new IncomingWebhook(url).send(message))
+    );
+    sent = true;
+  }
+
+  if (env.SLACK_TOKEN) {
+    if (!env.SLACK_CHANNEL) {
+      throw new Error('SLACK_CHANNEL is required when using SLACK_TOKEN');
+    }
+    await new WebClient(env.SLACK_TOKEN).chat.postMessage({
+      channel: env.SLACK_CHANNEL,
+      text: message.text || '',
+      blocks: message.blocks
+    });
+    sent = true;
+  }
+
+  if (!sent) {
+    throw new Error(
+      'Set SLACK_WEBHOOK_URL or both SLACK_TOKEN and SLACK_CHANNEL to send a Slack message'
+    );
+  }
 };

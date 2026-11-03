@@ -1,0 +1,121 @@
+# cypress-slack-reporter
+
+Send Cypress or other Mocha test results to Slack using a Mochawesome JSON
+report. The package supports CircleCI, GitHub Actions, GitLab CI (including
+self-managed instances), Bitbucket Pipelines, Jenkins, and custom CI URLs.
+
+## Install
+
+```sh
+npm install --save-dev cypress-slack-reporter
+```
+
+Set `SLACK_WEBHOOK_URL` in the environment. Status-specific webhook variables
+are also supported: `SLACK_WEBHOOK_PASSED_URL`, `SLACK_WEBHOOK_FAILED_URL`,
+and `SLACK_WEBHOOK_ERROR_URL`. Multiple comma-separated webhook URLs are
+accepted. Alternatively, set `SLACK_TOKEN` and `SLACK_CHANNEL`.
+
+## Run
+
+Create a Mochawesome JSON report, then run:
+
+```sh
+npx cypress-slack-reporter \
+  --ci-provider auto \
+  --report-dir cypress/reports/mocha \
+  --screenshot-dir cypress/screenshots \
+  --video-dir cypress/videos
+```
+
+`--ci-provider auto` detects common CI environments. To override detection,
+use `circleci`, `github`, `gitlab`, `bitbucket`, `jenkins`, `custom`, or `none`.
+GitLab URLs are taken from the CI environment, including `CI_PROJECT_URL` and
+`CI_JOB_URL`, so self-managed GitLab hosts work without a hard-coded
+`gitlab.com` URL.
+
+The report summary includes passed, failed, and skipped tests. Use
+`--custom-url https://example.test/job/123` to set a fallback report/build URL,
+and `--use-only-custom-url` to use it directly as the report link. `--custom-text`
+supports literal `\\n` newlines and environment variable expansion, for example:
+
+```sh
+npx cypress-slack-reporter \
+  --ci-provider gitlab \
+  --custom-text='Job: $CI_JOB_URL\\nSee screenshots in the job artifacts'
+```
+
+For GitLab artifact links, use a local directory such as
+`cypress/screenshots`, or pass the corresponding URL in the
+`--screenshot-dir` option:
+
+```sh
+--screenshot-dir="$CI_JOB_URL/artifacts/file/cypress/screenshots"
+```
+
+## Migrating from 1.x
+
+Version 2 is a major-version replacement for the previously published
+`cypress-slack-reporter` package. Upgrade the existing dependency (and commit
+the updated lockfile) rather than installing a second package:
+
+```sh
+npm install --save-dev cypress-slack-reporter@^2.0.0
+```
+
+Yarn users can run `yarn add --dev cypress-slack-reporter@^2.0.0`. If your
+dependency is pinned to an exact 1.x version, update that pin as well.
+
+Most of the standard CLI options remain available. Review these differences
+before switching CI jobs:
+
+| 1.x behavior | 2.x migration |
+| --- | --- |
+| CI provider defaults to `circleci` | Defaults to `auto`; set `--ci-provider circleci` to keep the old explicit selection. GitHub Actions, GitLab, Bitbucket Pipelines, and Jenkins are also detected. |
+| VCS provider defaults to `github` | Defaults to `auto`; set `--vcs-provider github`, `bitbucket`, or `none` if you need to preserve a specific choice. |
+| `--custom-url` supplies the CI/artifact base URL | It remains a fallback base URL. Add `--use-only-custom-url` (or the old `--useOnlyCustomUrl` spelling) when the URL itself should be the Test Report link. |
+| Slack message uses legacy attachments | Version 2 uses Block Kit. Its content and appearance are different; use `customBlocks` for supported programmatic customization. |
+| `cypress-slack-reporter-full` runs the full Cypress workflow | That separate binary is not included in 2.x. Run Cypress and generate Mochawesome reports in your own script, then invoke `cypress-slack-reporter`. |
+
+The report, screenshot, video, custom-text, and only-failed options keep their
+names. `--custom-text` now expands environment references such as `$CI_JOB_URL`
+and converts literal `\\n` to line breaks. Existing `SLACK_WEBHOOK_URL` and
+status-specific webhook variables continue to work. A Slack bot token now
+requires `SLACK_CHANNEL` to be set explicitly.
+
+Before replacing a production job, run 2.x against a representative report and
+confirm artifact links are reachable from Slack. You can roll back by
+reinstalling the prior 1.x version from your lockfile until the migration is
+complete.
+
+## Programmatic Block Kit customization
+
+The package exports `runReporter`, `messageConstructor`, and the `SlackBlock`
+type. Add Slack Block Kit blocks directly or build them from report statistics
+and CI context:
+
+```ts
+import { runReporter, SlackBlock } from 'cypress-slack-reporter';
+
+await runReporter({
+  ciProvider: 'gitlab',
+  reportDir: 'cypress/reports/mocha',
+  customBlocks: (stats, context): SlackBlock[] => [
+    {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text: `*Skipped:* ${stats.totalSkipped}\n*Branch:* ${context.branch ?? 'local'}`
+      }
+    }
+  ]
+});
+```
+
+Custom blocks are appended after the reporter's summary, links, and artifact
+blocks. The caller must provide valid Slack Block Kit payloads; interactive
+elements also require an interaction-capable Slack app.
+
+## Release notes
+
+This package is versioned independently from the other plugins in the
+repository. Release PRs and changelog entries are generated by Release Please.

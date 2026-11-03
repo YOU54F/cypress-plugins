@@ -1,135 +1,234 @@
 #!/usr/bin/env node
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.messageConstructor = exports.runReporter = exports.findArtifactLinks = exports.expandCustomText = exports.parseMochawesomeStats = void 0;
 const commander_1 = require("commander");
+const commander_2 = require("commander");
 const dotenv_1 = require("dotenv");
 const globby = require("globby");
-const SlackClient = __importStar(require("./slackClient"));
+const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const getVideos = () => __awaiter(void 0, void 0, void 0, function* () {
-    const paths = yield globby(path_1.default.resolve(process.cwd(), 'cypress', 'videos'), {
-        expandDirectories: {
-            files: ['*'],
-            extensions: ['mp4']
-        }
-    });
-    return paths;
-});
-const getReports = () => __awaiter(void 0, void 0, void 0, function* () {
-    const paths = yield globby(path_1.default.resolve(process.cwd(), 'mochareports'), {
-        expandDirectories: {
-            files: ['*'],
-            extensions: ['html', 'json']
-        }
-    });
-    return paths;
-});
-const getScreenshots = () => __awaiter(void 0, void 0, void 0, function* () {
-    const paths = yield globby(path_1.default.resolve(process.cwd(), 'cypress', 'screenshots'), {
-        expandDirectories: {
-            files: ['*'],
-            extensions: ['png']
-        }
-    });
-    return paths;
-});
-const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    if (!process.env.CI) {
-        (0, dotenv_1.config)();
+const messageConstructor_1 = require("./messageConstructor");
+const slackClient_1 = require("./slackClient");
+const slack_1 = require("./slack");
+const parseMochawesomeStats = (report) => {
+    var _a, _b;
+    if (!report || typeof report !== 'object' || !('stats' in report)) {
+        throw new Error('Mochawesome report does not contain a stats object');
     }
+    const stats = report.stats;
+    const requiredValues = [stats.tests, stats.passes, stats.failures];
+    if (!requiredValues.every((value) => typeof value === 'number')) {
+        throw new Error('Mochawesome report stats must include numeric tests, passes, and failures');
+    }
+    if (stats.pending !== undefined && typeof stats.pending !== 'number') {
+        throw new Error('Mochawesome report pending count must be numeric');
+    }
+    const totalTests = stats.tests;
+    const totalPasses = stats.passes;
+    const totalFailures = stats.failures;
+    const totalSkipped = (_a = stats.pending) !== null && _a !== void 0 ? _a : 0;
+    return {
+        totalTests,
+        totalPasses,
+        totalFailures,
+        totalSkipped,
+        totalDuration: (_b = stats.duration) !== null && _b !== void 0 ? _b : 0,
+        status: totalTests === 0
+            ? 'build:failed'
+            : totalFailures > 0
+                ? 'test:failed'
+                : 'test:passed'
+    };
+};
+exports.parseMochawesomeStats = parseMochawesomeStats;
+const expandCustomText = (text, env = process.env) => text
+    .replace(/\\n/g, '\n')
+    .replace(/\$\{([A-Za-z_][A-Za-z0-9_]*)\}|\$([A-Za-z_][A-Za-z0-9_]*)/g, (match, braced, bare) => {
+    const value = env[braced || bare];
+    return value === undefined ? match : value;
+});
+exports.expandCustomText = expandCustomText;
+const getDirectory = (directory, cwd) => {
+    if (/^https?:\/\//i.test(directory)) {
+        const url = new URL(directory);
+        const artifactMarker = '/artifacts/file/';
+        const markerIndex = url.pathname.indexOf(artifactMarker);
+        const artifactPath = markerIndex >= 0
+            ? decodeURIComponent(url.pathname.slice(markerIndex + artifactMarker.length))
+            : path_1.default.basename(url.pathname);
+        return {
+            fileSystemPath: path_1.default.resolve(cwd, artifactPath),
+            urlBase: directory.replace(/\/+$/, '')
+        };
+    }
+    const localDirectory = directory.replace(/^artifacts\/file\//, '');
+    return {
+        fileSystemPath: path_1.default.resolve(cwd, localDirectory),
+        relativeDirectory: path_1.default.relative(cwd, path_1.default.resolve(cwd, directory))
+    };
+};
+const joinUrl = (base, relativePath) => {
+    const url = new URL(base.endsWith('/') ? base : `${base}/`);
+    const encodedPath = relativePath
+        .split(/[\\/]/)
+        .filter(Boolean)
+        .map((segment) => encodeURIComponent(segment))
+        .join('/');
+    url.pathname = `${url.pathname.replace(/\/+$/, '')}/${encodedPath}`;
+    return url.toString();
+};
+const artifactDirectoryUrl = (directory, cwd, artifactBaseUrl) => {
+    const resolved = getDirectory(directory, cwd);
+    if (resolved.urlBase)
+        return resolved.urlBase;
+    if (!artifactBaseUrl)
+        return undefined;
+    const relativeDirectory = directory.startsWith('artifacts/file/')
+        ? /\/artifacts\/file\/?$/.test(artifactBaseUrl)
+            ? path_1.default.relative(cwd, resolved.fileSystemPath)
+            : directory
+        : path_1.default.relative(cwd, resolved.fileSystemPath);
+    return joinUrl(artifactBaseUrl, relativeDirectory);
+};
+const findArtifactLinks = async (directory, extension, label, cwd, artifactBaseUrl) => {
+    const resolved = getDirectory(directory, cwd);
+    const urlBase = artifactDirectoryUrl(directory, cwd, artifactBaseUrl);
+    if (!urlBase)
+        return [];
+    const files = await globby(`**/*.${extension}`, {
+        cwd: resolved.fileSystemPath,
+        absolute: true,
+        onlyFiles: true
+    });
+    return files.map((file) => {
+        const relativePath = path_1.default.relative(resolved.fileSystemPath, file);
+        const name = path_1.default.basename(file).replace(/[>|]/g, '');
+        return `<${joinUrl(urlBase, relativePath)}|${label}: ${name}>`;
+    });
+};
+exports.findArtifactLinks = findArtifactLinks;
+const getReportFiles = async (directory, extension) => {
+    const absoluteDirectory = path_1.default.resolve(process.cwd(), directory);
+    return globby(`**/*.${extension}`, {
+        cwd: absoluteDirectory,
+        absolute: true,
+        onlyFiles: true
+    });
+};
+const readReport = async (reportDirectory) => {
+    const reports = await getReportFiles(reportDirectory, 'json');
+    if (!reports.length) {
+        throw new Error(`No Mochawesome JSON report found in ${reportDirectory}`);
+    }
+    if (reports.length > 1) {
+        console.warn(`Found ${reports.length} JSON reports in ${reportDirectory}; using ${path_1.default.basename(reports[0])}`);
+    }
+    const contents = fs_1.default.readFileSync(reports[0], 'utf8');
+    return (0, exports.parseMochawesomeStats)(JSON.parse(contents));
+};
+const runReporter = async (options, env = process.env) => {
+    const { ciProvider = 'auto', vcsProvider = 'auto', reportDir = 'mochareports', screenshotDir = 'cypress/screenshots', videoDir = 'cypress/videos', customUrl = '', customText = '', onlyFailed = false, useOnlyCustomUrl = false } = options;
+    const stats = await readReport(reportDir);
+    if (onlyFailed && stats.status !== 'test:failed') {
+        return { sent: false, reason: 'only-failed filter' };
+    }
+    const context = (0, slack_1.resolveCIProvider)(ciProvider, env);
+    const customBlocks = typeof options.customBlocks === 'function'
+        ? options.customBlocks(stats, context)
+        : options.customBlocks;
+    const reportHtml = await getReportFiles(reportDir, 'html');
+    const reportDirectoryUrl = artifactDirectoryUrl(reportDir, process.cwd(), context.artifactBaseUrl || customUrl);
+    const reportUrl = useOnlyCustomUrl
+        ? customUrl || undefined
+        : reportHtml.length && reportDirectoryUrl
+            ? joinUrl(reportDirectoryUrl, path_1.default.basename(reportHtml[0]))
+            : customUrl || undefined;
+    const [screenshots, videos] = await Promise.all([
+        (0, exports.findArtifactLinks)(screenshotDir, 'png', 'Screenshot', process.cwd(), context.artifactBaseUrl || customUrl),
+        (0, exports.findArtifactLinks)(videoDir, 'mp4', 'Video', process.cwd(), context.artifactBaseUrl || customUrl)
+    ]);
+    const status = stats.status;
+    const message = (0, messageConstructor_1.messageConstructor)({
+        status,
+        projectName: context.projectName,
+        branch: context.branch,
+        actor: context.actor,
+        commitUrl: (0, slack_1.resolveCommitUrl)(vcsProvider, context, env),
+        pullRequestUrl: context.pullRequestUrl,
+        buildUrl: context.buildUrl || customUrl || undefined,
+        reportUrl,
+        totalTests: stats.totalTests,
+        totalPasses: stats.totalPasses,
+        totalFailures: stats.totalFailures,
+        totalSkipped: stats.totalSkipped,
+        customText: (0, exports.expandCustomText)(customText, env),
+        artifactLinks: [...screenshots, ...videos],
+        customBlocks
+    });
+    await (0, slackClient_1.sendSlackMessage)(message, status, env);
+    return { sent: true, status };
+};
+exports.runReporter = runReporter;
+var messageConstructor_2 = require("./messageConstructor");
+Object.defineProperty(exports, "messageConstructor", { enumerable: true, get: function () { return messageConstructor_2.messageConstructor; } });
+if (require.main === module) {
+    if (!process.env.CI)
+        (0, dotenv_1.config)();
+    const packageVersion = require('../package.json').version;
     commander_1.program
-        .version(`git@github.com:YOU54F/cypress-slack-reporter.git@2.alpha`, '-v, --version')
-        .option('--vcs-provider [type]', 'VCS Provider [github|bitbucket|none]', 'github')
-        .option('--ci-provider [type]', 'CI Provider [circleci|jenkins|bitbucket|none|custom]', 'circleci')
-        .option('--custom-url [type]', 'On selected --ci-provider=custom this link will be set to Test Report', '')
-        .option('--report-dir [type]', 'mochawesome json & html test report directory, relative to your packageon', 'mochareports')
-        .option('--screenshot-dir [type]', 'cypress screenshot directory, relative to your packageon', 'cypress/screenshots')
-        .option('--video-dir [type]', 'cypress video directory, relative to your packageon', 'cypress/videos')
-        .option('--verbose', 'show log output')
-        .option('--only-failed', 'only send message for failed tests')
-        .option('--custom-text [type]', 'add additional text to message, wrap message in quotes')
-        // .option("--s3", "upload artefacts to s3")
+        .name('cypress-slack-reporter')
+        .version(packageVersion)
+        .addOption(new commander_2.Option('--vcs-provider <provider>', 'VCS provider')
+        .choices(['auto', 'github', 'gitlab', 'bitbucket', 'none'])
+        .default('auto'))
+        .addOption(new commander_2.Option('--ci-provider <provider>', 'CI provider')
+        .choices([
+        'auto',
+        'circleci',
+        'github',
+        'gitlab',
+        'bitbucket',
+        'jenkins',
+        'custom',
+        'none'
+    ])
+        .default('auto'))
+        .option('--custom-url <url>', 'Fallback job or report URL', '')
+        .option('--report-dir <path>', 'Mochawesome report directory', 'mochareports')
+        .option('--screenshot-dir <path-or-url>', 'Cypress screenshot directory or artifact URL', 'cypress/screenshots')
+        .option('--video-dir <path-or-url>', 'Cypress video directory or artifact URL', 'cypress/videos')
+        .option('--custom-text <text>', 'Additional message text; supports \\n and $ENV_VAR expansion', '')
+        .option('--only-failed', 'Send a message only when tests fail')
+        .option('--use-only-custom-url, --useOnlyCustomUrl', 'Use --custom-url as the test report link')
+        .option('--verbose', 'Print selected options')
         .parse(process.argv);
     const options = commander_1.program.opts();
-    const ciProvider = options.ciProvider;
-    const vcsProvider = options.vcsProvider;
-    const reportDir = options.reportDir;
-    const videoDir = options.videoDir;
-    const customUrl = options.customUrl;
-    const screenshotDir = options.screenshotDir;
-    const onlyFailed = options.onlyFailed;
-    const customText = options.customText;
-    // const verbose: boolean = program.verbose;
     if (options.verbose) {
-        // tslint:disable-next-line: no-console
-        console.log(' ciProvider:- ' + ciProvider + '\n', 'customUrl:- ' + customUrl + '\n', 'vcsProvider:- ' + vcsProvider + '\n', 'reportDirectory:- ' + reportDir + '\n', 'videoDirectory:- ' + videoDir + '\n', 'screenshotDirectory:- ' + screenshotDir + '\n');
+        console.log('Reporter options:', {
+            ciProvider: options.ciProvider,
+            vcsProvider: options.vcsProvider,
+            reportDir: options.reportDir,
+            screenshotDir: options.screenshotDir,
+            videoDir: options.videoDir,
+            customUrl: options.customUrl
+        });
     }
-    const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
-    const SLACK_TOKEN = process.env.SLACK_TOKEN;
-    const videoPaths = yield getVideos();
-    const screenshotPaths = yield getScreenshots();
-    const reports = yield getReports();
-    console.log('files and ting', videoPaths, screenshotPaths, reports);
-    console.log(path_1.default.resolve(process.cwd(), 'cypress', 'videos'));
-    if (!SLACK_WEBHOOK_URL && !SLACK_TOKEN) {
-        throw new Error('Cant send message without one of, [SLACK_WEBHOOK_URL,SLACK_TOKEN]');
-    }
-    if (SLACK_WEBHOOK_URL) {
-        const client = SlackClient.getIncomingWebHookClient(SLACK_WEBHOOK_URL);
-        SlackClient.sendViaWebhook({ status: 'test:failed' }, client)
-            .then((res) => {
-            if (res.text !== 'ok')
-                console.log('webhook failure:', res.original.response.data);
-            else
-                console.log('webhook success:', res);
-        })
-            .catch((err) => console.log('webhook failure:', err));
-    }
-    if (SLACK_TOKEN) {
-        const client = SlackClient.getChatBotClient(SLACK_TOKEN);
-        SlackClient.sendViaBot({ status: 'test:failed', channel: 'github-test' }, client)
-            .then((res) => {
-            if (!res.ok)
-                console.log('web-bot failure:', res.response ? res.response.data.response : res);
-            else
-                console.log('web-bot success:', res);
-        })
-            .catch((err) => console.log('web-bot failure:', err));
-    }
-});
-main();
+    (0, exports.runReporter)({
+        ciProvider: options.ciProvider,
+        vcsProvider: options.vcsProvider,
+        reportDir: options.reportDir,
+        screenshotDir: options.screenshotDir,
+        videoDir: options.videoDir,
+        customUrl: options.customUrl,
+        customText: options.customText,
+        onlyFailed: Boolean(options.onlyFailed),
+        useOnlyCustomUrl: Boolean(options.useOnlyCustomUrl)
+    }, process.env).catch((error) => {
+        console.error('cypress-slack-reporter failed:', error instanceof Error ? error.message : error);
+        process.exitCode = 1;
+    });
+}

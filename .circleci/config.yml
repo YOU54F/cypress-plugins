@@ -1,10 +1,9 @@
 version: 2.1
 
 jobs:
-  test-cypress-slack-reporter-old:
+  build-multi-reporters:
     docker:
-      - image: cimg/node:20.18
-    working_directory: ~/app
+      - image: cimg/node:22.13
     steps:
       - run:
           name: Fetch public repository revision
@@ -14,17 +13,42 @@ jobs:
             git fetch --depth=1 origin "$CIRCLE_SHA1"
             git checkout --detach FETCH_HEAD
       - run:
-          name: Install legacy reporter dependencies
-          command: cd cypress-slack-reporter-old && yarn install --frozen-lockfile
-      - run:
-          name: Lint, compile, and test
+          name: Install dependencies
           command: |
-            cd cypress-slack-reporter-old
+            cd cypress-multi-reporters
+            yarn install --frozen-lockfile
+      - run:
+          name: Lint and test
+          command: |
+            cd cypress-multi-reporters
             yarn run lint
-            yarn run compile
+            yarn run devtest
             yarn run test
 
+  build-slack-reporter:
+    docker:
+      - image: cimg/node:22.13
+    steps:
+      - run:
+          name: Fetch public repository revision
+          command: |
+            git init .
+            git remote add origin https://github.com/YOU54F/cypress-plugins.git
+            git fetch --depth=1 origin "$CIRCLE_SHA1"
+            git checkout --detach FETCH_HEAD
+      - run:
+          name: Install dependencies
+          command: cd cypress-slack-reporter && npm ci
+      - run:
+          name: Build, test, and verify package
+          command: |
+            cd cypress-slack-reporter
+            npm run build
+            npm test
+            npm pack --dry-run
+
 workflows:
-  build-test:
+  build:
     jobs:
-      - test-cypress-slack-reporter-old
+      - build-multi-reporters
+      - build-slack-reporter

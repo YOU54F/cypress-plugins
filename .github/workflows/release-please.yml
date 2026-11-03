@@ -63,6 +63,14 @@ jobs:
           ENV_SUT: ${{ secrets.ENV_SUT }}
           SLACK_WEBHOOK_URL: https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/xxx
           CI_PROVIDER_TO_TEST: github
+      - name: Install replacement reporter dependencies
+        if: matrix.package == 'cypress-slack-reporter'
+        working-directory: cypress-slack-reporter
+        run: npm ci
+      - name: Build and test replacement reporter
+        if: matrix.package == 'cypress-slack-reporter'
+        working-directory: cypress-slack-reporter
+        run: npm run build && npm test
       - name: Install multi-reporter dependencies
         if: matrix.package == 'cypress-multi-reporters'
         working-directory: cypress-multi-reporters
