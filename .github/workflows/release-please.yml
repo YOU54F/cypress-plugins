@@ -4,6 +4,16 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package directory to publish from an existing release
+        required: true
+        type: string
+      ref:
+        description: Git ref (for example a release tag) to publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -25,18 +35,22 @@ jobs:
           manifest-file: .release-please-manifest.json
   publish:
     needs: release-please
-    if: needs.release-please.outputs.releases_created == 'true'
+    permissions:
+      contents: read
+      id-token: write
+    if: github.event_name == 'workflow_dispatch' || needs.release-please.outputs.releases_created == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ fromJSON(needs.release-please.outputs.paths_released) }}
+        package: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.package) || needs.release-please.outputs.paths_released) }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.org
       - name: Install legacy reporter dependencies
         if: matrix.package == 'cypress-slack-reporter-old'
         working-directory: cypress-slack-reporter-old
@@ -45,6 +59,10 @@ jobs:
         if: matrix.package == 'cypress-slack-reporter-old'
         working-directory: cypress-slack-reporter-old
         run: npm run lint && npm run compile && npm test
+        env:
+          ENV_SUT: ${{ secrets.ENV_SUT }}
+          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/TEA926DBJ/BEBB8FPCL/xxx
+          CI_PROVIDER_TO_TEST: github
       - name: Install replacement reporter dependencies
         if: matrix.package == 'cypress-slack-reporter'
         working-directory: cypress-slack-reporter
@@ -61,8 +79,11 @@ jobs:
         if: matrix.package == 'cypress-multi-reporters'
         working-directory: cypress-multi-reporters
         run: npm test
-      - name: Publish package
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Upgrade npm for staged trusted publishing
+        run: npm install -g npm@^11.15.0
+      - name: Stage package for approval
         working-directory: ${{ matrix.package }}
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}
+        run: npm stage publish --access public --loglevel verbose
